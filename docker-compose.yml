@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    container_name: dfe_db
+    environment:
+      POSTGRES_USER: dfe
+      POSTGRES_PASSWORD: dfe
+      POSTGRES_DB: dfe
+    ports: ["5434:5432"]
+    volumes: [ "pgdata:/var/lib/postgresql/data" ]
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U dfe -d dfe"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+volumes:
+  pgdata:

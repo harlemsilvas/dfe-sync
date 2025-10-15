@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://moc.sped.fazenda.pr.gov.br/NFeDistribuicaoDFe.html -->
+<html lang="en-US"><!-- Mirrored from www.w3schools.com/css/default.asp by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 13 Mar 2016 05:37:02 GMT --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>NFeDistribuicaoDFe</title>
+  
+  <!-- Removido  código para inatividade da função mobile do html 
+  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+  
+  <meta name="Keywords" content="NF-e, NFC-e, Encat, Web- Services, Nota Eltrônica, Nota Fiscal, Nota de Consumidor, Nota Fiscal de Consumidor Eletrônica">
+  <meta name="Description" content="Manual de Orientação ao Contribuinte- Nota Fiscal Eletrônica">
+
+  <link rel="stylesheet" type="text/css" href="./NFeDistribuicaoDFe_files/estilo.css">
+  <script src="./NFeDistribuicaoDFe_files/myscript.js.download"></script>
+  <link rel="icon" href="./NFeDistribuicaoDFe_files/nfe_logo.png">
+</head>
+
+<body>
+
+  <!-- Cabeçalho da pagina, que deve sumir quando dou o scroll-->
+  <div class="cabecalho topo">
+    <div class="titulo">
+      <p><span><span style="font-size: 14pt;">Projeto Nota Fiscal Eletrônica</span></span></p>
+      <p><span><span>Manual de Orientação ao Contribuinte</span></span></p>
+	  <p><span><span>Atualizado até a NT 2025.001 v.1.02 publicada em 02/09/2025</span></span></p>
+    </div>
+    <div class="imagens_cabecalho">
+      <img src="./NFeDistribuicaoDFe_files/nfce_logo.png" alt="NFC-e" style="height:100%;width:auto;float:right ;">
+      <img src="./NFeDistribuicaoDFe_files/nfe_logo.png" alt="NF-e" style="height:100%;width:auto;float:right;">
+      <img src="./NFeDistribuicaoDFe_files/logo_repr.png" alt="REPR" style="height:100%;width:auto;float:right;">
+
+    </div>
+  </div>
+
+  <!-- Barra de navegação superior, que deve ficar fixa no alto da pagina quando dou scroll -->
+
+
+
+  <!--Essa primeira parte cria a barra, atribuindo os efeitos à ela -->
+  <div class="linha_superior sombra barra_nav sticky" id="barra_superior">
+    <div style="overflow:auto;">
+      <div style="float:left;width:100%;overflow:hidden;height:44px">
+        <!-- Aqui vai o índice geral do Manual-->
+        <a href="javascript:void(0);" id="botao_menu" class="" onclick="menu()" title="Menu">☰</a>
+        <a href="http://moc.sped.fazenda.pr.gov.br/index.html" title="Visão Geral">Visão Geral</a>
+        <div class="dropdown">
+          <a href="javascript:void(0);" id="botao_leiaute" title="Web Services">Web Services</a>
+          <div class="dropdown-content">
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeAutorizacao.html" title="WS Autorizacao"> Web Service- NFeAutorização</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeRetAutorizacao.html" title="WS RetAutorizacao">Web Service- NFeRetAutorizacao</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeInutilizacao.html" title="WS Inutilizacao">Web Service- NFeInutilização</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeConsultaProtocolo.html" title="WS Consulta Protocolo">Web Service- NFeConsulta Protocolo</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeStatusServico.html" title="WS Status Serviço">Web Service- NFeStatus Servico</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeConsultaCadastro.html" title="WS Consulta Cadastro">Web Service- NFeConsultaCadastro</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeDistribuicaoDFe.html" title="WS Distribuição DFe">Web Service- NFeDistribuicaoDFe</a>
+            <a href="javascript:void(0);" title="WS Recepção Evento">Web Service- NFeRecepcaoEvento</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoGeral.html" title="WS Autorizacao"> ‣Parte Geral</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoCancelamento.html" title="WS Cancelamento por Substituição"> ‣Cancelamento/Cancelamento por substituição</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoCartaCorrecao.html" title="WS Carta de Correção"> ‣Carta de Correção</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoManifestacao.html" title="WS Manifestação do Destinatário"> ‣Manifestação do Destinatário</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoEPEC.html" title="WS EPEC"> ‣EPEC</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventoProrrogacao.html" title="WS Pedido de Prorrogação"> ‣Pedido de Prorrogação</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoAtorInteressado.html" title="WS Ator Interessado"> ‣Ator Interessado na NF-e - Transportador</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoComprovanteEntrega.html" title="WS Ator Interessado"> ‣Comprovante de Entrega da NF-e</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoCancelamentoComprovante.html" title="WS Ator Interessado"> ‣Cancelamento Comprovante de Entrega da NF-e </a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/RecepcaoEventosIBSCBS.html" title="WS Eventos IBS e CBS"> ‣Eventos apuração do IBS e da CBS</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/NFeConsultaGTIN.html" title="WS Consulta GTIN">Web Service- Consulta GTIN</a>
+          </div>
+        </div>
+
+        <div class="dropdown hide_leiaute">
+          <a href="http://moc.sped.fazenda.pr.gov.br/Leiaute.html" id="botao_leiaute" title="Leiaute">Leiaute</a>
+        </div>
+
+        <div class="dropdown hide_regras_validacao">
+          <a href="http://moc.sped.fazenda.pr.gov.br/RegrasDeValida%C3%A7%C3%A3o.html" id="botao_leiaute" title="Regras de Validação">Regras de Validação</a>
+        </div>
+
+
+        <div class="dropdown hide_danfe">
+          <a href="javascript:void(0);" id="botao_leiaute" title="Danfe">DANFE</a>
+          <div class="dropdown-content">
+            <a href="http://moc.sped.fazenda.pr.gov.br/DanfeCodigoBarras.html" id="botao_leiaute" title="Danfe/Código de Barras">DANFE/Código de Barras NF-e</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/DanfeQrCodeNFCe.html" title="Contingência NFC-e">DANFE/Qr-code NFC-e</a>
+          </div>
+        </div>
+
+        <div class="dropdown hide_contingencia">
+          <a href="javascript:void(0);" id="botao_leiaute" title="Contingência">Contingência</a>
+          <div class="dropdown-content">
+            <a href="http://moc.sped.fazenda.pr.gov.br/Contingencia_NFe.html" title="Contingência NF-e">Contingência NF-e</a>
+            <a href="http://moc.sped.fazenda.pr.gov.br/ContingenciaNFCe.html" title="Contingência NFC-e">Contingência NFC-e</a>
+          </div>
+        </div>
+
+        <div class="dropdown hide_">
+          <a href="http://moc.sped.fazenda.pr.gov.br/HistoricoDeImpla.html" id="botao_leiaute" title="Histórico de Implantação">Histórico de Implantação</a>
+        </div>
+
+
+            <div class="show_leiaute">
+              <!--A classe show_leiaute garante que essas informações só serão exibidas dentro da aba de demais anexos quando a tela for inferior à 630 pixels -->
+              <a href="http://moc.sped.fazenda.pr.gov.br/Leiaute.html" id="botao_leiaute" title="Leiaute">Leiaute</a>
+            </div>
+
+            <div class="show_regras_validacao">
+              <!--A classe show_regras_validacao garante que essas informações só serão exibidas dentro da aba de demais anexos quando a tela for inferior à 840 pixels -->
+              <a href="http://moc.sped.fazenda.pr.gov.br/RegrasDeValida%C3%A7%C3%A3o.html" id="botao_leiaute" title="Regras de Validação">Regras de Validação</a>
+            </div>
+
+            <div class="show_danfe">
+              <!--A classe show_danfe garante que essas informações só serão exibidas dentro da aba de demais anexos quando a tela for inferior à 934 pixels -->
+              <a href="http://moc.sped.fazenda.pr.gov.br/DanfeCodigoBarras.html" id="botao_leiaute" title="Danfe/Código de Barras">DANFE/Código de Barras NF-e</a>
+              <a href="http://moc.sped.fazenda.pr.gov.br/DanfeQrCodeNFCe.html" title="Contingência NFC-e">DANFE/Qr-code NFC-e</a>
+            </div>
+
+            <div class="show_contingencia">
+              <!--A classe show_contingencia garante que essas informações só serão exibidas dentro da aba de demais anexos quando a tela for inferior à 1100 pixels -->
+              <a href="http://moc.sped.fazenda.pr.gov.br/Contingencia_NFe.html" title="Contingência NF-e">Contingência NF-e</a>
+              <a href="http://moc.sped.fazenda.pr.gov.br/ContingenciaNFCe.html" title="Contingência NFC-e">Contingência NFC-e</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  
+
+  <div id="sub_barra">
+    <!-- Isso aqui estbelece uma divisao pra toda a parte abaixo da barra de navegacao-->
+    <div id="menu_esq" style="display:none">
+      <!-- isso aqui cria o menu lateral, à esquerda-->
+      <div id="indice" style="padding-top: 44px;">
+        <!-- cria a parte interna do menu a esquerda-->
+        <div id="indice_texto">
+          <!-- cria a parte interna da parte interna, para que fique abaixo da barra-->
+        <!--<input type="text" id="myInput" onkeyup="pesquisa()" placeholder="Pesquisar índice..">  HABILITAR ESSE MENU QUANDO CONSEGUIR RESOLVER O PROBLEMA DOS ESPAÇOS--> 
+
+          <h4 style="text-align:center">Web Service – NfeDistribuicaoDFe</h4><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.1. Leiaute Mensagem de Entrada&quot;)" title="1.1. Leiaute Mensagem de Entrada">1.1. Leiaute Mensagem de Entrada<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.2. Leiaute Mensagem de Retorno&quot;)" title="1.2. Leiaute Mensagem de Retorno">1.2. Leiaute Mensagem de Retorno<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.3. Mensagem de Retorno Compactada&quot;)" title="1.3. Mensagem de Retorno Compactada">1.3. Mensagem de Retorno Compactada<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.4. Descrição do Processo de Distribuição de DF-e de Interesse&quot;)" title="1.4. Descrição do Processo de Distribuição de DF-e de Interesse">1.4. Descrição do Processo
+            de Distribuição de DF-e de Interesse<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.5. Regras de Validação&quot;)" title="1.5. Regras de Validação">1.5. Regras de Validação<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.6. Leiautes Resumidos&quot;)" title="1.6. Leiautes Resumidos">1.6. Leiautes Resumidos<br></a><br>
+          <a href="javascript:void(0);" id="botao_meiodatela" onclick="meiodatela(&quot;1.7. Visão Geral do Modelo de Distribuição&quot;)" title="1.7. Visão Geral do Modelo de Distribuição">1.7. Visão Geral do Modelo de Distribuição<br></a><br>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="corpo">
+      <div id="principal">
+        <!-- Aqui vão as tabelas e o texto do MOC -->
+        <h1>Web Service – NfeDistribuicaoDFe</h1>
+
+        <ul>
+          <div class="negrito">Função: </div>Serviço para consultar o cadastro de contribuintes do ICMS da unidade federada.<br>
+          <div class="negrito">Processo: </div>síncrono.<br>
+          <div class="negrito">Método: nfeDistDFeInteresse</div><br>
+        </ul>
+        <img src="./NFeDistribuicaoDFe_files/NFe_DistribuicaoDFe_1_fluxo.png" alt="Fluxo do Web Service DistribuicaoDFe" class="imagem_central">
+        <div class="texto_normal">
+          <p>Este serviço permite que um ator da NF-e tenha acesso aos documentos fiscais eletrônicos (DF-e) e informações resumidas que não tenham sido gerados por ele e que sejam de seu interesse. Pode ser consumido por qualquer ator de NF-e,
+            Pessoa Jurídica ou Pessoa Física, que possua um certificado digital de PJ ou PF. No caso de Pessoa Jurídica, a empresa será autenticada pelo CNPJ base e poderá realizar a consulta com qualquer CNPJ da empresa desde que o CNPJ base
+            consultado seja o mesmo do certificado digital.</p>
+          <p>Os documentos fiscais eletrônicos e informações resumidas estarão disponíveis para distribuição por até 3 meses após sua recepção pelo Ambiente Nacional da NF-e. A distribuição ocorrerá para os atores que desempenham papéis de emitente,
+            destinatário, transportador e terceiros (informado na tag autXML) conforme a tabela abaixo:</p>
+        </div>
+        <table class="tabela_distribuicao_dfe">
+          <tbody><tr>
+            <th>Documentos</th>
+            <th>Emitente</th>
+            <th>Destinatario<sup>1</sup></th>
+            <th>Transportador<sup>2</sup></th>
+            <th>Terceiros<sup>3</sup></th>
+          </tr>
+          <tr>
+            <td>NF-e</td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Evento de Cancelamento</td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Evento de Carta de Correção</td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Eventos de Manifestação do Destinatário</td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Eventos da Suframa (Vistoria/Internalização)</td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>EPEC</td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Eventos de Pedido de Prorrogação de Prazo<sup>4</sup></td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Eventos do Fisco em Resposta ao Pedido de Prorrogação<sup>5</sup></td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Evento de Averbação<sup>6</sup></td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Resumo de NF-e</td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+            <td>
+              <div style="color:red; font-weight:bold">Não</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Resumo de Eventos CT-e Autorizado/Cancelado</td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Resumo de Eventos MDF-e Autorizado/Cancelado</td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Resumo de Eventos de Registro de Passagem</td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Eventos de Comprovante de Entrega Autorizado/Cancelado propagado do CT-e<sup>7</sup></td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+            <td>
+              <div style="color:green; font-weight:bold">Sim</div>
+            </td>
+          </tr>
+        </tbody></table>
+        <div class="texto_normal">
+          <p><sup>1</sup>Os documentos fiscais e resumos de eventos estarão disponíveis somente se o destinatário se manifestar dando "Ciência da
+            Operação", “Operação não Realizada” ou "Confirmação de Operação" para a NF-e, exceto para o Evento de Cancelamento, que
+            será disponibilizado mesmo sem a manifestação do destinatário. Antes da manifestação ficará disponível para o destinatário
+            somente a estrutura XML de “Resumo de NF-e” e o cancelamento de NF-e.</p>
+          <p><sup>2</sup>A NF-e estará disponível somente para o transportador identificado no grupo X03.</p>
+          <p><sup>3</sup>A NF-e estará disponível para terceiros somente cujo CNPJ ou CPF estiver informado na tag autXML.</p>
+          <p><sup>4</sup>Eventos de Pedido de Prorrogação de Prazo da NT 2015.001: EPP1 e EPP2 (Evento Pedido de Prorrogação 1º e 2º Prazo), ECPP1 e ECPP2 (Evento Cancelamento Pedido de Prorrogação 1º e 2º Prazo).</p>
+          <p><sup>5</sup>Eventos do Fisco em Resposta ao Pedido de Prorrogação de Prazo da NT 2015.001: EFPP1 e EFPP2 (Evento Fisco Resposta ao Pedido de Prorrogação 1º e 2º Prazo), EFCPP1 e EFCPP2 (Evento Fisco Resposta ao Cancelamento de
+            Prorrogação 1º e 2º Prazo).</p>
+          <p><sup>6</sup>Os Eventos de Averbação serão distribuídos a partir da implantação da BT 2017.001 v1.0.</p>
+          <p><sup>6</sup>Os eventos de comprovante de entrega serão distribuídos a partir da implantação do BT 2019.001 v.1.10.</p>
+          <br>
+        </div>
+        <titulo_tabela id="1.1. Leiaute Mensagem de Entrada">1.1. Leiaute Mensagem de Entrada</titulo_tabela><br>
+        <ul>
+          <div class="negrito"> Entrada: </div>Estrutura XML com o pedido de distribuição de DF-e de interesse do ator<br>
+          <div class="negrito">Schema XML: distDFeInt_v9.99.xsd</div><br>
+        </ul>
+        <table class="leiaute_web_services">
+          <tbody><tr>
+            <th>#</th>
+            <th>Campo</th>
+            <th>Ele</th>
+            <th>Pai</th>
+            <th>Tipo</th>
+            <th>Ocor.</th>
+            <th>Tam.</th>
+            <th>Descrição/Observação</th>
+          </tr>
+          <tr class="linha_grupo">
+            <td>A01</td>
+            <td>distDFeInt</td>
+            <td>Raiz</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>TAG raiz</td>
+          </tr>
+          <tr class="">
+            <td>A02</td>
+            <td>versao</td>
+            <td>A</td>
+            <td>A01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>2v2</td>
+            <td>Versão do leiaute</td>
+          </tr>
+          <tr class="">
+            <td>A03</td>
+            <td>tpAmb</td>
+            <td>E</td>
+            <td>A01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1</td>
+            <td>Identificação do Ambiente:<br>1- Produção<br>2- Homologação</td>
+          </tr>
+          <tr class="">
+            <td>A04</td>
+            <td>cUFAutor</td>
+            <td>E</td>
+            <td>A01</td>
+            <td>N</td>
+            <td>0-1</td>
+            <td>2</td>
+            <td>Código da UF do Autor</td>
+          </tr>
+          <tr class="">
+            <td>A05</td>
+            <td>CNPJ</td>
+            <td>CE</td>
+            <td>A01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>14</td>
+            <td>CNPJ do interessado no DF-e</td>
+          </tr>
+          <tr class="">
+            <td>A06</td>
+            <td>CPF</td>
+            <td>CE</td>
+            <td>A01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>11</td>
+            <td>CPF do interessado no DF-e</td>
+          </tr>
+          <tr class="linha_grupo">
+            <td>A07</td>
+            <td>distNSU</td>
+            <td>CG</td>
+            <td>A01</td>
+            <td>-</td>
+            <td>1-1</td>
+            <td>-</td>
+            <td>Grupo para distribuir DF-e de interesse</td>
+          </tr>
+          <tr class="">
+            <td>A08</td>
+            <td>ultNSU</td>
+            <td>E</td>
+            <td>A07</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>15</td>
+            <td>Último NSU recebido pelo ator.<br>Caso seja informado com zero, ou com um NSU muito antigo, a consulta retornará unicamente as informações resumidas e documentos fiscais eletrônicos que tenham sido recepcionados pelo Ambiente
+              Nacional nos últimos 3 meses.</td>
+          </tr>
+          <tr class="linha_grupo">
+            <td>A09</td>
+            <td>consNSU</td>
+            <td>CG</td>
+            <td>A01</td>
+            <td>-</td>
+            <td>1-1</td>
+            <td>-</td>
+            <td>Grupo para consultar um DF-e a partir de um NSU específico</td>
+          </tr>
+          <tr class="">
+            <td>A10</td>
+            <td>NSU</td>
+            <td>E</td>
+            <td>A09</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1-15</td>
+            <td>Número Sequencial Único. Geralmente esta consulta
+              será utilizada quando identificado pelo
+              interessado um NSU faltante. O Web Service
+              retornará o documento ou informará que o NSU
+              não existe no Ambiente Nacional. Assim, esta
+              consulta fechará a lacuna do NSU identificado
+              como faltante.</td>
+          </tr>
+          <tr class="linha_grupo">
+            <td>A11</td>
+            <td>consChNFe</td>
+            <td>CG</td>
+            <td>A01</td>
+            <td>-</td>
+            <td>1-1</td>
+            <td>-</td>
+            <td>Grupo para consultar uma NF-e pela chave de acesso</td>
+          </tr>
+          <tr class="">
+            <td>A12</td>
+            <td>chNFe</td>
+            <td>E</td>
+            <td>A11</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>44</td>
+            <td>Chave de acesso específica.</td>
+          </tr>
+        </tbody></table>
+        <br><br>
+        <titulo_tabela id="1.2. Leiaute Mensagem de Retorno">1.2. Leiaute Mensagem de Retorno</titulo_tabela><br>
+        <ul>
+          <div class="negrito">Retorno: </div>Estrutura XML com os documentos de interesse do ator (qtde máxima=50).<br>
+          <div class="negrito">Schema XML: retDistDFeInt _v9.99.xsd</div><br>
+        </ul>
+        <br>
+        <table class="leiaute_web_services">
+          <tbody><tr>
+            <th>#</th>
+            <th>Campo</th>
+            <th>Ele</th>
+            <th>Pai</th>
+            <th>Tipo</th>
+            <th>Ocor.</th>
+            <th>Tam.</th>
+            <th>Descrição/Observação</th>
+          </tr>
+          <tr class="linha_grupo">
+            <td>B01</td>
+            <td>retDistDFeInt</td>
+            <td>Raiz</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>TAG raiz da Resposta</td>
+          </tr>
+          <tr class="">
+            <td>B02</td>
+            <td>versao</td>
+            <td>A</td>
+            <td>B01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>2v2</td>
+            <td>Versão do leiaute</td>
+          </tr>
+          <tr class="">
+            <td>B03</td>
+            <td>tpAmb</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1</td>
+            <td>Identificação do Ambiente:<br>1- Produção;<br>2- Homologação;</td>
+          </tr>
+          <tr class="">
+            <td>B04</td>
+            <td>verAplic</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>1-20</td>
+            <td>Versão do aplicativo que processou a consulta</td>
+          </tr>
+          <tr class="">
+            <td>B05</td>
+            <td>cStat</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>3</td>
+            <td>Código do status da resposta (<a href="http://moc.sped.fazenda.pr.gov.br/RegrasDeValida%C3%A7%C3%A3o.html#4.1.%20Tabela%20de%20C%C3%B3digos%20de%20Resultado%20de%20Processamento%20(cStat)">conforme item 4.1 do Anexo Regras de Validação</a>).
+            </td>
+          </tr>
+          <tr class="">
+            <td>B06</td>
+            <td>xMotivo</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>1-255</td>
+            <td>Descrição literal do status da resposta.</td>
+          </tr>
+          <tr class="">
+            <td>B07</td>
+            <td>dhResp</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>D</td>
+            <td>1-1</td>
+            <td></td>
+            <td>Data e hora da mensagem de Resposta. Formato: “AAAA-MMDDThh:mm:ssTZD” (UTC – Universal Coordinated</td>
+          </tr>
+          <tr class="">
+            <td>B08</td>
+            <td>ultNSU</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>N</td>
+            <td>0-1</td>
+            <td>1-15</td>
+            <td>Último NSU pesquisado no Ambiente Nacional. Se for o caso, o solicitante pode continuar a consulta a partir deste NSU para obter novos resultados.</td>
+          </tr>
+          <tr class="">
+            <td>B09</td>
+            <td>maxNSU</td>
+            <td>E</td>
+            <td>B01</td>
+            <td>N</td>
+            <td>0-1</td>
+            <td>1-15</td>
+            <td>Maior NSU existente no Ambiente Nacional para o CNPJ/CPF informado</td>
+          </tr>
+          <tr class="linha_grupo">
+            <td>B10</td>
+            <td>loteDistDFeInt</td>
+            <td>G</td>
+            <td>B01</td>
+            <td>-</td>
+            <td>0-1</td>
+            <td></td>
+            <td>Conjunto de informações resumidas e documentos fiscais eletrônicos de interesse da pessoa física ou empresa.</td>
+          </tr>
+          <tr class="">
+            <td>B11</td>
+            <td>docZip</td>
+            <td>E</td>
+            <td>B10</td>
+            <td>B64</td>
+            <td>1-50</td>
+            <td></td>
+            <td>nformação resumida ou documento fiscal eletrônico de interesse da ou empresa. O conteúdo desta tag estará compactado no padrão gZip. O tipo do campo é base64Binary.</td>
+          </tr>
+          <tr class="">
+            <td>B12</td>
+            <td>NSU</td>
+            <td>A</td>
+            <td>B11</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1-15</td>
+            <td>NSU do documento fiscal</td>
+          </tr>
+          <tr class="">
+            <td>B13</td>
+            <td>schema</td>
+            <td>A</td>
+            <td>B11</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>-</td>
+            <td>Identificação do Schema XML que será utilizado para validar o XML existente no campo seguinte.
+              <br>Vai identificar o tipo do documento e sua versão.
+              <br>Exemplos: resNFe_v1.00.xsd; procNFe_v3.10.xsd, resEvento_1.00.xsd - procEventoNFe_v1.00.xsd
+            </td>
+          </tr>
+        </tbody></table>
+        <br>
+        <titulo_tabela id="1.3. Mensagem de Retorno Compactada">1.3. Mensagem de Retorno Compactada</titulo_tabela><br>
+        <div class="texto_normal">
+          <p>O tamanho médio da NF-e é de aproximadamente 10 KB (dependendo da quantidade de itens),
+            necessitando de um dimensionamento correto da rede interna e do canal de Internet das empresas e
+            do Ambiente Nacional.</p>
+          <p>Para minimizar necessidades de infraestrutura de rede cada documento contido na mensagem de
+            retorno da solicitação será compactado (tag:docZip). Estima-se que a compactação reduzirá o
+            tamanho da mensagem de retorno em aproximadamente 60%.</p>
+          <p>A aplicação do Ambiente Nacional irá compactar individualmente cada documento da mensagem de
+            retorno e a aplicação cliente deverá descompactá-lo e seguir o procedimento normal do tratamento
+            do documento descompactado.</p>
+          <p>O padrão de compactação adotado para o projeto será o Gzip (GNU zip) que é implementado nas
+            plataformas Java e .NET.</p>
+          <br>
+        </div>
+        <titulo_tabela id="1.4. Descrição do Processo de Distribuição de DF-e de Interesse">1.4. Descrição do Processo de Distribuição de DF-e de Interesse</titulo_tabela><br>
+        <div class="texto_normal">
+          <p>Este serviço pode ser consumido por atores que desempenham papel na NF-e de emitente,
+            destinatário, transportador ou terceiro, Pessoa Física ou Jurídica, que possua um certificado digital
+            com, respectivamente, seu CPF ou seu CNPJ.</p>
+          <p>O Ambiente Nacional gera um número sequencial único (NSU) para cada interessado nos
+            documentos fiscais. Os documentos recuperados deverão conter uma sequência de numeração sem
+            intervalos em sua base de dados.</p>
+          <div class="negrito">
+            <p>1.4.1. Geração do pedido de distribuição</p>
+          </div>
+          <p>O XML do pedido de distribuição suporta três tipos de consultas que são definidas de acordo com a
+            tag informada no XML. As tags são distNSU, consNSU e consChNFe.</p>
+          <div class="negrito">
+            <p>a) distNSU – Distribuição de Conjunto de DF-e a Partir do NSU Informado</p>
+          </div>
+          <p>A aplicação cliente do WS deve informar o último número sequencial único (ultNSU) que possui.
+            Caso o NSU informado seja menor que o primeiro NSU disponível para distribuição, a aplicação do
+            Ambiente Nacional deverá fornecer os documentos a partir do primeiro disponível para consulta.</p>
+          <div class="negrito">
+            <p>b) consNSU – Consulta DF-e Vinculado ao NSU Informado</p>
+          </div>
+          <p>Este processo de consulta DF-e a partir de um NSU permite que o interessado nos documentos
+            fiscais consulte de maneira pontual um NSU que foi identificado como faltante em sua base de
+            dados.</p>
+          <p>A aplicação cliente do WS deve informar o número sequencial único (NSU) identificado como faltante
+            em sua base de dados</p>
+          <div class="negrito">
+            <p>c) consChNFe – Consulta de NF-e por Chave de Acesso Informada</p>
+          </div>
+          <p>Este processo de consulta a partir de uma chave de acesso permite que o interessado na NF-e
+            consulte de maneira pontual uma chave de acesso e obtenha o documento relativo à esta chave.
+            A aplicação cliente do WS deve informar uma chave de acesso válida para recuperar a NF-e.</p>
+          <div class="negrito">
+            <p>1.4.2. CNPJ ou CPF do Interessado no DF-e</p>
+          </div>
+          <p>Informar o CPF da pessoa física ou CNPJ da empresa para recuperação de DF-e de seu interesse.
+            Este campo possibilita que uma empresa consiga recuperar os DF-e de qualquer um de seus
+            estabelecimentos utilizando somente um certificado digital PJ.</p>
+          <div class="negrito">
+            <p>1.4.3. Envio das Informações</p>
+          </div>
+          <p>O pedido de distribuição será enviado por Web Service, sendo necessário o uso de um certificado
+            digital de PJ ou PF válido.</p>
+          <p>
+            O WS do Ambiente Nacional é acionado pela aplicação cliente do interessado que deve enviar uma
+            mensagem que atenda os padrões estabelecidos neste manual.</p>
+          <div class="negrito">
+            <p>1.4.4. Processamento da Requisição de Distribuição de Conjunto de DF-e a Partir do NSU Informado (distNSU)</p>
+          </div>
+          <p>O Web Service deverá gerar lotes com até 50 documentos ao interessado com informações
+            resumidas ou documentos fiscais eletrônicos que tenham o número sequencial único (NSU) superior
+            ao NSU informado.</p>
+          <p>
+            Caso o NSU informado seja menor que o primeiro NSU disponível para distribuição, a aplicação do
+            Ambiente Nacional deverá fornecer os documentos a partir do primeiro disponível para consulta.</p>
+          <p>
+            A criação do lote de documentos deverá observar as seguintes regras:</p>
+          <ul>
+            <ul>
+              <li>Ordem crescente de NSU</li>
+              <li>O lote poderá conter qualquer tipo de documento válido e seu respectivo NSU</li>
+              <li>Quantidade máxima de documentos no lote: 50 documentos</li>
+            </ul>
+          </ul>
+          <p>Documentos emitidos pela própria empresa não estarão disponíveis para consulta.</p>
+          <p>Importante ressaltar que o processo de recepção e sincronização não será realizado em ordem
+            cronológica de emissão ou autorização de uso, uma vez que a geração do NSU dos documentos
+            será organizada por ordem cronológica de recepção pelo Ambiente Nacional.</p>
+          <p>Não existe necessidade de o Ambiente Nacional estar sincronizado em tempo real com todos os
+            documentos fiscais autorizados. Como a geração do NSU será organizada por ordem de inserção de
+            documentos, a empresa ou pessoa física conseguirá recuperar todos os documentos de seu
+            interesse tão logo estes sejam recebidos pelo Ambiente Nacional da NF-e.</p>
+          <p>É conveniente manter um controle do primeiro NSU válido para consulta. A resposta do WS do
+            Ambiente Nacional poderá ser:</p>
+
+          <ul>
+            <ul>
+              <li>
+                <div class="negrito">Rejeição –</div>com a devolução da mensagem com o motivo da falha informado no cStat;
+              </li>
+              <li>
+                <div class="negrito">Nenhum documento localizado –</div>não existe documentos fiscais para o CNPJ/CPF informado – cStat=”137-Nenhum documento localizado”;
+              </li>
+              <li>
+                <div class="negrito">Documento localizado – </div>com a devolução dos documentos fiscais encontrados – cStat=”138- Documento(s) localizado(s)”.
+              </li>
+            </ul>
+          </ul>
+          <p>A empresa deverá aguardar um tempo mínimo de uma hora para efetuar uma nova solicitação de
+            distribuição caso receba a indicação que não existem mais documentos a serem pesquisados na
+            base de dados do Ambiente Nacional. Se o NSU informado (tag:ultNSU) for igual ao maior NSU do
+            Ambiente Nacional (tag:maxNSU), então não existem mais documentos a serem pesquisados no
+            momento.</p>
+          <div class="negrito">
+            <p>1.4.5. Processamento da Requisição de Consulta DF-e Vinculado ao NSU Informado (consNSU)</p>
+          </div>
+          <p>Considerando que o Ambiente Nacional gera NSU sem lacunas, o processo de distribuição de
+            conjunto de DF-e a partir do NSU informado (tag:distNSU) disponibiliza para o interessado uma sequência de numeração ordenada de forma ascendente. A identificação de alguma lacuna na base
+            de dados do interessado indica que houve alguma falha no processo de distribuição dos
+            documentos.</p>
+          <p>Neste caso, o interessado deve consultar pontualmente os NSU identificados como faltantes em sua
+            base de dados através do método nfeDistDFeInteresse do Web Service nfeDistribuicaoDFe
+            informando o NSU desejado no conteúdo da tag consNSU no XML de requisição</p>
+          <p> A resposta do WS poderá ser:</p>
+          <ul>
+            <ul>
+              <li>
+                <div class="negrito">Rejeição –</div>com a devolução da mensagem com o motivo da falha informado no cStat;
+              </li>
+              <li>
+                <div class="negrito">Nenhum documento localizado –</div>indicando que o Ambiente Nacional não gerou o NSU e o interessado deve desconsiderá-lo – cStat=”137-Nenhum documento localizado”;
+              </li>
+              <li>
+                <div class="negrito">Documento localizado – </div>com a devolução dos documento fiscal encontrado – cStat=”138- Documento localizado”.
+              </li>
+            </ul>
+          </ul>
+          <div class="negrito">
+            <p>1.4.6. Processamento da Requisição de Consulta de NF-e por Chave de Acesso Informada (consChNFe)</p>
+          </div>
+          <p>O processo de consulta por chave de acesso (tag: chNFe) permite ao interessado consultar
+            pontualmente uma NF-e pela chave de acesso. A chave de acesso informada deve ser válida, existir
+            no Ambiente Nacional e estar vinculada ao interessado como destinatário, transportador ou terceiro.</p>
+          <p>Caso a consulta seja realizada pelo destinatário o Ambiente Nacional irá verificar a existência de sua
+            manifestação (“Ciência da Operação”, “Operação não Realizada” ou “Confirmação de Operação”).
+            Em caso da existência da manifestação do destinatário a NF-e será retornada para o destinatário.
+            Caso contrário, será retornado apenas o resumo da NF-e. Com o resumo o destinatário terá as
+            informações necessárias para realizar a manifestação.</p>
+          <p>Para transportador e terceiros a NF-e estará disponível integralmente na consulta. Para o emitente a
+            NF-e não será disponibilizada nesta consulta.</p>
+          <p>Assim como nas demais consultas disponibilizadas pelo Web Service nfeDistribuicaoDFe, a consulta
+            por chave de acesso estará disponível para documentos recebidos pelo Ambiente Nacional nos
+            últimos 90 dias. Após este período não será possível recuperar a NF-e.</p>
+          <p>A resposta do WS poderá ser:</p>
+          <ul>
+            <ul>
+              <li>
+                <div class="negrito">Rejeição –</div>com a devolução da mensagem com o motivo da falha informado no cStat;
+              </li>
+              <li>
+                <div class="negrito">Nenhum documento localizado –</div>indicando que o Ambiente Nacional não possui a NF-e
+                consultada – cStat= “137-Nenhum documento localizado”;
+              </li>
+              <li>
+                <div class="negrito">Documento localizado – </div>com a devolução dos documento fiscal encontrado – cStat=”138- Documento localizado”.
+              </li>
+            </ul>
+          </ul>
+
+        </div>
+
+        <br>
+        <titulo_tabela id="1.5. Regras de Validação">1.5. Regras de Validação</titulo_tabela>
+        <br>
+        <div class="texto_normal">
+          <p>Serão aplicadas as regras de validação genéricas conforme os grupos citados na tabela abaixo, detalhados na <a href="http://moc.sped.fazenda.pr.gov.br/RegrasDeValida%C3%A7%C3%A3o.html#1.Regras%20de%20Valida%C3%A7%C3%A3o%20Gerais">Seção 1 do Anexo de Regras de Validação da NF-e e da NFC-e.</a>
+          </p>
+        </div>
+        <table class="tabela_regras_genericas">
+          <tbody><tr>
+            <th>Grupo</th>
+            <th>Descrição</th>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>Validação do Certificado de Transmissão (protocolo TLS)</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>Validação Inicial da Mensagem no Web Service</td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td>Validação da Área de Dados </td>
+          </tr>
+        </tbody></table>
+        <div class="texto_normal">
+          <p>As regras de validação específicas deste WS podem ser vistas abaixo:</p>
+          <br>
+          <table class="regras_validacao_gerais">
+            <tbody><tr>
+              <th>#</th>
+              <th>Regra de Validação</th>
+              <th>Aplic.</th>
+              <th>Msg</th>
+              <th>Efeito</th>
+              <th>Descrição Erro</th>
+            </tr>
+            <tr class="">
+              <td>H01</td>
+              <td>Tipo do ambiente da NF-e difere do ambiente do Web Service</td>
+              <td>Obrig.</td>
+              <td>252</td>
+              <td>Rej.</td>
+              <td>Rejeição: Ambiente informado diverge do Ambiente de recebimento</td>
+            </tr>
+            <tr class="">
+              <td>H02</td>
+              <td>CNPJ do interessado na distribuição inválido (DV ou zeros)</td>
+              <td>Obrig.</td>
+              <td>489</td>
+              <td>Rej.</td>
+              <td>Rejeição: CNPJ informado inválido (DV ou zeros)</td>
+            </tr>
+            <tr class="">
+              <td>H03</td>
+              <td>CPF do interessado na distribuição inválido (DV ou zeros)</td>
+              <td>Obrig.</td>
+              <td>490</td>
+              <td>Rej.</td>
+              <td>Rejeição: CPF informado inválido (DV ou zeros)</td>
+            </tr>
+            <tr class="">
+              <td>H04</td>
+              <td>CNPJ do Certificado Digital utilizado na transmissão não tem o mesmo CNPJ base do CNPJ consultado</td>
+              <td>Obrig.</td>
+              <td>593</td>
+              <td>Rej.</td>
+              <td>Rejeição: CNPJ-Base consultado difere do CNPJ-Base do Certificado Digital</td>
+            </tr>
+            <tr class="">
+              <td>H05</td>
+              <td>CPF do Certificado Digital utilizado na transmissão diferente do CPF consultado</td>
+              <td>Obrig.</td>
+              <td>472</td>
+              <td>Rej.</td>
+              <td>Rejeição: CPF consultado difere do CPF do Certificado Digital</td>
+            </tr>
+            <tr class="">
+              <td>H06<sup>1</sup></td>
+              <td>Número do NSU informado superior ao maior NSU disponível para consulta</td>
+              <td>Obrig.</td>
+              <td>589</td>
+              <td>Rej.</td>
+              <td>Rejeição: Número do NSU informado superior ao maior NSU do Ambiente Nacional</td>
+            </tr>
+            <tr class="">
+              <td>H07<sup>2</sup></td>
+              <td>Chave de Acesso com dígito verificador inválido</td>
+              <td>Obrig.</td>
+              <td>236</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso com dígito verificador inválido</td>
+            </tr>
+            <tr class="">
+              <td>H08<sup>2</sup></td>
+              <td>Chave de Acesso inválida (Código UF inválido)</td>
+              <td>Obrig.</td>
+              <td>614</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (Código UF inválido)</td>
+            </tr>
+            <tr class="">
+              <td>H09<sup>2</sup></td>
+              <td>Chave de Acesso inválida (Ano &lt; 06 ou Ano maior que Ano)</td>
+              <td>Obrig.</td>
+              <td>615</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (Ano menor que 06 ou Ano maior que Ano</td>
+            </tr>
+            <tr class="">
+              <td>H10<sup>2</sup></td>
+              <td>Chave de Acesso inválida (Mês =0 ou Mês &gt; 12)</td>
+              <td>Obrig.</td>
+              <td>616</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (Mês menor que 1 ou Mês maior que 12)</td>
+            </tr>
+            <tr class="">
+              <td>H11<sup>2</sup></td>
+              <td>Chave de Acesso inválida:
+                <br>- Série = [0-909] e CNPJ zerado ou dígito inválido, ou
+                <br>- Série = [910-969] e CPF zerado ou dígito inválido
+                <br>
+                <div class="negrito">Exceção:</div> Não se aplica para NFF (tpEmis = 3-NFF) (NT 2021.002)
+              </td>
+              <td>Obrig.</td>
+              <td>617</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (CNPJ zerado ou dígito inválido)</td>
+            </tr>
+            <tr class="">
+              <td>H12<sup>2</sup></td>
+              <td>Chave de Acesso inválida (modelo diferente de 55)</td>
+              <td>Obrig.</td>
+              <td>618</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (CNPJ zerado ou dígito inválido)</td>
+            </tr>
+            <tr class="">
+              <td>H13<sup>2</sup></td>
+              <td>Chave de Acesso inválida (número NF = 0)</td>
+              <td>Obrig.</td>
+              <td>619</td>
+              <td>Rej.</td>
+              <td>Rejeição: Chave de Acesso inválida (número NF = 0)</td>
+            </tr>
+            <tr class="">
+              <td>H14<sup>2</sup></td>
+              <td>NF-e inexistente para a chave de acesso informada</td>
+              <td>Obrig.</td>
+              <td>217</td>
+              <td>Rej.</td>
+              <td>Rejeição: NF-e inexistente para a chave de acesso informada</td>
+            </tr>
+            <tr class="">
+              <td>H15<sup>2</sup></td>
+              <td>Verificar se NF-e está no prazo de download, 90 dias da data de recebimento da NF-e no Ambiente Nacional</td>
+              <td>Obrig.</td>
+              <td>632</td>
+              <td>Rej.</td>
+              <td>Rejeição: Solicitação fora de prazo, a NF-e não está mais disponível para download</td>
+            </tr>
+            <tr class="">
+              <td>H16<sup>2</sup></td>
+              <td>Se CNPJ, verificar se o CNPJ do interessado na NF-e tem o mesmo CNPJ-Base informado no pedido.
+                <br>Se CPF, verificar se o CPF é o mesmo do interessado.
+              </td>
+              <td>Obrig.</td>
+              <td>640</td>
+              <td>Rej.</td>
+              <td>Rejeição: CNPJ/CPF do interessado não possui permissão para consultar esta NF-e</td>
+            </tr>
+            <tr class="">
+              <td>H17<sup>2</sup></td>
+              <td>A NF-e não deve ser disponibilizada para o emitente da NF-e. Verificar se CNPJ do interessado na NF-e é o emitente.</td>
+              <td>Obrig.</td>
+              <td>641</td>
+              <td>Rej.</td>
+              <td>Rejeição: NF-e indisponível para o emitente</td>
+            </tr>
+            <tr class="">
+              <td>H18<sup>2</sup></td>
+              <td>NF-e Cancelada, arquivo NF-e indisponível para download</td>
+              <td>Obrig.</td>
+              <td>653</td>
+              <td>Rej.</td>
+              <td>Rejeição: NF-e Cancelada, arquivo indisponível para download</td>
+            </tr>
+            <tr class="">
+              <td>H19<sup>2</sup></td>
+              <td>NF-e Denegada, arquivo NF-e indisponível para download</td>
+              <td>Obrig.</td>
+              <td>654</td>
+              <td>Rej.</td>
+              <td>Rejeição: NF-e Denegada, arquivo indisponível para download</td>
+            </tr>
+          </tbody></table>
+          <br>
+          <div class="texto_normal">
+            <p>1 ........Validação aplicada para os tipos de consulta distNSU e consNSU</p>
+            <p>2 ........Validações aplicadas somente para o tipo de consulta consChNFe.</p>
+          </div>
+          <br>
+        </div>
+        <br>
+        <titulo_tabela id="1.6. Leiautes Resumidos">1.6. Leiautes Resumidos</titulo_tabela>
+        <br>
+        <div class="texto_normal">
+          <p>Para possibilitar o compartilhamento de informações relevantes para o ator de forma a manter o
+            sigilo da informação, foram criados dois novos leiautes contendo informações resumidas das NF-e e
+            informações resumidas dos eventos.</p>
+          <div class="negrito">
+            <p>1.6.1. Leiaute Resumo da NF-e</p>
+          </div>
+          <ul>
+            <p>
+            </p><div class="negrito">Descrição:</div>Estrutura XML gerada pelo Ambiente Nacional com o conjunto de informações resumidas
+            da NF-e. Este documento será distribuído para os destinatários possibilitando sua manifestação na
+            operação acobertada pela Nota Fiscal eletrônica emitida para o seu CNPJ.<p></p>
+            <p>
+            </p><div class="negrito">Schema XML: resNFe_v1.01.xsd</div>
+            <p></p>
+          </ul>
+        </div>
+
+        <table class="leiaute_web_services">
+          <tbody><tr>
+            <th>#</th>
+            <th>Campo</th>
+            <th>Ele</th>
+            <th>Pai</th>
+            <th>Tipo</th>
+            <th>Ocor.</th>
+            <th>Tam.</th>
+            <th>Descrição/Observação</th>
+          </tr>
+          <tr class="linha_grupo">
+            <td>C01</td>
+            <td>resNFe</td>
+            <td>G</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>TAG raíz com o conjunto de informações resumidas da NF-e. Este conjunto de informação será gerado quando a NF-e for autorizada ou denegada.</td>
+          </tr>
+          <tr class="">
+            <td>C02</td>
+            <td>versao</td>
+            <td>A</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>2v2</td>
+            <td>Versão do leiaute</td>
+          </tr>
+          <tr class="">
+            <td>C03</td>
+            <td>chNFe</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>44</td>
+            <td>Chave de acesso da NF-e</td>
+          </tr>
+          <tr class="">
+            <td>C04</td>
+            <td>CNPJ</td>
+            <td>CE</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>14</td>
+            <td>CNPJ do Emitente</td>
+          </tr>
+          <tr class="">
+            <td>C05</td>
+            <td>CPF</td>
+            <td>CE</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>11</td>
+            <td>CPF do Emitente</td>
+          </tr>
+          <tr class="">
+            <td>C06</td>
+            <td>xNome</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>3-60</td>
+            <td>Razão Social ou Nome do Emitente</td>
+          </tr>
+          <tr class="">
+            <td>C07</td>
+            <td>IE</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>0 ou 2-14</td>
+            <td>IE do Emitente. Valores válidos: vazio (não contribuinte do ICMS), ISENTO (contribuinte do ICMS ISENTO de Inscrição no Cadastro de Contribuintes) ou IE (Contribuinte do ICMS)</td>
+          </tr>
+          <tr class="">
+            <td>C08</td>
+            <td>dhEmi</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>D</td>
+            <td>1-1</td>
+            <td></td>
+            <td>Data de Emissão da NF-e no formato UTC (Universal Coordinated Time): AAAA-MM</td>
+          </tr>
+          <tr class="">
+            <td>C09</td>
+            <td>tpNF</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1</td>
+            <td>Tipo de Operação da NF-e: <br>0- Entrada; <br>1- Saída;</td>
+          </tr>
+          <tr class="">
+            <td>C10</td>
+            <td>vNF</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>13,2</td>
+            <td>Valor Total da NF-e</td>
+          </tr>
+          <tr class="">
+            <td>C11</td>
+            <td>digVal</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>28</td>
+            <td>Digest Value da NF-e na base de dados do Ambiente</td>
+          </tr>
+          <tr class="">
+            <td>C12</td>
+            <td>dhRecbto</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>D</td>
+            <td>1-1</td>
+            <td></td>
+            <td>Data de autorização da NF-e. Formato: “AAAA-MMDDThh:mm:ssTZD” (UTC – Universal Coordinated Time).</td>
+          </tr>
+          <tr class="">
+            <td>C13</td>
+            <td>nProt</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>15</td>
+            <td>Número de protocolo da NF-e, conforme item 4.3.5</td>
+          </tr>
+          <tr class="">
+            <td>C14</td>
+            <td>cSitNFe</td>
+            <td>E</td>
+            <td>C01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1</td>
+            <td>Situação da NF-e:<br>1- Uso autorizado;<br>2- Uso denegado;<br>3- NF-e Cancelada;</td>
+          </tr>
+        </tbody></table>
+        <br>
+        <ul>
+          <ul>
+            <div class="negrito">
+              <p>1.6.2. Leiaute Resumo da NF-e</p>
+            </div>
+          </ul>
+          <ul>
+            <p>
+            </p><div class="negrito">Descrição:</div>Estrutura XML gerada pelo Ambiente Nacional com o conjunto de informações resumidas de um evento de NF-e.<p></p>
+            <p>
+            </p><div class="negrito">Schema XML: resEvento_ v1.01.xsd</div>
+            <p></p>
+          </ul>
+        </ul>
+
+        <table class="leiaute_web_services">
+          <tbody><tr>
+            <th>#</th>
+            <th>Campo</th>
+            <th>Ele</th>
+            <th>Pai</th>
+            <th>Tipo</th>
+            <th>Ocor.</th>
+            <th>Tam.</th>
+            <th>Descrição/Observação</th>
+          </tr>
+          <tr class="linha_grupo">
+            <td>D01</td>
+            <td>resEvento</td>
+            <td>Raiz</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>TAG raíz</td>
+          </tr>
+          <tr class="">
+            <td>D02</td>
+            <td>versao</td>
+            <td>A</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>2v2</td>
+            <td>Versão do leiaute</td>
+          </tr>
+          <tr class="">
+            <td>D03</td>
+            <td>cOrgao</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>2</td>
+            <td>Código do órgão de recepção do Evento. O código 91 para identificar o Ambiente</td>
+          </tr>
+          <tr class="">
+            <td>D04</td>
+            <td>CNPJ</td>
+            <td>CE</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>14</td>
+            <td>CNPJ do Emitente</td>
+          </tr>
+          <tr class="">
+            <td>D05</td>
+            <td>CPF</td>
+            <td>CE</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>11</td>
+            <td>CPF do Emitente</td>
+          </tr>
+          <tr class="">
+            <td>D06</td>
+            <td>chNFe</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>44</td>
+            <td>Chave de acesso da NF-e</td>
+          </tr>
+          <tr class="">
+            <td>D07</td>
+            <td>dhEvento</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>D</td>
+            <td>1-1</td>
+            <td></td>
+            <td>Data e hora do evento no formato AAAA-MMDDThh:mm:ssTZD (UTC – Universal Coordinated Time)</td>
+          </tr>
+          <tr class="">
+            <td>D08</td>
+            <td>tpEvento</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>6</td>
+            <td>Código do evento (de acordo com tabelas do item 3.1)</td>
+          </tr>
+          <tr class="">
+            <td>D09</td>
+            <td>nSeqEvento</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>1-2</td>
+            <td>Número sequencial do evento</td>
+          </tr>
+          <tr class="">
+            <td>D10</td>
+            <td>xEvento</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>C</td>
+            <td>1-1</td>
+            <td>5-60</td>
+            <td>Descrição do evento</td>
+          </tr>
+          <tr class="">
+            <td>D11</td>
+            <td>dhRecbto</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>D</td>
+            <td>1-1</td>
+            <td></td>
+            <td>Data de autorização do evento. Formato: “AAAA-MMDDThh:mm:ssTZD” (UTC – Universal Coordinated Time).</td>
+          </tr>
+          <tr class="">
+            <td>D12</td>
+            <td>nProt</td>
+            <td>E</td>
+            <td>D01</td>
+            <td>N</td>
+            <td>1-1</td>
+            <td>15</td>
+            <td>Número de protocolo do evento, conforme item 4.3.5</td>
+          </tr>
+        </tbody></table>
+        <br>
+        <titulo_tabela id="1.7. Visão Geral do Modelo de Distribuição">1.7. Visão Geral do Modelo de Distribuição</titulo_tabela>
+        <br>
+        <div class="texto_normal">
+          <p>O modelo de distribuição de documentos é baseado na geração de um número sequencial único
+            (NSU) para cada CNPJ ou CPF. O fluxo que pode ser visto na figura abaixo exemplifica a geração do
+            NSU para o emitente e destinatário da NF-e.</p>
+        </div>
+
+        <img src="./NFeDistribuicaoDFe_files/NFe_DistribuicaoDFe_2_fluxo.png" alt="Visão geral do modelo de distribuição" class="imagem_central">
+        <div class="texto_normal">
+          <p> A consulta no Web Service nfeDistribuicaoDFe poderá ser realizada a qualquer instante pela
+            empresa ou pessoa física. O Ambiente Nacional disponibilizará para consulta os documentos de
+            interesse de cada ator. Seguem os passos do fluxo exemplificado:</p>
+          <p> (1) O emitente gera e transmite uma NF-e que será autorizada pela Sefaz e compartilhada com o Ambiente Nacional;</p>
+          <p> (2) O Ambiente Nacional gera um NSU para o destinatário do resumo da NF-e e o disponibiliza para
+            consulta;</p>
+          <p>
+            (3) O destinatário consulta o WS nfeDistribuicaoDFe a partir do último NSU recebido e recupera o resumo
+            da NF-e;</p>
+          <p>
+            (4) O destinatário, de posse do resumo da NF-e, gera um evento de NF-e (Ex. evento de manifestação do
+            destinatário);</p>
+          <p>
+            (5) O Ambiente Nacional gera um NSU do evento gerado pelo destinatário para o emitente e o disponibiliza
+            para consulta;</p>
+          <p>
+            (6) Caso seja um evento de manifestação do destinatário diferente do tipo “desconhecimento da operação”,
+            o Ambiente Nacional gera um NSU para o destinatário com a NF-e (liberação do download);</p>
+          <p>
+            (7) O emitente consulta o WS nfeDistribuicaoDFe a partir do último NSU recebido e recupera o evento
+            gerado pelo destinatário;</p>
+          <p>
+            (8) O destinatário consulta o WS nfeDistribuicaoDFe a partir do último NSU recebido e recupera a NF-e;</p>
+          <p>
+            (9) O emitente gera um evento de sua NF-e (ex.: evento de cancelamento de NF-e, caso não exista outro
+            evento que impeça este cancelamento) que será compartilhado pela Sefaz com o Ambiente Nacional;</p>
+          <p>
+            (10) O Ambiente Nacional gera um NSU para o destinatário do evento gerado pelo emitente e o disponibiliza
+            para consulta;</p>
+          <p>
+            (11) O destinatário consulta o WS nfeDistribuicaoDFe a partir do último NSU recebido e recupera o evento
+            gerado pelo emitente;</p>
+          <p>
+            (12) O Ambiente Nacional recebe um evento gerado pelo fisco e gera um NSU para o emitente e outro NSU
+            para o destinatário, disponibilizando-os para consulta;</p>
+          <p>
+            (13) Tanto o emitente quanto o destinatário consultam o WS nfeDistribuicaoDFe a partir do último NSU
+            recebido e recuperam o evento gerado pelo fisco;</p>
+          <br>
+          <p>
+            O fluxo exemplificado resulta nos seguintes NSU para emitente e destinatário:</p>
+        </div>
+        <img src="./NFeDistribuicaoDFe_files/NFe_DistribuicaoDFe_tabelaNSU.png" alt="NSU exemplos" class="tabela_NSU">
+        <div class="texto_normal">
+          <p> Este novo modelo permitirá ao emitente a consulta dos eventos manifestados pelos destinatários de
+            suas NF-e. Também será disponibilizado para o destinatário da NF-e qualquer evento gerado pelo
+            emitente. Além disso, os eventos gerados pelo fisco serão disponibilizados tanto para o emitente
+            quanto para o destinatário da NF-e.</p>
+          <p> O modelo simplifica o processo de download da NF-e uma vez que a partir da manifestação do
+            destinatário o Ambiente Nacional gera automaticamente um NSU referenciando a NF-e e permitindo
+            sua recuperação a partir do WS nfeDistribuicaoDFe.</p>
+        </div>
+        <div class="texto_normal">
+
+          <div class="negrito">
+            <p>1.7.1. Recomendações Para Evitar o Uso Indevido</p>
+          </div>
+          <p>A análise do comportamento atual das aplicações das empresas (“aplicação cliente”) permite
+            identificar algumas situações de “uso indevido” nos ambientes autorizadores.</p>
+          <p>
+            Como exemplo maior do mau uso do ambiente, ressalta-se a falta de controle de algumas aplicações
+            que entram em “loop”, consumindo recursos de forma indevida, sobrecarregando principalmente o
+            canal de comunicação com a Internet.</p>
+          <p>
+            Para este Web Service serão mantidos controles para identificar as situações de uso indevido de
+            sucessivas tentativas de busca de registros já disponibilizados anteriormente.</p>
+          <p>
+            As novas tentativas serão rejeitadas com o erro “656–Rejeição: Consumo Indevido”.</p>
+          <div class="negrito">
+            <p>1.7.2. Endereços dos Web Services</p>
+          </div>
+          <p>Os endereços dos Web Services de Distribuição do Ambiente Nacional estão publicados no <a href="http://www.nfe.fazenda.gov.br/portal">Portal da
+              NF- e</a> , e no <a href="http://hom.nfe.fazenda.gov.br/">Portal de Homologação</a> no menu “Serviços” / “Relação de Serviços Web”.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</body><!-- Mirrored from www.w3schools.com/css/default.asp by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 13 Mar 2016 05:41:03 GMT --></html>

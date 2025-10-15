@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# VSCode
+.vscode/
+
+# Bytecode & C extensions
+build/
+dist/
+*.egg-info/
+
+# OS
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Secrets & certs (não versionar PFX ou chaves privadas)
+storage/certs/*
+!storage/certs/.gitkeep
+*.pfx
+*.pem
+*.key
+
+# Storage de XML (gerado em runtime)
+storage/xml/*
+!storage/xml/.gitkeep
+
+# CA bundles locais
+certs/*.pem
+
+# Alembic artefatos locais
+alembic.ini
+*.db
+
+# Env
+.env
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+storage/xml/*
+storage/certs/*

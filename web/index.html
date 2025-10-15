@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Importação de XMLs emitidos por terceiros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: #1a1f2b;
+        --panel2: #121620;
+        --fg: #e6e7ea;
+        --muted: #a6a8ae;
+        --primary: #2f6bff;
+        --accent: #4b8bff;
+        --danger: #e65a5a;
+        --ok: #22c55e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 16px;
+        padding: 16px;
+      }
+      .sidebar {
+        background: var(--panel2);
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .content {
+        background: var(--panel);
+        border-radius: 10px;
+        padding: 16px;
+        min-height: 80vh;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .tab {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #0e1320;
+        color: #aeb4c7;
+        font-size: 12px;
+      }
+      .tab.active {
+        background: #1f2a44;
+        color: #fff;
+      }
+      .search {
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #2a3347;
+        background: #0e1320;
+        color: #d8dbe5;
+      }
+      .import-panel {
+        background: #0e1320;
+        border: 1px solid #283149;
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .import-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 14px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+      .btn-danger {
+        background: var(--danger);
+        color: white;
+      }
+      .btn-ghost {
+        background: #0e1320;
+        color: #d8dbe5;
+        border: 1px solid #2a3347;
+      }
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .card {
+        border: 1px solid #2a3347;
+        background: #0e1320;
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .id {
+        font-weight: 600;
+      }
+      .sub {
+        color: #9aa4b2;
+        font-size: 12px;
+      }
+      .price {
+        min-width: 100px;
+        text-align: right;
+      }
+      .footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="tabs">
+          <button class="tab" id="tab-todas">
+            todas <span id="count-todas"></span>
+          </button>
+          <button class="tab" id="tab-pendentes">
+            pendentes <span id="count-pendentes"></span>
+          </button>
+          <button class="tab active" id="tab-registradas">
+            registradas <span id="count-registradas"></span>
+          </button>
+        </div>
+        <div class="search">
+          <input id="q" placeholder="Pesquise por cliente ou número" />
+        </div>
+        <div id="list-left"></div>
+      </aside>
+      <main class="content">
+        <div class="import-panel">
+          <div class="import-header">
+            <div>
+              <div style="font-weight: 700">
+                Importação de XMLs emitidos por terceiros
+              </div>
+              <div class="sub">
+                Última consulta realizada em <span id="last-fetch">-</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <button class="btn btn-ghost" id="importByKey">
+                importar via chave de acesso
+              </button>
+              <button class="btn btn-danger" id="disable">
+                desativar importação
+              </button>
+              <select
+                id="tpEvento"
+                class="btn btn-ghost"
+                title="Tipo de evento"
+              >
+                <option value="210210">Ciência da Operação</option>
+                <option value="210200">Confirmação da Operação</option>
+                <option value="210220">Desconhecimento da Operação</option>
+                <option value="210240">Operação não Realizada</option>
+              </select>
+            </div>
+          </div>
+          <div class="list" id="cards"></div>
+          <div class="footer">
+            <span id="sel-count" class="sub">0 selecionados</span>
+            <button class="btn btn-primary" id="manifest">
+              manifestar e importar XMLs
+            </button>
+            <div style="flex: 1"></div>
+            <button class="btn btn-ghost" id="prev">‹ anterior</button>
+            <button class="btn btn-ghost" id="next">próxima ›</button>
+          </div>
+        </div>
+
+        <!-- Painel: Visualizar XML por chave -->
+        <div class="import-panel" style="margin-top: 16px">
+          <div class="import-header">
+            <div>
+              <div style="font-weight: 700">Visualizar XML por chave</div>
+              <div class="sub">
+                Consulta DF-e autenticada por chave e exibe o XML em um frame
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                flex-wrap: wrap;
+              "
+            >
+              <input
+                id="view-chave"
+                placeholder="Chave NFe (44 dígitos)"
+                style="width: 320px; padding: 8px"
+              />
+              <select
+                id="view-prefer"
+                class="btn btn-ghost"
+                title="Schema preferido"
+              >
+                <option value="procNFe">procNFe</option>
+                <option value="resNFe">resNFe</option>
+                <option value="resEvento">resEvento</option>
+              </select>
+              <label
+                style="display: flex; gap: 6px; align-items: center"
+                title="Também salva o XML no storage do servidor"
+              >
+                <input type="checkbox" id="view-save" /> salvar no storage
+              </label>
+              <button class="btn btn-primary" id="view-xml">exibir XML</button>
+              <button class="btn btn-ghost" id="download-xml">
+                baixar exibido
+              </button>
+            </div>
+          </div>
+          <div
+            id="view-error"
+            class="sub"
+            style="color: #ff8c8c; min-height: 20px"
+          ></div>
+          <iframe
+            id="xml-frame"
+            style="
+              width: 100%;
+              height: 520px;
+              background: #0e1320;
+              border: 1px solid #283149;
+              border-radius: 10px;
+            "
+          ></iframe>
+        </div>
+      </main>
+    </div>
+    <script>
+      // Parâmetros base
+      const qs = new URLSearchParams(location.search);
+      const empresaId = Number(qs.get("empresa_id") || "1");
+      const apiBase = (qs.get("api") || "").replace(/\/$/, ""); // exemplo: http://localhost:8001
+      function endpoint(p) {
+        return apiBase ? `${apiBase}${p}` : p;
+      }
+
+      // Lista e manifestação
+      let filtro = "registradas";
+      let page = 0;
+      const pageSize = 50;
+      let lastTotal = 0; // vindo de counts.todas
+      let currentItems = [];
+      const API_LIST = () =>
+        endpoint(
+          `/api/documentos/importacao?empresa_id=${empresaId}&limit=${pageSize}&offset=${
+            page * pageSize
+          }${filtro ? `&filtro=${filtro}` : ""}`
+        );
+      const lastFetch = document.getElementById("last-fetch");
+      const cards = document.getElementById("cards");
+      const selCount = document.getElementById("sel-count");
+      const selected = new Set();
+      const byId = new Map();
+
+      function fmtCNPJ(c) {
+        return c
+          ? c.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
+          : "";
+      }
+
+      function render(items, counts) {
+        cards.innerHTML = "";
+        byId.clear();
+        items.forEach((it) => {
+          byId.set(it.id, it);
+          const box = document.createElement("div");
+          box.className = "card";
+          const checked = selected.has(it.id) ? "checked" : "";
+          box.innerHTML = `
+            <div class="row">
+              <div style="display:flex; align-items:center; gap:8px">
+                <input type="checkbox" data-id="${it.id}" ${checked} />
+                <div>
+                  <div class="id">${it.emitente_nome || "—"}</div>
+                  <div class="sub">${it.chave || ""}</div>
+                  <div class="sub" id="status-${it.id}">${
+            it.manifest_cstat
+              ? `cStat=${it.manifest_cstat} ${it.manifest_xmotivo || ""}`
+              : ""
+          }</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:24px; align-items:center">
+                <div>${fmtCNPJ(it.emitente_cnpj || "")}</div>
+                <div>${it.data_emissao || ""}</div>
+                <div class="price">${
+                  it.valor
+                    ? Number(it.valor).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                      })
+                    : ""
+                }</div>
+                ${
+                  it.schema === "procNFe"
+                    ? `<a class="btn btn-ghost" href="${endpoint(
+                        `/api/documentos/${it.id}/download`
+                      )}" download>baixar XML</a>`
+                    : ""
+                }
+              </div>
+            </div>`;
+          cards.appendChild(box);
+        });
+        cards.querySelectorAll("input[type=checkbox]").forEach((cb) => {
+          cb.addEventListener("change", (e) => {
+            const id = Number(e.target.getAttribute("data-id"));
+            if (e.target.checked) selected.add(id);
+            else selected.delete(id);
+            selCount.textContent = `${selected.size} selecionados`;
+          });
+        });
+        lastFetch.textContent = new Date().toLocaleString("pt-BR");
+        selCount.textContent = `${selected.size} selecionados`;
+        if (counts) {
+          document.getElementById("count-todas").textContent =
+            counts.todas ?? "";
+          document.getElementById("count-pendentes").textContent =
+            counts.pendentes ?? "";
+          document.getElementById("count-registradas").textContent =
+            counts.registradas ?? "";
+        }
+        // Atualizar paginação (desabilitar quando não há mais páginas)
+        const btnPrev = document.getElementById("prev");
+        const btnNext = document.getElementById("next");
+        btnPrev.disabled = page <= 0;
+        const total = Number(lastTotal || 0);
+        const hasNext = (page + 1) * pageSize < total;
+        btnNext.disabled = !hasNext;
+      }
+
+      async function load() {
+        const r = await fetch(API_LIST());
+        const j = await r.json().catch(() => ({ items: [], counts: {} }));
+        lastTotal = (j.counts && (j.counts.todas ?? 0)) || 0;
+        currentItems = j.items || [];
+        // aplicar filtro local se houver texto no campo q
+        applyFilterAndRender();
+      }
+
+      function applyFilterAndRender() {
+        const qEl = document.getElementById("q");
+        const term = (qEl.value || "").toLowerCase().trim();
+        if (!term) {
+          render(currentItems, { todas: lastTotal });
+          return;
+        }
+        const filtered = currentItems.filter((it) => {
+          const nome = String(it.emitente_nome || "").toLowerCase();
+          const chave = String(it.chave || "").toLowerCase();
+          const cnpj = String(it.emitente_cnpj || "").toLowerCase();
+          const num = String(it.numero || "").toLowerCase();
+          const data = String(it.data_emissao || "").toLowerCase();
+          return (
+            nome.includes(term) ||
+            chave.includes(term) ||
+            cnpj.includes(term) ||
+            num.includes(term) ||
+            data.includes(term)
+          );
+        });
+        render(filtered, { todas: lastTotal });
+      }
+
+      document
+        .getElementById("manifest")
+        .addEventListener("click", async () => {
+          const ids = [...selected];
+          if (!ids.length) {
+            alert("Selecione pelo menos um documento");
+            return;
+          }
+          const tpEventoSel =
+            document.getElementById("tpEvento").value || "210210";
+          for (const id of ids) {
+            const it = byId.get(id);
+            const ch = it && it.chave;
+            const statusEl = document.getElementById(`status-${id}`);
+            if (!ch) {
+              statusEl && (statusEl.textContent = "sem chave");
+              continue;
+            }
+            statusEl && (statusEl.textContent = "enviando...");
+            try {
+              const url = endpoint(
+                `/api/dfe/manifestar?empresa_id=${empresaId}&chNFe=${encodeURIComponent(
+                  ch
+                )}&tpEvento=${tpEventoSel}&nSeq=1`
+              );
+              const resp = await fetch(url, { method: "POST" });
+              const data = await resp.json().catch(() => ({}));
+              if (resp.ok) {
+                if (data && (data.cStat || data.xMotivo)) {
+                  statusEl &&
+                    (statusEl.textContent = `cStat=${data.cStat || "?"} ${
+                      data.xMotivo || ""
+                    }`);
+                } else if (
+                  data &&
+                  (data.error || data.detail || data.status_code || data.body)
+                ) {
+                  const msg =
+                    data.detail || data.error || "falha na manifestação";
+                  const code = data.status_code ? ` (${data.status_code})` : "";
+                  statusEl && (statusEl.textContent = `erro${code}: ${msg}`);
+                } else {
+                  statusEl && (statusEl.textContent = "sem retorno do serviço");
+                }
+              } else {
+                statusEl &&
+                  (statusEl.textContent = `erro ${resp.status}: ${
+                    data.detail || data.error || ""
+                  }`);
+              }
+            } catch (e) {
+              statusEl && (statusEl.textContent = "erro de rede");
+            }
+          }
+          try {
+            const urlSync = endpoint(`/api/dfe/sync?empresa_id=${empresaId}`);
+            await fetch(urlSync, { method: "POST" });
+          } catch {}
+          await load();
+        });
+
+      // Importar via chave (manifestação direta)
+      document
+        .getElementById("importByKey")
+        .addEventListener("click", async () => {
+          const ch = prompt("Informe a chave de acesso (44 dígitos):");
+          if (!ch) return;
+          const tpEventoSel =
+            document.getElementById("tpEvento").value || "210210";
+          try {
+            const url = endpoint(
+              `/api/dfe/manifestar?empresa_id=${empresaId}&chNFe=${encodeURIComponent(
+                ch
+              )}&tpEvento=${tpEventoSel}&nSeq=1`
+            );
+            const r = await fetch(url, { method: "POST" });
+            const j = await r.json().catch(() => ({}));
+            if (r.ok) {
+              if (j && (j.cStat || j.xMotivo)) {
+                alert(
+                  `Manifestado: cStat=${j.cStat || "?"} ${j.xMotivo || ""}`
+                );
+              } else if (
+                j &&
+                (j.error || j.detail || j.status_code || j.body)
+              ) {
+                const msg = j.detail || j.error || "falha na manifestação";
+                const code = j.status_code ? ` (${j.status_code})` : "";
+                alert(`Erro${code}: ${msg}`);
+              } else {
+                alert("Sem retorno do serviço");
+              }
+            } else {
+              alert(`Erro ${r.status}: ${j.detail || j.error || ""}`);
+            }
+            await fetch(endpoint(`/api/dfe/sync?empresa_id=${empresaId}`), {
+              method: "POST",
+            }).catch(() => {});
+            await load();
+          } catch (e) {
+            alert("Erro de rede");
+          }
+        });
+
+      load();
+
+      // -- Visualização de XML por chave (iframe) --
+      (function () {
+        const elBtn = document.getElementById("view-xml");
+        const elBtnDownload = document.getElementById("download-xml");
+        const elCh = document.getElementById("view-chave");
+        const elPrefer = document.getElementById("view-prefer");
+        const elSave = document.getElementById("view-save");
+        const elErr = document.getElementById("view-error");
+        const elFrame = document.getElementById("xml-frame");
+        let currentUrl = null;
+        let currentBlob = null;
+        let currentMeta = null; // { chave, schema, nsu }
+
+        function revoke() {
+          try {
+            currentUrl && URL.revokeObjectURL(currentUrl);
+          } catch {}
+          currentUrl = null;
+        }
+
+        elBtn.addEventListener("click", async () => {
+          elErr.textContent = "";
+          revoke();
+          const chave = (elCh.value || "").replace(/\D/g, "");
+          if (chave.length !== 44) {
+            elErr.textContent = "Informe uma chave de 44 dígitos.";
+            return;
+          }
+          const prefer = elPrefer.value || "procNFe";
+          const params = new URLSearchParams({
+            empresa_id: String(empresaId),
+            chNFe: chave,
+            prefer,
+          });
+          if (elSave && elSave.checked) params.set("save", "true");
+          const url = endpoint(
+            `/api/dfe/conschave/download?${params.toString()}`
+          );
+          try {
+            const r = await fetch(url, {
+              headers: { Accept: "application/json" },
+            });
+            const j = await r.json().catch(() => ({}));
+            if (!r.ok || j.status !== "ok") {
+              elErr.textContent = `Erro ${r.status}: ${
+                j.detail || j.error || "falha na consulta"
+              }`;
+              return;
+            }
+            const xml = j.xml || "";
+            currentBlob = new Blob([xml], {
+              type: "application/xml;charset=utf-8",
+            });
+            currentUrl = URL.createObjectURL(currentBlob);
+            currentMeta = {
+              chave,
+              schema: (j.schema || "").split(".")[0] || "dfe",
+              nsu: j.nsu || null,
+            };
+            elFrame.src = currentUrl;
+          } catch (e) {
+            elErr.textContent = "Erro de rede ao consultar";
+          }
+        });
+
+        elBtnDownload.addEventListener("click", async () => {
+          elErr.textContent = "";
+          if (!currentBlob) {
+            elErr.textContent = "Nenhum XML exibido para baixar.";
+            return;
+          }
+          const chave =
+            currentMeta?.chave || (elCh.value || "").replace(/\D/g, "");
+          const base = currentMeta?.schema || "dfe";
+          const nsu = currentMeta?.nsu ? `-${currentMeta.nsu}` : "";
+          const name = `${chave}-${base}${nsu}.xml`;
+          const url = currentUrl || URL.createObjectURL(currentBlob);
+          try {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+          } catch (e) {
+            elErr.textContent = "Falha ao iniciar o download.";
+          }
+        });
+
+        window.addEventListener("beforeunload", revoke);
+      })();
+
+      // Tabs
+      function activateTab(id) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+      }
+      document.getElementById("tab-todas").addEventListener("click", () => {
+        filtro = "";
+        page = 0;
+        activateTab("tab-todas");
+        load();
+      });
+      document.getElementById("tab-pendentes").addEventListener("click", () => {
+        filtro = "pendentes";
+        page = 0;
+        activateTab("tab-pendentes");
+        load();
+      });
+      document
+        .getElementById("tab-registradas")
+        .addEventListener("click", () => {
+          filtro = "registradas";
+          page = 0;
+          activateTab("tab-registradas");
+          load();
+        });
+      // Paginação
+      document.getElementById("prev").addEventListener("click", () => {
+        if (page > 0) {
+          page -= 1;
+          load();
+        }
+      });
+      document.getElementById("next").addEventListener("click", () => {
+        const total = Number(lastTotal || 0);
+        if ((page + 1) * pageSize < total) {
+          page += 1;
+          load();
+        }
+      });
+      // Busca local (debounced)
+      let qTimer = null;
+      document.getElementById("q").addEventListener("input", () => {
+        clearTimeout(qTimer);
+        qTimer = setTimeout(() => applyFilterAndRender(), 250);
+      });
+    </script>
+  </body>
+</html>
+DFE_CA_BUNDLE=/tmp/sefaz_sp_chain.pem

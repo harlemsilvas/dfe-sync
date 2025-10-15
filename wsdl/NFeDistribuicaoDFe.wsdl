@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe">
+      <xsd:import namespace="http://www.portalfiscal.inf.br/nfe"/>
+    </xsd:schema>
+  </types>
+  <message name="nfeDistDFeInteresseSoapIn">
+    <part name="nfeDistDFeInteresse" element="nfe:distDFeInt" xmlns:nfe="http://www.portalfiscal.inf.br/nfe"/>
+  </message>
+  <message name="nfeDistDFeInteresseSoapOut">
+    <part name="nfeDistDFeInteresseResult" element="nfe:retDistDFeInt" xmlns:nfe="http://www.portalfiscal.inf.br/nfe"/>
+  </message>
+  <portType name="NFeDistribuicaoDFeSoap">
+    <operation name="nfeDistDFeInteresse">
+      <input message="tns:nfeDistDFeInteresseSoapIn"/>
+      <output message="tns:nfeDistDFeInteresseSoapOut"/>
+    </operation>
+  </portType>
+  <binding name="NFeDistribuicaoDFeSoap" type="tns:NFeDistribuicaoDFeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="nfeDistDFeInteresse">
+      <soap:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe/nfeDistDFeInteresse" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="NFeDistribuicaoDFe">
+    <port name="NFeDistribuicaoDFeSoap" binding="tns:NFeDistribuicaoDFeSoap">
+      <soap:address location="https://www.nfe.fazenda.gov.br/ws/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx"/>
+    </port>
+  </service>
+</definitions>

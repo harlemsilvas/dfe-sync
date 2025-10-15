@@ -1,0 +1,887 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+.cabecalho {
+  padding: 0.01em 16px
+}
+
+.topo {
+  position: relative;
+  background-color: #ffffff;
+  height: 85px;
+  padding-top: 20px;
+  line-height: 50px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.titulo {
+  float: left;
+  font-family: Calibri, helvetica;
+  font-weight: bold;
+  color: #0000ff;
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  line-height: 5px;
+  width: 50%;
+  height: inherit;
+}
+
+.imagens_cabecalho {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  width: 50%;
+  height: inherit;
+}
+
+.show_leiaute {
+  display: none;
+}
+
+.show_regras_validacao {
+  display: none;
+}
+
+.show_contingencia {
+  display: none;
+}
+
+.show_danfe {
+  display: none;
+}
+
+.show_anexo {
+  display: none;
+}
+
+.hide_leiaute {
+  display: block;
+}
+
+.hide_danfe {
+  display: block;
+}
+
+.hide_regras_validacao {
+  display: block;
+}
+
+.hide_contingencia {
+  display: block;
+}
+
+@media (max-width:610px) {
+  .imagens_cabecalho {
+    display: none;
+  }
+
+  .titulo {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width:626px) {
+  .show_leiaute {
+    display: block;
+  }
+
+  .hide_leiaute {
+    display: none !important;
+  }
+
+  font-size:2;
+
+}
+
+@media (max-width:840px) {
+  .show_regras_validacao {
+    display: block;
+  }
+
+  .hide_regras_validacao {
+    display: none !important;
+  }
+}
+
+@media (max-width:941px) {
+  .show_danfe {
+    display: block;
+  }
+
+  .hide_danfe {
+    display: none !important;
+  }
+}
+
+@media (max-width:987px) {
+  .show_contingencia {
+    display: block;
+  }
+
+  .hide_contingencia {
+    display: none !important;
+  }
+
+  .show_anexo {
+    display: block !important;
+  }
+}
+
+.linha_superior {
+  padding: 8px 8px;
+  border-bottom: 0;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 4px;
+}
+
+.linha_superior a {
+  text-decoration: none !important;
+  padding: 0 8px;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.linha_superior a:hover {
+  border-bottom: 3px solid #fff
+}
+
+.sombra {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important
+}
+
+.barra_nav {
+  position: relative;
+  z-index: 2;
+  font-size: 17px;
+  background-color: #7F95DF;
+  width: 100%;
+  padding: 0;
+  letter-spacing: 1px;
+}
+
+.barra_nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px 9px 15px !important;
+  border-bottom: none;
+  display: inline-block;
+}
+
+.barra_nav a:hover {
+  border-bottom: none;
+  height: inherit;
+  background-color: #6577b2;
+  color: #ffffff;
+}
+
+.barra_nav a.active {
+  height: inherit;
+  background-color: white;
+  color: #6577b2;
+}
+
+.dropdown {
+  height: inherit;
+  display: inline-block;
+}
+
+.dropdown-content {
+  top: 44px;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#menu_esq {
+  width: 320px;
+  z-index: 9;
+}
+
+#menu_esq ul {
+  padding-left: 10px;
+}
+
+#menu_esq h2 {
+  font-size: 21px;
+  padding-left: 16px;
+  margin: -4px 0 4px 0;
+}
+
+#menu_esq a {
+  display: block;
+  text-decoration: none;
+  color: #014012;
+  padding: 2px 1px 1px 16px;
+  font-size: 14px;
+}
+
+#menu_esq a:hover {
+  background-color: #dddddd;
+  color: #000000;
+}
+
+#menu_esq a.active {
+  background-color: #dddddd;
+  color: #000000;
+  background-color: #cccccc;
+  color: #000000;
+  background-color: #73AD21;
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+#indice {
+  position: fixed;
+  top: 0;
+  padding-top: 112px;
+  padding-bottom: 0;
+  height: 100%;
+  width: 16.66666%;
+  width: 320px;
+  background-color: transparent;
+}
+
+#indice_texto {
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  padding-top: 20px;
+  background-color: #f2f8ff;
+  font-family: Calibri, Helvetica, Arial, sans-serif;
+}
+
+#indice_texto:hover {
+  overflow-y: scroll;
+}
+
+#myInput {
+  background-position: 10px 12px;
+  /* Position the search icon */
+  background-repeat: no-repeat;
+  /* Do not repeat the icon image */
+  width: 100%;
+  /* Full-width */
+  font-size: 16px;
+  /* Increase font-size */
+  padding: 12px 20px 12px 40px;
+  /* Add some padding */
+  border: 1px solid #ddd;
+  /* Add a grey border */
+  margin-bottom: 12px;
+  /* Add some space below the input */
+}
+
+.subtitulo {
+  font-size: 12px;
+}
+
+.texto_normal {
+  font-size: 16px;
+  font-family: Calibri, Georgia, Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  text-indent: 4em;
+}
+
+ul.lista {
+  list-style-type: circle;
+  padding-left: 8em;
+}
+
+ul li {
+  text-indent: 0;
+  font-size: 15px;
+  font-family: Calibri, Georgia, Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif;
+   !important
+}
+
+ol.a {
+  list-style-type: upper-roman;
+  padding-left: 8em;
+}
+
+ol.b {
+  list-style-type: lower-alpha;
+  font-weight: bold;
+}
+
+ol.b li span {
+  font-weight: normal;
+}
+
+ol li {
+  text-indent: 0;
+   !important
+}
+
+ul.disco {
+  list-style-type: disc;
+}
+
+ul.circulo {
+  list-style-type: circle;
+}
+
+#principal {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  background-color: white;
+}
+
+#principal h1 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.corpo {
+  overflow-x: scroll
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.leiaute_nfe, .leiaute_web_services, .regras_validacao_nfe, .regras_validacao_gerais {
+  /*Estabelece a formatação de nome leiaute_nfe*/
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  /*fonte da tabela*/
+  border-collapse: collapse;
+  /*colapsa as bordas entre as diferentes colunas- linhas*/
+  width: 100%;
+  /*oucpação da tabela na janela*/
+}
+
+.tabela_assinatura, .tabela_assinatura th, .tabela_assinatura td {
+  border-collapse: collapse;
+  border-style: hidden;
+
+}
+
+.tabela_assinatura th {
+  background-color: #C0C0C0;
+
+}
+
+.tabela_eventos {
+  width: 50%;
+  margin: auto;
+  border-collapse: collapse;
+
+}
+
+.tabela_eventos th {
+  background-color: #C0C0C0;
+
+}
+
+.tabela_eventos td:nth-child(1) {
+  width: 10%;
+}
+
+.tabela_eventos td:nth-child(2) {
+  width: 35%;
+}
+
+.tabela_eventos td:nth-child(3) {
+  width: 5%;
+}
+
+.tabela_eventos td:nth-child(4) {
+  width: 35%;
+}
+
+.tabela_eventos td:nth-child(5) {
+  width: 15%;
+}
+
+.tabela_regras_genericas {
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  /*fonte da tabela*/
+  border-collapse: collapse;
+  /*colapsa as bordas entre as diferentes colunas- linhas*/
+  width: 600px;
+  /*oucpação da tabela na janela*/
+
+}
+
+.tabela_regras_genericas, .tabela_distribuicao_dfe {
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.tabela_distribuicao_dfe {
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+
+}
+
+.tabela_distribuicao_dfe th {
+  background-color: #B8ABA8;
+
+}
+
+.tabela_distribuicao_dfe td, .tabela_distribuicao_dfe th {
+  border: 1px solid #ddd;
+  padding: 8px;
+
+}
+
+.tabela_regras_genericas td, .tabela_regras_genericas th {
+  border: 1px solid #ddd;
+  padding: 8px;
+
+}
+
+.tabela_gtin td, .tabela_gtin th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.leiaute_nfe td, .leiaute_nfe th, .leiaute_web_services td, .leiaute_web_services th, .regras_validacao_nfe td, .regras_validacao_nfe th, .regras_validacao_gerais td, .regras_validacao_gerais th {
+  /*Estabelece o tamanho e cor da borda tando de uma célula normal (td) quanto da célula do cabeçalho (th)*/
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/*.leiaute_nfe tr:nth-child(even){background-color: #f2f2f2;}*/
+/*Estabelece a cor das células ímpares(even)*/
+.leiaute_nfe tr:hover, .regras_validacao_nfe tr:hover, .leiaute_web_services tr:hover, .regras_validacao_gerais tr:hover, .tabela_gtin tr:hover {
+  background-color: #ddd;
+}
+
+/*hover é a propriedade de se destacar uma linha (tr) da tabela com a cor definida*/
+.linha_grupo {
+  background-color: #87CEFA;
+  font-weight: bold;
+}
+
+.linha_grupo_revogada {
+  background-color: #87CEFA;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
+.linha_revogada {
+  text-decoration: line-through;
+}
+
+.linha_revogada div {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.negrito {
+  font-weight: bold;
+  display: inline;
+}
+
+.imagem_central {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: auto;
+}
+
+.tabela_NSU {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+.recuo {
+  margin-left: 20px;
+  display: inline-block;
+}
+
+.leiaute_nfe th, .leiaute_web_services th, .regras_validacao_nfe th, .regras_validacao_gerais th, .tabela_gtin th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #3366FF;
+  font-weight: bold;
+  color: white;
+}
+
+comentario {
+  text-align: left;
+  font-weight: bold;
+  padding-left: 1%;
+}
+
+.leiaute_nfe td:nth-child(1) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.leiaute_nfe td:nth-child(2) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.leiaute_nfe td:nth-child(3) {
+  width: 10%;
+}
+
+/*Estabelece a largura da célula 3 de todas as linhas (equivalente a coluna 3)*/
+.leiaute_nfe td:nth-child(4) {
+  width: 25%;
+}
+
+/*Estabelece a largura da célula 4 de todas as linhas (equivalente a coluna 4)*/
+.leiaute_nfe td:nth-child(5) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 5 de todas as linhas (equivalente a coluna 5)*/
+.leiaute_nfe td:nth-child(6) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 6 de todas as linhas (equivalente a coluna 6)*/
+.leiaute_nfe td:nth-child(7) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 7)*/
+.leiaute_nfe td:nth-child(8) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 8 de todas as linhas (equivalente a coluna 8)*/
+.leiaute_nfe td:nth-child(9) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 9 de todas as linhas (equivalente a coluna 9)*/
+.leiaute_nfe td:nth-child(10) {
+  width: 30%;
+}
+
+/*Estabelece a largura da célula 10 de todas as linhas (equivalente a coluna 10)*/
+.leiaute_web_services td:nth-child(1) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.leiaute_web_services td:nth-child(2) {
+  width: 15%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.leiaute_web_services td:nth-child(3) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 3 de todas as linhas (equivalente a coluna 3)*/
+.leiaute_web_services td:nth-child(4) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 4 de todas as linhas (equivalente a coluna 4)*/
+.leiaute_web_services td:nth-child(5) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 5 de todas as linhas (equivalente a coluna 5)*/
+.leiaute_web_services td:nth-child(6) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 6 de todas as linhas (equivalente a coluna 6)*/
+.leiaute_web_services td:nth-child(7) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 7)*/
+.leiaute_web_services td:nth-child(8) {
+  width: 65%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 7)*/
+.regras_validacao_nfe td:nth-child(1) {
+  width: 10%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.regras_validacao_nfe td:nth-child(2) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.regras_validacao_nfe td:nth-child(3) {
+  width: 35%;
+}
+
+/*Estabelece a largura da célula 3 de todas as linhas (equivalente a coluna 3)*/
+.regras_validacao_nfe td:nth-child(4) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 4 de todas as linhas (equivalente a coluna 4)*/
+.regras_validacao_nfe td:nth-child(5) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 5 de todas as linhas (equivalente a coluna 5)*/
+.regras_validacao_nfe td:nth-child(6) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 6 de todas as linhas (equivalente a coluna 6)*/
+.regras_validacao_nfe td:nth-child(7) {
+  width: 35%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 7)*/
+.regras_validacao_gerais td:nth-child(1) {
+  width: 10%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.regras_validacao_gerais td:nth-child(2) {
+  width: 35%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.regras_validacao_gerais td:nth-child(3) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 3 de todas as linhas (equivalente a coluna 3)*/
+.regras_validacao_gerais td:nth-child(4) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 4 de todas as linhas (equivalente a coluna 4)*/
+.regras_validacao_gerais td:nth-child(5) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 5 de todas as linhas (equivalente a coluna 5)*/
+.regras_validacao_gerais td:nth-child(6) {
+  width: 40%;
+}
+
+/*Estabelece a largura da célula 6 de todas as linhas (equivalente a coluna 6)*/
+.tributacao_leiaute {
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  /*fonte da tabela*/
+  border-collapse: collapse;
+  /*colapsa as bordas entre as diferentes colunas- linhas*/
+  width: 80%;
+  border: 1px solid black;
+}
+
+.tributacao_leiaute tr, td, th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.tributacao_leiaute th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: gray;
+  font-weight: bold;
+}
+
+.tributacao_leiaute td {
+  text-align: center
+}
+
+;
+
+.tributacao_leiaute td:nth-child(1) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.tributacao_leiaute td:nth-child(2) {
+  width: 10%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.tributacao_leiaute td:nth-child(3) {
+  width: 30%;
+}
+
+/*Estabelece a largura da célula 3 de todas as linhas (equivalente a coluna 3)*/
+.tributacao_leiaute td:nth-child(4) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 4 de todas as linhas (equivalente a coluna 4)*/
+.tributacao_leiaute td:nth-child(5) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 5 de todas as linhas (equivalente a coluna 5)*/
+.tributacao_leiaute td:nth-child(6) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 6 de todas as linhas (equivalente a coluna 6)*/
+.tributacao_leiaute td:nth-child(7) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 7)*/
+.tributacao_leiaute td:nth-child(8) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 8 de todas as linhas (equivalente a coluna 8)*/
+.tributacao_leiaute td:nth-child(9) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 9 de todas as linhas (equivalente a coluna 9)*/
+.tributacao_leiaute td:nth-child(10) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 10)*/
+.tributacao_leiaute td:nth-child(11) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 11)*/
+.tributacao_leiaute td:nth-child(12) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 8 de todas as linhas (equivalente a coluna 12)*/
+.tributacao_leiaute td:nth-child(13) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 9 de todas as linhas (equivalente a coluna 13)*/
+.tributacao_leiaute td:nth-child(14) {
+  width: 5%;
+}
+
+/*Estabelece a largura da célula 7 de todas as linhas (equivalente a coluna 14)*/
+.leiaute_qr_code {
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  /*fonte da tabela*/
+  border-collapse: collapse;
+  /*colapsa as bordas entre as diferentes colunas- linhas*/
+  width: 80%;
+  border: 1px solid black;
+}
+
+.leiaute_qr_code tr, td, th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.leiaute_qr_code th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: gray;
+  font-weight: bold;
+}
+
+.leiaute_qr_code td:nth-child(1) {
+  width: 10%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.leiaute_qr_code td:nth-child(2) {
+  width: 90%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+.tabela_cstat {
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  /*fonte da tabela*/
+  border-collapse: collapse;
+  /*colapsa as bordas entre as diferentes colunas- linhas*/
+  width: 50%;
+  border: 1px solid black;
+}
+
+.tabela_cstat tr, td, th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.tabela_cstat th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: gray;
+  font-weight: bold;
+}
+
+.tabela_cstat td:nth-child(1) {
+  width: 7%;
+}
+
+/*Estabelece a largura da célula 1 de todas as linhas (equivalente a coluna 1)*/
+.tabela_cstat td:nth-child(2) {
+  width: 93%;
+}
+
+/*Estabelece a largura da célula 2 de todas as linhas (equivalente a coluna 2)*/
+titulo_tabela {
+  text-align: left;
+  font-family: Calibri, Arial, "Trebuchet MS", Helvetica, sans-serif;
+  padding-left: 22px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+comentario_titulo {
+  text-align: left;
+  font-family: Calibri, Arial, "Trebuchet MS", Helvetica, sans-serif;
+  padding-left: 22px;
+  font-weight: bold;
+  font-size: 18px;
+  <
+}
+
+subtitulo_pagina {
+  text-align: left;
+  font-family: Calibri, Arial, "Trebuchet MS", Helvetica, sans-serif;
+  padding-left: 22px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sticky_leftmenu {
+  padding-top: 44px;
+}
