@@ -263,12 +263,13 @@ def manifestar_destinatario(
                 raise HTTPException(422, "Certificado PF não suportado para manifestação do destinatário")
         verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
         res = enviar_manifestacao(emp.cnpj, chNFe, tpEvento, nSeq, cert_tuple, verify)
+
         # Persistir resultado no documento mais recente com esta chave (se existir)
+        saved_path = None
         try:
             with SessionLocal() as db:
                 doc = db.execute(select(DFEDocumento).where(DFEDocumento.empresa_id==empresa_id, DFEDocumento.chave==chNFe).order_by(DFEDocumento.id.desc())).scalar_one_or_none()
                 if doc:
-                    xml_path = None
                     try:
                         # salvar XML de resposta se existir
                         resp_xml = res.get("resp_xml")
@@ -279,21 +280,53 @@ def manifestar_destinatario(
                             fname = f"evento_{chNFe}_{tpEvento}_{nSeq}.xml"
                             p = base/fname
                             p.write_text(resp_xml, encoding='utf-8')
-                            xml_path = str(p)
+                            saved_path = str(p)
                     except Exception:
-                        xml_path = None
+                        saved_path = None
                     db.execute(update(DFEDocumento).where(DFEDocumento.id==doc.id).values(
                         manifest_tp=tpEvento,
                         manifest_nseq=nSeq,
                         manifest_cstat=str(res.get("cStat") or ""),
                         manifest_xmotivo=res.get("xMotivo"),
-                        manifest_xml_path=xml_path,
+                        manifest_xml_path=saved_path,
                         manifest_updated_at=__import__("datetime").datetime.utcnow(),
                     ))
                     db.commit()
         except Exception:
             pass
-        return res
+
+        # Resposta HTTP: 2xx somente com sucesso (cStat presente). Caso contrário 4xx/5xx com detalhes.
+        cstat = (res.get("cStat") or "").strip()
+        if cstat:
+            out = {k: res.get(k) for k in ("cStat","xMotivo")}
+            out["saved_path"] = saved_path
+            return out
+
+        # Mapear erro para código HTTP adequado
+        err = (res.get("error") or "").lower()
+        status_code = res.get("status_code")
+        body = res.get("body")
+        meta = {k: res.get(k) for k in ("url","op","soap") if res.get(k)}
+        detail = res.get("detail") or res.get("xMotivo") or "Falha na manifestação"
+
+        # Heurística de status
+        if err == "sign":
+            status = 400
+        elif err in ("http","parse"):
+            status = 502
+        elif isinstance(status_code, int) and 400 <= status_code < 500:
+            status = 424  # dependência remota retornou 4xx
+        else:
+            status = 502
+
+        payload = {"detail": detail, **meta}
+        if isinstance(status_code, int):
+            payload["status_code"] = status_code
+        if body:
+            payload["body"] = body[:1000]
+        if saved_path:
+            payload["saved_path"] = saved_path
+        raise HTTPException(status, payload)
     finally:
         if cert_tuple:
             for p in cert_tuple:
