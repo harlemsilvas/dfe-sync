@@ -27,14 +27,14 @@ dist/
 *.swo
 
 # Secrets & certs (não versionar PFX ou chaves privadas)
-storage/certs/*
+storage/certs/**
 !storage/certs/.gitkeep
 *.pfx
 *.pem
 *.key
 
 # Storage de XML (gerado em runtime)
-storage/xml/*
+storage/xml/**
 !storage/xml/.gitkeep
 
 # CA bundles locais
