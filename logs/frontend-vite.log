@@ -1,0 +1,308 @@
+
+> dfe-sync-admin@1.0.0 dev
+> vite
+
+
+  VITE v5.4.20  ready in 481 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://10.255.255.254:5173/
+  ➜  Network: http://172.29.128.8:5173/
+6:53:41 PM [vite] hmr update /src/App.tsx
+6:53:44 PM [vite] hmr update /src/App.tsx
+6:54:52 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:55:04 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:55:31 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:55:31 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:55:51 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:04 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:09 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:18 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:25 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:32 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+6:56:42 PM [vite] hmr update /src/pages/Classificacao/Classificacao.tsx
+7:00:28 PM [vite] hmr update /src/pages/Cadastros/Empresas.tsx
+7:00:47 PM [vite] hmr update /src/pages/Cadastros/Empresas.tsx
+7:12:20 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:12:50 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:12:57 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:02 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:04 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:20 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:22 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:34 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:13:36 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:01 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:01 PM [vite] Internal server error: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (434:72)
+
+  432 |                               Válido de: {validationResult.dados.valido_de}<br />
+  433 |                               Válido até: {validationResult.dados.valido_ate}
+> 434 |                               {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+      |                                                                         ^
+  435 |                               {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436 |                             </div>
+  437 |                           ) : (
+  Plugin: vite:react-babel
+  File: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx:434:72
+  432|                                Válido de: {validationResult.dados.valido_de}<br />
+  433|                                Válido até: {validationResult.dados.valido_ate}
+  434|                                {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+     |                                                                          ^
+  435|                                {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436|                              </div>
+      at constructor (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4775:18)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOpBaseRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10990:34)
+      at TypeScriptParserMixin.parseExprOpRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10985:21)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10951:27)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9394:18)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10912:17)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.jsxParseExpressionContainer (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4665:31)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4744:36)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:39
+      at TypeScriptParserMixin.tryParse (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6938:20)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:18)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12503:17)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11683:28)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+7:14:01 PM [vite] Internal server error: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (434:72)
+
+  432 |                               Válido de: {validationResult.dados.valido_de}<br />
+  433 |                               Válido até: {validationResult.dados.valido_ate}
+> 434 |                               {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+      |                                                                         ^
+  435 |                               {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436 |                             </div>
+  437 |                           ) : (
+  Plugin: vite:react-babel
+  File: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx:434:72
+  432|                                Válido de: {validationResult.dados.valido_de}<br />
+  433|                                Válido até: {validationResult.dados.valido_ate}
+  434|                                {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+     |                                                                          ^
+  435|                                {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436|                              </div>
+      at constructor (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4775:18)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOpBaseRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10990:34)
+      at TypeScriptParserMixin.parseExprOpRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10985:21)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10951:27)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9394:18)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10912:17)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.jsxParseExpressionContainer (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4665:31)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4744:36)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:39
+      at TypeScriptParserMixin.tryParse (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6938:20)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:18)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12503:17)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11683:28)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+7:14:09 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:09 PM [vite] Internal server error: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (434:72)
+
+  432 |                               Válido de: {validationResult.dados.valido_de}<br />
+  433 |                               Válido até: {validationResult.dados.valido_ate}
+> 434 |                               {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+      |                                                                         ^
+  435 |                               {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436 |                             </div>
+  437 |                           ) : (
+  Plugin: vite:react-babel
+  File: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx:434:72
+  432|                                Válido de: {validationResult.dados.valido_de}<br />
+  433|                                Válido até: {validationResult.dados.valido_ate}
+  434|                                {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+     |                                                                          ^
+  435|                                {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436|                              </div>
+      at constructor (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4775:18)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOpBaseRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10990:34)
+      at TypeScriptParserMixin.parseExprOpRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10985:21)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10951:27)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9394:18)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10912:17)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.jsxParseExpressionContainer (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4665:31)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4744:36)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:39
+      at TypeScriptParserMixin.tryParse (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6938:20)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:18)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12503:17)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11683:28)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+7:14:09 PM [vite] Internal server error: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (434:72)
+
+  432 |                               Válido de: {validationResult.dados.valido_de}<br />
+  433 |                               Válido até: {validationResult.dados.valido_ate}
+> 434 |                               {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+      |                                                                         ^
+  435 |                               {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436 |                             </div>
+  437 |                           ) : (
+  Plugin: vite:react-babel
+  File: /mnt/c/Projetos/dfe-sync/web/src/pages/Cadastros/Certificados.tsx:434:72
+  432|                                Válido de: {validationResult.dados.valido_de}<br />
+  433|                                Válido até: {validationResult.dados.valido_ate}
+  434|                                {validationResult.dados.expirado && <br /><span style={{ color: 'red' }}>⚠️ Certificado expirado</span>}
+     |                                                                          ^
+  435|                                {validationResult.dados.ainda_nao_valido && <br /><span style={{ color: 'orange' }}>⚠️ Certificado ainda não válido</span>}
+  436|                              </div>
+      at constructor (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4775:18)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOpBaseRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10990:34)
+      at TypeScriptParserMixin.parseExprOpRightExpr (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10985:21)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10951:27)
+      at TypeScriptParserMixin.parseExprOp (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9394:18)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10912:17)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.jsxParseExpressionContainer (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4665:31)
+      at TypeScriptParserMixin.jsxParseElementAt (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4744:36)
+      at TypeScriptParserMixin.jsxParseElement (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4782:17)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4792:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10835:21)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:39
+      at TypeScriptParserMixin.tryParse (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:6938:20)
+      at TypeScriptParserMixin.parseMaybeAssign (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9795:18)
+      at /mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:39
+      at TypeScriptParserMixin.allowInAnd (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12436:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10804:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:12503:17)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11683:28)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/mnt/c/Projetos/dfe-sync/web/node_modules/@babel/parser/lib/index.js:10908:23)
+7:14:11 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:13 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:21 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx
+7:14:23 PM [vite] hmr update /src/pages/Cadastros/Certificados.tsx

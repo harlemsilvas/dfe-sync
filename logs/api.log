@@ -1,0 +1,14 @@
+nohup: ignoring input
+INFO:     Started server process [33509]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:40400 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:43816 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46570 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46576 - "GET /api/dfe/cursor?empresa_id=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37256 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:37280 - "GET /api/dfe/cursor?empresa_id=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37290 - "GET /api/documentos?empresa_id=1&limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40214 - "GET /api/dfe/cursor?empresa_id=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48716 - "POST /api/dfe/sync?empresa_id=1 HTTP/1.1" 200 OK

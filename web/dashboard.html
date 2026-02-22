@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFE Classificador - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .table-content {
+            padding: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn-success {
+            background: #48bb78;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .btn-warning {
+            background: #ed8936;
+        }
+
+        .btn-warning:hover {
+            background: #dd7724;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pendente {
+            background-color: #fed7d7;
+            color: #c53030;
+        }
+
+        .status-resolvido {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 DFE Classificador Dashboard</h1>
+        <p>Sistema de Classificação e Organização de Documentos Fiscais</p>
+    </div>
+
+    <div class="container">
+        <!-- Estatísticas -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalArquivos">-</div>
+                <div class="stat-label">Total de Arquivos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalEmpresas">-</div>
+                <div class="stat-label">Empresas Organizadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="operacoesPendentes">-</div>
+                <div class="stat-label">Operações Pendentes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="empresasMonitoradas">-</div>
+                <div class="stat-label">Empresas Monitoradas</div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">📊 Documentos por Tipo</div>
+                <canvas id="tiposChart" width="400" height="200"></canvas>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">📈 Documentos por Empresa</div>
+                <canvas id="empresasChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabela de Operações Pendentes -->
+        <div class="table-container">
+            <div class="table-header">
+                ⏳ Operações Pendentes de Validação
+            </div>
+            <div class="table-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Chave NFe</th>
+                            <th>CNPJ Emissor</th>
+                            <th>CNPJ Destinatário</th>
+                            <th>CFOP</th>
+                            <th>Tipo Sugerido</th>
+                            <th>Motivo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendenciasTable">
+                        <tr>
+                            <td colspan="7" class="loading">Carregando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão de Refresh -->
+    <button class="refresh-btn" onclick="carregarDados()">🔄</button>
+
+    <script>
+        // Configuração da API
+        const API_BASE = 'http://localhost:8001';
+        
+        let tiposChart, empresasChart;
+
+        // Carregar dados iniciais
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDados();
+            // Atualizar a cada 30 segundos
+            setInterval(carregarDados, 30000);
+        });
+
+        async function carregarDados() {
+            try {
+                // Carregar relatório
+                const relatorioResponse = await fetch(`${API_BASE}/relatorio`);
+                const relatorio = await relatorioResponse.json();
+                
+                // Atualizar estatísticas
+                atualizarEstatisticas(relatorio);
+                
+                // Atualizar gráficos
+                atualizarGraficos(relatorio);
+                
+                // Carregar operações pendentes
+                const pendenciasResponse = await fetch(`${API_BASE}/pendencias`);
+                const pendencias = await pendenciasResponse.json();
+                
+                atualizarTabelaPendencias(pendencias);
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                mostrarErro('Erro ao conectar com a API. Verifique se o servidor está rodando.');
+            }
+        }
+
+        function atualizarEstatisticas(relatorio) {
+            document.getElementById('totalArquivos').textContent = relatorio.organizacao?.total_arquivos || 0;
+            document.getElementById('totalEmpresas').textContent = relatorio.organizacao?.total_empresas || 0;
+            document.getElementById('operacoesPendentes').textContent = relatorio.operacoes_pendentes?.length || 0;
+            document.getElementById('empresasMonitoradas').textContent = relatorio.sistema?.empresas_monitoradas || 0;
+        }
+
+        function atualizarGraficos(relatorio) {
+            // Gráfico de tipos de documento
+            if (relatorio.organizacao?.por_tipo) {
+                const tipos = Object.keys(relatorio.organizacao.por_tipo);
+                const valores = Object.values(relatorio.organizacao.por_tipo);
+                
+                if (tiposChart) {
+                    tiposChart.destroy();
+                }
+                
+                const ctx1 = document.getElementById('tiposChart').getContext('2d');
+                tiposChart = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: tipos,
+                        datasets: [{
+                            data: valores,
+                            backgroundColor: [
+                                '#667eea',
+                                '#764ba2', 
+                                '#f093fb',
+                                '#f5576c',
+                                '#4facfe',
+                                '#00f2fe'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de empresas
+            if (relatorio.organizacao?.por_empresa) {
+                const empresas = Object.keys(relatorio.organizacao.por_empresa).slice(0, 5); // Top 5
+                const valores = empresas.map(emp => relatorio.organizacao.por_empresa[emp].total);
+                
+                if (empresasChart) {
+                    empresasChart.destroy();
+                }
+                
+                const ctx2 = document.getElementById('empresasChart').getContext('2d');
+                empresasChart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: empresas.map(emp => emp.split('-')[0].slice(-8) + '...'), // Últimos 8 dígitos do CNPJ
+                        datasets: [{
+                            label: 'Documentos',
+                            data: valores,
+                            backgroundColor: '#667eea',
+                            borderColor: '#5a67d8',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function atualizarTabelaPendencias(pendencias) {
+            const tbody = document.getElementById('pendenciasTable');
+            
+            if (!pendencias || pendencias.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #48bb78;">✅ Nenhuma operação pendente!</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = pendencias.map(pendencia => `
+                <tr>
+                    <td title="${pendencia.chave_nfe}">${pendencia.chave_nfe.substring(0, 10)}...</td>
+                    <td>${pendencia.cnpj_emissor}</td>
+                    <td>${pendencia.cnpj_destinatario}</td>
+                    <td>${pendencia.cfop}</td>
+                    <td><span class="status-badge status-pendente">${pendencia.tipo_sugerido}</span></td>
+                    <td title="${pendencia.motivo_pendencia}">${pendencia.motivo_pendencia.substring(0, 30)}...</td>
+                    <td>
+                        <button class="btn btn-success" onclick="resolverPendencia(${pendencia.id}, 'NFE_ENTRADA')">Entrada</button>
+                        <button class="btn btn-warning" onclick="resolverPendencia(${pendencia.id}, 'NFE_SAIDA')">Saída</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function resolverPendencia(id, tipo) {
+            try {
+                const response = await fetch(`${API_BASE}/pendencias/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tipo_final: tipo,
+                        resolvido_por: 'Dashboard Web'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Pendência resolvida com sucesso!');
+                    carregarDados(); // Recarregar dados
+                } else {
+                    alert('Erro ao resolver pendência');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com a API');
+            }
+        }
+
+        function mostrarErro(mensagem) {
+            document.getElementById('statsGrid').innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; color: #e53e3e; padding: 2rem;">
+                    <h3>⚠️ ${mensagem}</h3>
+                    <p>Certifique-se de que a API está rodando em http://localhost:8001</p>
+                    <button class="btn" onclick="carregarDados()">Tentar Novamente</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

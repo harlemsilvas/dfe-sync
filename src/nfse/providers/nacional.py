@@ -1,7 +1,7 @@
 """
-Adapter da NFS-e Nacional (Gov.br) â€” placeholder.
-Em produÃ§Ã£o: autenticaÃ§Ã£o via OAuth/Client Credentials + endpoints padronizados (adesÃ£o municipal variÃ¡vel).
-Implemente busca por CNPJ e perÃ­odo, download do XML/RPS quando suportado.
+Adapter da NFS-e Nacional (Gov.br) — placeholder.
+Em produção: autenticação via OAuth/Client Credentials + endpoints padronizados (adesão municipal variável).
+Implemente busca por CNPJ e período, download do XML/RPS quando suportado.
 """
 class NFSeNacionalClient:
     def __init__(self, base_url:str, client_id:str, client_secret:str):

@@ -1,0 +1,88 @@
+INFO:     Started server process [22855]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:35898 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35900 - "GET /api/health HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:35906 - "GET /api/cfops HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35914 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35924 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55670 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55678 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42290 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38254 - "POST /api/upload HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:38254 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54198 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54198 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42534 - "GET /api/dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42534 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38690 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38690 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34760 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa2 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:34760 - "GET /api/dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52300 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50538 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59106 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44418 - "GET /api/xmls/nao-classificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46732 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46742 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50662 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36756 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43596 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33762 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:46892 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46902 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:46902 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:46660 - "GET /api/diretorios?caminho=/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49462 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:50420 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:50420 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50420 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa2 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:45738 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa2 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:45738 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa2 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:38270 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45466 - "GET /api/dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45466 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57094 - "GET /api/diretorios?caminho=%2Fdocumentos%2Fempresa1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:47016 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51138 - "GET /api/diretorios?caminho=%2Fhome HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51138 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55678 - "GET /api/diretorios?caminho=%2FwslFFDieC HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55678 - "GET /api/diretorios?caminho=%2FW HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:55678 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55678 - "GET /api/diretorios?caminho=%2Fhome HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55678 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50534 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem%2Fbackups HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50972 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50972 - "GET /api/diretorios?caminho=%2Fhome HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50972 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52418 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52418 - "GET /api/diretorios?caminho=%2Fhome HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52418 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52418 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem%2Fxmls-salvos HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50476 - "OPTIONS /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50476 - "POST /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50476 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54628 - "GET /api/diretorios?caminho=%2F HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54628 - "GET /api/diretorios?caminho=%2Fhome HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54628 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54628 - "GET /api/diretorios?caminho=%2Fhome%2Fharlem%2Fxmls-salvos HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60362 - "POST /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60362 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60362 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60366 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52762 - "OPTIONS /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52762 - "POST /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52762 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33158 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33158 - "GET /api/certificados HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35098 - "GET /api/empresas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60064 - "GET /api/cfops HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33282 - "OPTIONS /api/cfops HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33282 - "POST /api/cfops HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:53304 - "POST /api/cfops HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:51768 - "POST /api/cfops HTTP/1.1" 405 Method Not Allowed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [22855]

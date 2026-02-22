@@ -1,0 +1,350 @@
+import React, { useState, useEffect } from 'react';
+import { adminApi } from '../../api/admin';
+
+interface Certificado {
+  id: number;
+  empresa_id: number;
+  nome_arquivo: string;
+  senha: string;
+  valido_ate: string;
+  ativo: boolean;
+  created_at: string;
+  updated_at?: string;
+  empresa_nome?: string;
+  empresa_cnpj?: string;
+}
+
+export const Certificados: React.FC = () => {
+  const [certificados, setCertificados] = useState<Certificado[]>([]);
+  const [empresas, setEmpresas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingCert, setEditingCert] = useState<Certificado | null>(null);
+  const [formData, setFormData] = useState({
+    empresa_id: 0,
+    nome_arquivo: '',
+    senha: '',
+    valido_ate: '',
+    ativo: true,
+  });
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [certificados, empresas] = await Promise.all([
+        adminApi.getCertificados(),
+        adminApi.getEmpresas()
+      ]);
+      setCertificados(certificados);
+      setEmpresas(empresas);
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validações básicas
+    if (formData.empresa_id === 0) {
+      alert('Por favor, selecione uma empresa');
+      return;
+    }
+    
+    if (!formData.nome_arquivo.trim()) {
+      alert('Por favor, informe o nome do arquivo do certificado');
+      return;
+    }
+    
+    try {
+      if (editingCert) {
+        await adminApi.updateCertificado(editingCert.id, formData);
+        alert('Certificado atualizado com sucesso!');
+      } else {
+        await adminApi.createCertificado(formData);
+        alert('Certificado cadastrado com sucesso!');
+      }
+      await loadData();
+      resetForm();
+    } catch (error: any) {
+      console.error('Erro ao salvar certificado:', error);
+      if (error.response?.status === 409) {
+        alert('Já existe um certificado cadastrado para esta empresa');
+      } else if (error.response?.status === 404) {
+        alert('Empresa não encontrada');
+      } else {
+        alert('Erro ao salvar certificado. Tente novamente.');
+      }
+    }
+  };
+
+  const handleEdit = (cert: Certificado) => {
+    setEditingCert(cert);
+    setFormData({
+      empresa_id: cert.empresa_id,
+      nome_arquivo: cert.nome_arquivo,
+      senha: cert.senha,
+      valido_ate: cert.valido_ate,
+      ativo: cert.ativo,
+    });
+    setShowForm(true);
+  };
+
+  const handleDelete = async (cert: Certificado) => {
+    const empresaNome = cert.empresa_nome || 'N/A';
+    if (confirm(`Tem certeza que deseja excluir o certificado da empresa ${empresaNome}?`)) {
+      try {
+        await adminApi.deleteCertificado(cert.id);
+        alert('Certificado excluído com sucesso!');
+        await loadData();
+      } catch (error: any) {
+        console.error('Erro ao excluir certificado:', error);
+        alert('Erro ao excluir certificado. Tente novamente.');
+      }
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validar extensão do arquivo
+      const validExtensions = ['.pfx', '.p12'];
+      const fileExtension = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
+      
+      if (!validExtensions.includes(fileExtension)) {
+        alert('Arquivo inválido! Use apenas arquivos .pfx ou .p12');
+        e.target.value = '';
+        return;
+      }
+      
+      setFormData({ ...formData, nome_arquivo: file.name });
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      empresa_id: 0,
+      nome_arquivo: '',
+      senha: '',
+      valido_ate: '',
+      ativo: true,
+    });
+    setEditingCert(null);
+    setShowForm(false);
+  };
+
+  const getStatusCertificado = (validoAte: string) => {
+    const hoje = new Date();
+    const vencimento = new Date(validoAte);
+    const diasParaVencer = Math.ceil((vencimento.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diasParaVencer < 0) {
+      return { label: 'Vencido', class: 'badge-danger' };
+    } else if (diasParaVencer <= 30) {
+      return { label: 'Vencendo', class: 'badge-warning' };
+    } else {
+      return { label: 'Válido', class: 'badge-success' };
+    }
+  };
+
+  return (
+    <>
+      <div className="content-header">
+        <h1 className="page-title">Gestão de Certificados</h1>
+        <p className="page-subtitle">Cadastro e gerenciamento de certificados digitais</p>
+      </div>
+      
+      <div className="content-body">
+        <div className="card">
+          <div className="card-header">
+            <h2 className="card-title">Certificados Cadastrados</h2>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => setShowForm(true)}
+            >
+              🔐 Novo Certificado
+            </button>
+          </div>
+          
+          <div className="card-body">
+            {loading ? (
+              <div className="loading">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              <div className="table-responsive">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Empresa</th>
+                      <th>Arquivo</th>
+                      <th>Válido Até</th>
+                      <th>Status</th>
+                      <th>Ativo</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {certificados.map((cert) => {
+                      const status = getStatusCertificado(cert.valido_ate);
+                      return (
+                        <tr key={cert.id}>
+                          <td>
+                            <div>
+                              <strong>{cert.empresa_nome || 'N/A'}</strong>
+                              <br />
+                              <small style={{color: '#666'}}>
+                                CNPJ: {cert.empresa_cnpj || 'N/A'}
+                              </small>
+                            </div>
+                          </td>
+                          <td>{cert.nome_arquivo}</td>
+                          <td>
+                            {cert.valido_ate ? 
+                              new Date(cert.valido_ate).toLocaleDateString('pt-BR') : 
+                              'N/A'
+                            }
+                          </td>
+                          <td>
+                            {cert.valido_ate && (
+                              <span className={`badge ${getStatusCertificado(cert.valido_ate).class}`}>
+                                {getStatusCertificado(cert.valido_ate).label}
+                              </span>
+                            )}
+                          </td>
+                          <td>
+                            <span className={`badge ${cert.ativo ? 'badge-success' : 'badge-danger'}`}>
+                              {cert.ativo ? 'Ativo' : 'Inativo'}
+                            </span>
+                          </td>
+                          <td>
+                            <button 
+                              className="btn btn-sm btn-warning"
+                              onClick={() => handleEdit(cert)}
+                              title="Editar certificado"
+                            >
+                              ✏️
+                            </button>
+                            <button 
+                              className="btn btn-sm btn-danger"
+                              onClick={() => handleDelete(cert)}
+                              style={{ marginLeft: '8px' }}
+                              title="Excluir certificado"
+                            >
+                              🗑️
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {showForm && (
+          <div className="card">
+            <div className="card-header">
+              <h2 className="card-title">
+                {editingCert ? 'Editar Certificado' : 'Novo Certificado'}
+              </h2>
+            </div>
+            <div className="card-body">
+              <form onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <div className="form-col">
+                    <div className="form-group">
+                      <label className="form-label">Empresa *</label>
+                      <select
+                        className="form-control"
+                        value={formData.empresa_id}
+                        onChange={(e) => setFormData({ ...formData, empresa_id: parseInt(e.target.value) })}
+                        required
+                      >
+                        <option value={0}>Selecione uma empresa</option>
+                        {empresas.map((empresa) => (
+                          <option key={empresa.id} value={empresa.id}>
+                            {empresa.razao_social}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-col">
+                    <div className="form-group">
+                      <label className="form-label">Arquivo do Certificado</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        accept=".pfx,.p12"
+                        onChange={handleFileUpload}
+                      />
+                      {formData.nome_arquivo && (
+                        <small style={{ color: '#666' }}>Arquivo: {formData.nome_arquivo}</small>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-col">
+                    <div className="form-group">
+                      <label className="form-label">Senha *</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        value={formData.senha}
+                        onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-col">
+                    <div className="form-group">
+                      <label className="form-label">Válido Até *</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={formData.valido_ate}
+                        onChange={(e) => setFormData({ ...formData, valido_ate: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">
+                    <input
+                      type="checkbox"
+                      checked={formData.ativo}
+                      onChange={(e) => setFormData({ ...formData, ativo: e.target.checked })}
+                      style={{ marginRight: '8px' }}
+                    />
+                    Certificado Ativo
+                  </label>
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                  <button type="button" className="btn btn-secondary" onClick={resetForm}>
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    {editingCert ? 'Atualizar' : 'Cadastrar'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};

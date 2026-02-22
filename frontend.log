@@ -1,0 +1,13 @@
+
+> dfe-sync-admin@1.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+
+  VITE v5.4.20  ready in 2132 ms
+
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://10.255.255.254:5175/
+  ➜  Network: http://172.23.69.14:5175/
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`

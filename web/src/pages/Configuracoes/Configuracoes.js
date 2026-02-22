@@ -1,0 +1,4 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+export const Configuracoes = () => {
+    return (_jsxs(_Fragment, { children: [_jsxs("div", { className: "content-header", children: [_jsx("h1", { className: "page-title", children: "Configura\u00E7\u00F5es" }), _jsx("p", { className: "page-subtitle", children: "Configura\u00E7\u00F5es gerais do sistema" })] }), _jsx("div", { className: "content-body", children: _jsxs("div", { className: "card", children: [_jsx("div", { className: "card-header", children: _jsx("h2", { className: "card-title", children: "Configura\u00E7\u00F5es do Sistema" }) }), _jsx("div", { className: "card-body", children: _jsx("div", { className: "alert alert-info", children: "Painel de configura\u00E7\u00F5es em desenvolvimento..." }) })] }) })] }));
+};

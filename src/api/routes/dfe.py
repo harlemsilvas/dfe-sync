@@ -1,335 +1,200 @@
 from fastapi import APIRouter, HTTPException, Query
-from sqlalchemy import select, update
+from fastapi.responses import FileResponse
+from sqlalchemy import select
+from pathlib import Path
 from src.store.db import SessionLocal
 from src.models import Empresa, Certificado, CursorDFe, DFEDocumento
-from src.cert.pfx_utils import pfx_to_pem_tempfiles, pfx_extract_cnpj_cpf
+from src.cert.pfx_utils import pfx_to_pem_tempfiles
 from src.core.dfe_sync import run_distribution
-import os, certifi
-from src.ws.dfe_client import nfe_distribuicao_dfe, nfe_consultar_nsu, nfe_consultar_chave
 from src.ws.manifest_client import enviar_manifestacao
-from src.settings import settings
+import os, certifi
+import logging
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 def _load_cert_tuple(empresa_id:int):
+    logger.info(f"🔍 Carregando certificado para empresa_id={empresa_id}")
     with SessionLocal() as db:
         cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one_or_none()
         emp  = db.execute(select(Empresa).where(Empresa.id==empresa_id)).scalar_one_or_none()
-        if not emp: raise HTTPException(404,"Empresa nÃ£o encontrada")
-        if not cert: raise HTTPException(400,"Certificado nÃ£o cadastrado")
-        pfx = open(cert.pfx_path,"rb").read()
-        cert_path, key_path = pfx_to_pem_tempfiles(pfx, cert.senha_cripto)
-        return (emp, cert_path, key_path)
+        if not emp: 
+            logger.error(f"❌ Empresa não encontrada: id={empresa_id}")
+            raise HTTPException(404,"Empresa não encontrada")
+        if not cert: 
+            logger.error(f"❌ Certificado não cadastrado para empresa_id={empresa_id}")
+            raise HTTPException(400,"Certificado não cadastrado")
+        
+        # Determinar se é certificado antigo (arquivo) ou novo (BYTEA)
+        if cert.pfx_path and os.path.exists(cert.pfx_path):
+            # Certificado antigo - arquivo no disco
+            logger.info(f"📄 Certificado arquivo encontrado: pfx_path={cert.pfx_path}")
+            pfx_size = os.path.getsize(cert.pfx_path)
+            logger.info(f"📦 Arquivo PFX: tamanho={pfx_size} bytes")
+            pfx = open(cert.pfx_path,"rb").read()
+            senha = cert.senha_cripto
+        elif cert.pfx_file and cert.pfx_password_encrypted:
+            # Certificado novo - BYTEA no banco com senha criptografada
+            logger.info(f"📄 Certificado BYTEA encontrado: tamanho={len(cert.pfx_file)} bytes")
+            pfx = cert.pfx_file
+            
+            # Descriptografar senha usando a mesma lógica do CRUD
+            from src.crud.certificados import decrypt_password
+            senha = decrypt_password(cert.pfx_password_encrypted)
+        else:
+            logger.error(f"❌ Certificado sem dados válidos: pfx_path={cert.pfx_path}, pfx_file={'presente' if cert.pfx_file else 'ausente'}")
+            raise HTTPException(400, "Certificado sem dados válidos")
+        
+        logger.info(f"🔐 Tentando extrair certificado e chave privada")
+        
+        try:
+            cert_path, key_path = pfx_to_pem_tempfiles(pfx, senha)
+            logger.info(f"✅ Certificado extraído: cert={cert_path}, key={key_path}")
+            return (emp, cert_path, key_path)
+        except Exception as e:
+            logger.error(f"❌ Erro ao extrair certificado: {e}")
+            raise HTTPException(500, f"Erro ao processar certificado: {str(e)}")
 
 @router.get("/dfe/cursor")
 def get_cursor(empresa_id:int=Query(...)):
     with SessionLocal() as db:
         cur = db.execute(select(CursorDFe).where(CursorDFe.empresa_id==empresa_id)).scalar_one_or_none()
-        if not cur: raise HTTPException(404,"Cursor nÃ£o encontrado")
+        if not cur: raise HTTPException(404,"Cursor não encontrado")
         return {"empresa_id":empresa_id,"ultimo_nsu":cur.ultimo_nsu,"max_nsu":cur.max_nsu,"updated_at":str(cur.updated_at)}
 
 @router.post("/dfe/sync")
 def sync_now(empresa_id:int=Query(...)):
+    logger.info(f"🚀 Iniciando sincronização para empresa_id={empresa_id}")
     cert_tuple = None
     try:
         emp, cert_path, key_path = _load_cert_tuple(empresa_id)
         cert_tuple = (cert_path, key_path)
-        # Validação H04/H05: CNPJ consultado deve bater com CNPJ-base do certificado (usando PFX original)
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ":
-                if (emp.cnpj or '').strip()[:8] != (doc or '')[:8]:
-                    raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-            elif tipo == "CPF":
-                raise HTTPException(422, "Certificado PF não suportado neste endpoint")
-        verify = certifi.where()  # ou bundle ICP-Brasil
+        verify = certifi.where()
+        logger.info(f"🔒 Usando bundle CA: {verify}")
+        logger.info(f"📡 Chamando serviço de distribuição DFe...")
         res = run_distribution(emp.id, emp.cnpj, cert_tuple, verify)
+        logger.info(f"✅ Sincronização concluída: {res}")
         return res
+    except Exception as e:
+        logger.error(f"❌ Erro na sincronização: {e}", exc_info=True)
+        raise
     finally:
         if cert_tuple:
             for p in cert_tuple:
                 try:
-                    if p and os.path.exists(p): os.remove(p)
-                except: pass
-
-@router.get("/dfe/diagnose")
-def diagnose(empresa_id:int=Query(...), ult_nsu:str=Query("000000000000000")):
-    """Executa UMA chamada ao serviço de distribuição para diagnóstico sem loop.
-    Retorna cStat, xMotivo, ultNSU, maxNSU, quantidade de docs e tempo.
-    """
-    cert_tuple = None
-    try:
-        emp, cert_path, key_path = _load_cert_tuple(empresa_id)
-        cert_tuple = (cert_path, key_path)
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ" and (emp.cnpj or '')[:8] != (doc or '')[:8]:
-                raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-        verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
-        res = nfe_distribuicao_dfe(emp.cnpj, ult_nsu, cert_tuple, verify)
-        if 'error' in res:
-            raise HTTPException(502, f"Erro chamada WS: {res.get('detail')}")
-        docs = res.get("docs") or []
-        by_schema = {}
-        for d in docs:
-            sch = d.get("schema") or "?"
-            by_schema[sch] = by_schema.get(sch, 0) + 1
-        return {
-            "cStat":res.get("cStat"),
-            "xMotivo":res.get("xMotivo"),
-            "ultNSU":res.get("ultNSU"),
-            "maxNSU":res.get("maxNSU"),
-            "docs_count": len(docs),
-            "by_schema": by_schema,
-            "elapsed": res.get("elapsed")
-        }
-    finally:
-        if cert_tuple:
-            for p in cert_tuple:
-                try:
-                    if p and os.path.exists(p): os.remove(p)
-                except: pass
-
-@router.get("/dfe/consnsu")
-def cons_nsu(empresa_id:int=Query(...), nsu:str=Query(...)):
-    """Consulta pontual por NSU faltante (consNSU), conforme NT 2014/002.
-    Retorna cStat, xMotivo e, se localizado, o(s) documento(s) em docZip (decodificados) com schema e NSU.
-    """
-    cert_tuple = None
-    try:
-        emp, cert_path, key_path = _load_cert_tuple(empresa_id)
-        cert_tuple = (cert_path, key_path)
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ" and (emp.cnpj or '')[:8] != (doc or '')[:8]:
-                raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-        verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
-        res = nfe_consultar_nsu(emp.cnpj, nsu, cert_tuple, verify)
-        if 'error' in res:
-            raise HTTPException(502, f"Erro chamada WS: {res.get('detail')}")
-        # não retornar XML completo no corpo para evitar payload grande; retornar apenas metadados
-        meta = [{"nsu": d.get("nsu"), "schema": d.get("schema"), "xml_size": len(d.get("xml") or b"")} for d in (res.get("docs") or [])]
-        return {
-            "cStat": res.get("cStat"),
-            "xMotivo": res.get("xMotivo"),
-            "ultNSU": res.get("ultNSU"),
-            "maxNSU": res.get("maxNSU"),
-            "docs": meta,
-            "elapsed": res.get("elapsed"),
-        }
-    finally:
-        if cert_tuple:
-            for p in cert_tuple:
-                try:
-                    if p and os.path.exists(p): os.remove(p)
-                except: pass
-
-@router.get("/dfe/conschave")
-def cons_chave(empresa_id:int=Query(...), chNFe:str=Query(..., min_length=44, max_length=44)):
-    """Consulta por chave específica (consChNFe) e retorna metadados e tamanhos dos XMLs."""
-    cert_tuple = None
-    try:
-        emp, cert_path, key_path = _load_cert_tuple(empresa_id)
-        cert_tuple = (cert_path, key_path)
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ" and (emp.cnpj or '')[:8] != (doc or '')[:8]:
-                raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-        verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
-        res = nfe_consultar_chave(emp.cnpj, chNFe, cert_tuple, verify)
-        if 'error' in res:
-            raise HTTPException(502, f"Erro chamada WS: {res.get('detail')}")
-        meta = [{"nsu": d.get("nsu"), "schema": d.get("schema"), "xml_size": len(d.get("xml") or b"")} for d in (res.get("docs") or [])]
-        return {
-            "cStat": res.get("cStat"),
-            "xMotivo": res.get("xMotivo"),
-            "ultNSU": res.get("ultNSU"),
-            "maxNSU": res.get("maxNSU"),
-            "docs": meta,
-            "elapsed": res.get("elapsed"),
-        }
-    finally:
-        if cert_tuple:
-            for p in cert_tuple:
-                try:
-                    if p and os.path.exists(p): os.remove(p)
+                    if p and os.path.exists(p): 
+                        os.remove(p)
+                        logger.debug(f"🗑️ Arquivo temporário removido: {p}")
                 except: pass
 
 @router.get("/dfe/conschave/download")
-def cons_chave_download(
-    empresa_id:int=Query(...),
-    chNFe:str=Query(..., min_length=44, max_length=44),
-    prefer:str=Query("procNFe", description="Prefixo preferido do schema: procNFe|resNFe|resEvento"),
-    save:bool=Query(False, description="Se true, salva XML no storage e retorna saved_path")
+def download_by_chave(
+    empresa_id: int = Query(...),
+    chNFe: str = Query(...),
+    prefer: str = Query("procNFe")  # procNFe, resNFe, resEvento, procEvento
 ):
-    """Consulta por chave e retorna o XML (preferência de schema) como texto; opcionalmente salva no storage."""
-    cert_tuple = None
-    try:
-        emp, cert_path, key_path = _load_cert_tuple(empresa_id)
-        cert_tuple = (cert_path, key_path)
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ" and (emp.cnpj or '')[:8] != (doc or '')[:8]:
-                raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-        verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
-        res = nfe_consultar_chave(emp.cnpj, chNFe, cert_tuple, verify)
-        if 'error' in res:
-            raise HTTPException(502, f"Erro chamada WS: {res.get('detail')}")
-        docs = res.get("docs") or []
+    """
+    Baixa XML de um documento específico pela chave de acesso.
+    Retorna o arquivo XML encontrado, priorizando o tipo solicitado.
+    """
+    with SessionLocal() as db:
+        # Buscar documentos com essa chave
+        docs = db.execute(
+            select(DFEDocumento)
+            .where(DFEDocumento.empresa_id == empresa_id)
+            .where(DFEDocumento.chave == chNFe)
+            .order_by(DFEDocumento.id.desc())
+        ).scalars().all()
+        
         if not docs:
-            raise HTTPException(404, "Nenhum documento localizado para a chave")
-        # seleção por preferência
-        preferred = (prefer or '').strip()
-        chosen = None
-        if preferred:
-            for d in docs:
-                if (d.get("schema") or '').startswith(preferred):
-                    chosen = d; break
-        # fallback: procNFe -> resNFe -> primeiro
-        if chosen is None:
-            for pref in ("procNFe","resNFe","resEvento"):
-                for d in docs:
-                    if (d.get("schema") or '').startswith(pref):
-                        chosen = d; break
-                if chosen is not None:
-                    break
-        if chosen is None:
-            chosen = docs[0]
-        xml_bytes = chosen.get("xml") or b""
-        try:
-            txt = xml_bytes.decode('utf-8')
-        except UnicodeDecodeError:
-            txt = xml_bytes.decode('latin-1', errors='ignore')
-        saved_path = None
-        if save:
-            try:
-                from pathlib import Path
-                base = Path(settings.STORAGE_BASE_PATH)/emp.cnpj
-                base.mkdir(parents=True, exist_ok=True)
-                safe_schema = (chosen.get("schema") or "").split(".")[0]
-                fname = f"{chNFe}-{safe_schema}-{chosen.get('nsu') or 'nsu'}.xml"
-                p = base/fname
-                p.write_text(txt, encoding='utf-8')
-                saved_path = str(p)
-            except Exception as e:
-                # não falhar download por erro de I/O; apenas não retornar saved_path
-                saved_path = None
-        return {
-            "status":"ok",
-            "schema": chosen.get("schema"),
-            "nsu": chosen.get("nsu"),
-            "preferred": preferred or None,
-            "saved_path": saved_path,
-            "xml": txt,
-        }
-    finally:
-        if cert_tuple:
-            for p in cert_tuple:
-                try:
-                    if p and os.path.exists(p): os.remove(p)
-                except: pass
+            raise HTTPException(404, f"Nenhum documento encontrado para chave {chNFe}")
+        
+        # Tentar encontrar o tipo preferido
+        preferred_doc = None
+        for doc in docs:
+            if prefer in doc.schema:
+                preferred_doc = doc
+                break
+        
+        # Se não encontrou o preferido, pega o primeiro
+        if not preferred_doc:
+            preferred_doc = docs[0]
+        
+        # Verificar se arquivo existe
+        xml_path = Path(preferred_doc.caminho_xml)
+        if not xml_path.exists():
+            raise HTTPException(404, f"Arquivo XML não encontrado: {xml_path}")
+        
+        # Retornar arquivo
+        return FileResponse(
+            path=xml_path,
+            media_type="application/xml",
+            filename=xml_path.name
+        )
 
 @router.post("/dfe/manifestar")
-def manifestar_destinatario(
-    empresa_id:int=Query(...),
-    chNFe:str=Query(..., min_length=44, max_length=44),
-    tpEvento:str=Query(..., description="210210=Ciencia, 210200=Confirmacao, 210220=Desconhecimento, 210240=Operacao nao Realizada"),
-    nSeq:int=Query(1),
-    justificativa:str|None=Query(None)
+def manifestar(
+    empresa_id: int = Query(...),
+    chNFe: str = Query(..., min_length=44, max_length=44),
+    tpEvento: str = Query(...),  # 210200, 210210, 210220, 210240
+    nSeq: int = Query(1)
 ):
-    """Envia manifestação do destinatário (RecepcaoEvento 4.00). Requer certificado A1 da empresa."""
+    """
+    Envia evento de manifestação do destinatário para a SEFAZ.
+    
+    Tipos de evento:
+    - 210200: Confirmação da Operação
+    - 210210: Ciência da Operação
+    - 210220: Desconhecimento da Operação
+    - 210240: Operação não Realizada
+    """
+    logger.info(f"📝 Manifestação: empresa_id={empresa_id}, chNFe={chNFe}, tpEvento={tpEvento}, nSeq={nSeq}")
+    
     cert_tuple = None
     try:
         emp, cert_path, key_path = _load_cert_tuple(empresa_id)
         cert_tuple = (cert_path, key_path)
-        # Valida CNPJ-base conforme H04
-        with SessionLocal() as db:
-            cert = db.execute(select(Certificado).where(Certificado.empresa_id==empresa_id)).scalar_one()
-            pfx_bytes = open(cert.pfx_path,'rb').read()
-            tipo, doc = pfx_extract_cnpj_cpf(pfx_bytes, cert.senha_cripto)
-            if tipo == "CNPJ" and (emp.cnpj or '')[:8] != (doc or '')[:8]:
-                raise HTTPException(422, "CNPJ consultado difere do CNPJ-base do certificado (H04)")
-            if tipo == "CPF":
-                raise HTTPException(422, "Certificado PF não suportado para manifestação do destinatário")
-        verify = settings.DFE_CA_BUNDLE if settings.DFE_CA_BUNDLE else certifi.where()
-        res = enviar_manifestacao(emp.cnpj, chNFe, tpEvento, nSeq, cert_tuple, verify)
-
-        # Persistir resultado no documento mais recente com esta chave (se existir)
-        saved_path = None
-        try:
-            with SessionLocal() as db:
-                doc = db.execute(select(DFEDocumento).where(DFEDocumento.empresa_id==empresa_id, DFEDocumento.chave==chNFe).order_by(DFEDocumento.id.desc())).scalar_one_or_none()
-                if doc:
-                    try:
-                        # salvar XML de resposta se existir
-                        resp_xml = res.get("resp_xml")
-                        if resp_xml:
-                            from pathlib import Path
-                            base = Path(settings.STORAGE_BASE_PATH)/emp.cnpj
-                            base.mkdir(parents=True, exist_ok=True)
-                            fname = f"evento_{chNFe}_{tpEvento}_{nSeq}.xml"
-                            p = base/fname
-                            p.write_text(resp_xml, encoding='utf-8')
-                            saved_path = str(p)
-                    except Exception:
-                        saved_path = None
-                    db.execute(update(DFEDocumento).where(DFEDocumento.id==doc.id).values(
-                        manifest_tp=tpEvento,
-                        manifest_nseq=nSeq,
-                        manifest_cstat=str(res.get("cStat") or ""),
-                        manifest_xmotivo=res.get("xMotivo"),
-                        manifest_xml_path=saved_path,
-                        manifest_updated_at=__import__("datetime").datetime.utcnow(),
-                    ))
-                    db.commit()
-        except Exception:
-            pass
-
-        # Resposta HTTP: 2xx somente com sucesso (cStat presente). Caso contrário 4xx/5xx com detalhes.
-        cstat = (res.get("cStat") or "").strip()
-        if cstat:
-            out = {k: res.get(k) for k in ("cStat","xMotivo")}
-            out["saved_path"] = saved_path
-            return out
-
-        # Mapear erro para código HTTP adequado
-        err = (res.get("error") or "").lower()
-        status_code = res.get("status_code")
-        body = res.get("body")
-        meta = {k: res.get(k) for k in ("url","op","soap") if res.get(k)}
-        detail = res.get("detail") or res.get("xMotivo") or "Falha na manifestação"
-
-        # Heurística de status
-        if err == "sign":
-            status = 400
-        elif err in ("http","parse"):
-            status = 502
-        elif isinstance(status_code, int) and 400 <= status_code < 500:
-            status = 424  # dependência remota retornou 4xx
+        
+        # Remover formatação do CNPJ
+        cnpj = ''.join(c for c in emp.cnpj if c.isdigit())
+        
+        logger.info(f"📡 Enviando manifestação para SEFAZ...")
+        result = enviar_manifestacao(
+            cnpj=cnpj,
+            chNFe=chNFe,
+            tpEvento=tpEvento,
+            nSeq=nSeq,
+            cert_tuple=cert_tuple,
+            verify_ca=certifi.where()
+        )
+        
+        logger.info(f"📨 Resposta SEFAZ: {result}")
+        
+        # Verificar se houve sucesso
+        if 'error' in result:
+            logger.error(f"❌ Erro na manifestação: {result}")
+            raise HTTPException(500, f"Erro ao enviar manifestação: {result.get('error')} - {result.get('detail', '')}")
+        
+        # Verificar cStat
+        cStat = result.get('cStat')
+        if cStat in ['135', '136']:  # 135=Evento registrado, 136=Evento já registrado
+            logger.info(f"✅ Manifestação enviada com sucesso: {cStat}")
         else:
-            status = 502
-
-        payload = {"detail": detail, **meta}
-        if isinstance(status_code, int):
-            payload["status_code"] = status_code
-        if body:
-            payload["body"] = body[:1000]
-        if saved_path:
-            payload["saved_path"] = saved_path
-        raise HTTPException(status, payload)
+            logger.warning(f"⚠️ Manifestação com status diferente: {cStat} - {result.get('xMotivo')}")
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Erro ao processar manifestação: {e}", exc_info=True)
+        raise HTTPException(500, f"Erro ao processar manifestação: {str(e)}")
     finally:
         if cert_tuple:
             for p in cert_tuple:
                 try:
-                    if p and os.path.exists(p): os.remove(p)
-                except: pass
+                    if p and os.path.exists(p):
+                        os.remove(p)
+                        logger.debug(f"🗑️ Certificado temporário removido: {p}")
+                except:
+                    pass

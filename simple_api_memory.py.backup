@@ -1,0 +1,627 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import logging
+import os
+from pathlib import Path
+from typing import List, Dict, Any
+import json
+from datetime import datetime
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.serialization import pkcs12
+from cryptography.x509 import Certificate
+import tempfile
+import base64
+
+# Modelos Pydantic
+class EmpresaCreate(BaseModel):
+    cnpj: str
+    razao_social: str
+    nome_fantasia: str = ""
+    monitorada: bool = True
+    pasta_origem: str = ""
+    ativo: bool = True
+
+class CertificadoCreate(BaseModel):
+    empresa_id: int
+    nome_arquivo: str
+    senha: str
+    arquivo_base64: str = ""  # Arquivo em base64 para validação
+    valido_ate: str = ""  # Será extraído automaticamente do certificado
+    ativo: bool = True
+
+# Armazenamento em memória (simulando banco de dados)
+EMPRESAS_DB: List[Dict[str, Any]] = [
+    {
+        "id": 1, 
+        "cnpj": "12345678000199", 
+        "razao_social": "Empresa Exemplo LTDA", 
+        "nome_fantasia": "Exemplo Corp",
+        "monitorada": True,
+        "ativo": True,
+        "pasta_origem": "/documentos/empresa1",
+        "created_at": "2024-10-15T10:00:00Z",
+        "updated_at": "2024-11-16T15:30:00Z"
+    },
+    {
+        "id": 2, 
+        "cnpj": "98765432000111", 
+        "razao_social": "Comercial Beta S/A", 
+        "nome_fantasia": "Beta Commerce",
+        "monitorada": False,
+        "ativo": True,
+        "pasta_origem": "/documentos/empresa2",
+        "created_at": "2024-09-20T14:20:00Z",
+        "updated_at": "2024-11-10T09:15:00Z"
+    }
+]
+
+# Armazenamento para certificados
+CERTIFICADOS_DB: List[Dict[str, Any]] = [
+    {
+        "id": 1,
+        "empresa_id": 1,
+        "nome_arquivo": "certificado_empresa1.pfx",
+        "senha": "*****",
+        "valido_ate": "2025-12-31",
+        "ativo": True,
+        "created_at": "2024-10-15T10:00:00Z",
+        "updated_at": "2024-11-16T15:30:00Z"
+    },
+    {
+        "id": 2,
+        "empresa_id": 2,
+        "nome_arquivo": "cert_beta_commerce.pfx",
+        "senha": "*****",
+        "valido_ate": "2025-06-30",
+        "ativo": True,
+        "created_at": "2024-09-20T14:20:00Z",
+        "updated_at": "2024-11-10T09:15:00Z"
+    }
+]
+
+# Contadores para IDs
+NEXT_EMPRESA_ID = 3
+NEXT_CERTIFICADO_ID = 3
+
+# Funções utilitárias
+def get_current_timestamp():
+    return datetime.now().isoformat() + "Z"
+
+def find_empresa_by_id(empresa_id: int):
+    return next((emp for emp in EMPRESAS_DB if emp["id"] == empresa_id), None)
+
+def find_certificado_by_id(certificado_id: int):
+    return next((cert for cert in CERTIFICADOS_DB if cert["id"] == certificado_id), None)
+
+def validate_cnpj(cnpj: str) -> str:
+    """Remove caracteres não numéricos do CNPJ"""
+    return ''.join(filter(str.isdigit, cnpj))
+
+def validate_certificate(file_content: bytes, password: str) -> dict:
+    """
+    Valida um certificado digital .pfx/.p12 e extrai informações
+    Retorna: {
+        'valid': bool,
+        'subject': str,
+        'issuer': str, 
+        'serial_number': str,
+        'not_before': str,
+        'not_after': str,
+        'error': str (se houver erro)
+    }
+    """
+    try:
+        # Tentar carregar o certificado PKCS#12
+        private_key, certificate, additional_certificates = pkcs12.load_key_and_certificates(
+            file_content, password.encode('utf-8')
+        )
+        
+        if certificate is None:
+            return {
+                'valid': False,
+                'error': 'Certificado não encontrado no arquivo'
+            }
+        
+        # Extrair informações do certificado
+        subject = certificate.subject.rfc4514_string()
+        issuer = certificate.issuer.rfc4514_string()
+        serial_number = str(certificate.serial_number)
+        not_before = certificate.not_valid_before.isoformat()
+        not_after = certificate.not_valid_after.isoformat()
+        
+        # Verificar se o certificado está dentro da validade
+        now = datetime.now()
+        is_expired = certificate.not_valid_after < now
+        is_not_yet_valid = certificate.not_valid_before > now
+        
+        return {
+            'valid': True,
+            'subject': subject,
+            'issuer': issuer,
+            'serial_number': serial_number,
+            'not_before': not_before,
+            'not_after': not_after,
+            'is_expired': is_expired,
+            'is_not_yet_valid': is_not_yet_valid
+        }
+        
+    except ValueError as e:
+        if "Invalid password" in str(e) or "could not deserialize" in str(e):
+            return {
+                'valid': False,
+                'error': 'Senha do certificado incorreta'
+            }
+        else:
+            return {
+                'valid': False,
+                'error': f'Erro ao processar certificado: {str(e)}'
+            }
+    except Exception as e:
+        return {
+            'valid': False,
+            'error': f'Erro inesperado: {str(e)}'
+        }
+
+def create_temp_certificate_file(base64_content: str) -> str:
+    """Cria arquivo temporário com o conteúdo do certificado em base64"""
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pfx')
+    
+    try:
+        # Decodifica o base64
+        if ',' in base64_content:
+            # Remove o prefixo "data:application/x-pkcs12;base64," se existir
+            base64_content = base64_content.split(',')[1]
+        
+        certificate_data = base64.b64decode(base64_content)
+        temp_file.write(certificate_data)
+        temp_file.flush()
+        return temp_file.name
+    finally:
+        temp_file.close()
+
+def validate_certificate(senha: str, arquivo_base64: str) -> dict:
+    """Valida certificado PFX/P12 com senha e extrai informações"""
+    
+    temp_file_path = None
+    try:
+        # Cria arquivo temporário
+        temp_file_path = create_temp_certificate_file(arquivo_base64)
+        
+        # Lê o arquivo do certificado
+        with open(temp_file_path, 'rb') as f:
+            pfx_data = f.read()
+        
+        # Tenta carregar o certificado com a senha
+        try:
+            private_key, certificate, additional_certificates = pkcs12.load_key_and_certificates(
+                pfx_data, 
+                senha.encode('utf-8')
+            )
+        except ValueError as e:
+            if "invalid" in str(e).lower() or "password" in str(e).lower():
+                return {
+                    "valido": False,
+                    "erro": "Senha do certificado inválida",
+                    "detalhes": str(e)
+                }
+            else:
+                return {
+                    "valido": False,
+                    "erro": "Erro ao processar certificado",
+                    "detalhes": str(e)
+                }
+        
+        # Extrai informações do certificado
+        subject = certificate.subject
+        issuer = certificate.issuer
+        
+        # Extrai CN (Common Name) do subject
+        cn = None
+        for attribute in subject:
+            if attribute.oid._name == 'commonName':
+                cn = attribute.value
+                break
+        
+        # Extrai datas de validade
+        valid_from = certificate.not_valid_before
+        valid_until = certificate.not_valid_after
+        
+        # Verifica se o certificado ainda está válido
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        is_expired = now > valid_until
+        is_not_yet_valid = now < valid_from
+        
+        return {
+            "valido": True,
+            "cn": cn,
+            "emissor": str(issuer),
+            "valido_de": valid_from.strftime("%Y-%m-%d %H:%M:%S"),
+            "valido_ate": valid_until.strftime("%Y-%m-%d %H:%M:%S"),
+            "expirado": is_expired,
+            "ainda_nao_valido": is_not_yet_valid,
+            "ativo": not is_expired and not is_not_yet_valid
+        }
+        
+    except Exception as e:
+        return {
+            "valido": False,
+            "erro": "Erro inesperado ao validar certificado",
+            "detalhes": str(e)
+        }
+    finally:
+        # Remove arquivo temporário
+        if temp_file_path and os.path.exists(temp_file_path):
+            os.unlink(temp_file_path)
+
+app = FastAPI(title="DF-e Sync Admin API", version="1.0.0")
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "message": "API está funcionando!"}
+
+@app.get("/")
+def root():
+    return {"message": "API DF-e Sync funcionando!"}
+
+@app.get("/api/empresas")
+async def list_empresas():
+    """Lista empresas do armazenamento em memória"""
+    return EMPRESAS_DB
+
+@app.post("/api/empresas")
+async def create_empresa(empresa: EmpresaCreate):
+    """Criar nova empresa no armazenamento"""
+    global NEXT_EMPRESA_ID
+    
+    # Validar CNPJ
+    cnpj_clean = validate_cnpj(empresa.cnpj)
+    if len(cnpj_clean) != 14:
+        raise HTTPException(400, "CNPJ deve ter 14 dígitos")
+    
+    # Verificar se CNPJ já existe
+    if any(emp["cnpj"] == cnpj_clean for emp in EMPRESAS_DB):
+        raise HTTPException(409, "CNPJ já cadastrado")
+    
+    # Criar nova empresa
+    nova_empresa = {
+        "id": NEXT_EMPRESA_ID,
+        "cnpj": cnpj_clean,
+        "razao_social": empresa.razao_social,
+        "nome_fantasia": empresa.nome_fantasia,
+        "monitorada": empresa.monitorada,
+        "ativo": empresa.ativo,
+        "pasta_origem": empresa.pasta_origem,
+        "created_at": get_current_timestamp(),
+        "updated_at": get_current_timestamp()
+    }
+    
+    EMPRESAS_DB.append(nova_empresa)
+    NEXT_EMPRESA_ID += 1
+    
+    return nova_empresa
+
+@app.put("/api/empresas/{empresa_id}")
+async def update_empresa(empresa_id: int, empresa: EmpresaCreate):
+    """Atualizar empresa existente"""
+    # Encontrar empresa
+    empresa_existente = find_empresa_by_id(empresa_id)
+    if not empresa_existente:
+        raise HTTPException(404, f"Empresa {empresa_id} não encontrada")
+    
+    # Validar CNPJ
+    cnpj_clean = validate_cnpj(empresa.cnpj)
+    if len(cnpj_clean) != 14:
+        raise HTTPException(400, "CNPJ deve ter 14 dígitos")
+    
+    # Verificar se CNPJ já existe em outra empresa
+    cnpj_existente = any(emp["cnpj"] == cnpj_clean and emp["id"] != empresa_id for emp in EMPRESAS_DB)
+    if cnpj_existente:
+        raise HTTPException(409, "CNPJ já está sendo usado por outra empresa")
+    
+    # Atualizar dados
+    empresa_existente.update({
+        "cnpj": cnpj_clean,
+        "razao_social": empresa.razao_social,
+        "nome_fantasia": empresa.nome_fantasia,
+        "monitorada": empresa.monitorada,
+        "ativo": empresa.ativo,
+        "pasta_origem": empresa.pasta_origem,
+        "updated_at": get_current_timestamp()
+    })
+    
+    return empresa_existente
+
+@app.delete("/api/empresas/{empresa_id}")
+async def delete_empresa(empresa_id: int):
+    """Excluir empresa"""
+    global EMPRESAS_DB
+    
+    # Encontrar empresa
+    empresa_existente = find_empresa_by_id(empresa_id)
+    if not empresa_existente:
+        raise HTTPException(404, f"Empresa {empresa_id} não encontrada")
+    
+    # Remover empresa
+    EMPRESAS_DB = [emp for emp in EMPRESAS_DB if emp["id"] != empresa_id]
+    
+    return {
+        "message": f"Empresa {empresa_existente['razao_social']} (ID: {empresa_id}) excluída com sucesso",
+        "empresa_excluida": empresa_existente
+    }
+
+@app.get("/api/diretorios")
+async def buscar_diretorios(caminho: str = "/"):
+    """Buscar diretórios no sistema de arquivos"""
+    try:
+        # Resolver caminho
+        if caminho == "/":
+            base_path = Path("/")
+        else:
+            base_path = Path(caminho)
+            
+        # Verificar se o caminho existe
+        if not base_path.exists():
+            raise HTTPException(404, f"Caminho '{caminho}' não encontrado")
+            
+        if not base_path.is_dir():
+            raise HTTPException(400, f"'{caminho}' não é um diretório")
+        
+        # Listar diretórios
+        diretorios = []
+        arquivos = []
+        
+        try:
+            for item in base_path.iterdir():
+                if item.is_dir():
+                    diretorios.append({
+                        "nome": item.name,
+                        "caminho": str(item),
+                        "tipo": "diretorio"
+                    })
+                else:
+                    arquivos.append({
+                        "nome": item.name,
+                        "caminho": str(item),
+                        "tipo": "arquivo"
+                    })
+        except PermissionError:
+            return {
+                "caminho_atual": str(base_path),
+                "erro": "Permissão negada para listar este diretório",
+                "diretorios": [],
+                "arquivos": []
+            }
+        
+        # Adicionar diretório pai se não estiver na raiz
+        if base_path != Path("/"):
+            diretorios.insert(0, {
+                "nome": "..",
+                "caminho": str(base_path.parent),
+                "tipo": "voltar"
+            })
+        
+        return {
+            "caminho_atual": str(base_path),
+            "diretorios": sorted(diretorios, key=lambda x: x["nome"]),
+            "arquivos": sorted(arquivos[:20], key=lambda x: x["nome"])  # Limitar a 20 arquivos
+        }
+        
+    except Exception as e:
+        raise HTTPException(500, f"Erro ao listar diretório: {str(e)}")
+@app.get("/api/certificados")
+async def list_certificados():
+    """Lista certificados com informações das empresas"""
+    certificados_com_empresa = []
+    
+    for cert in CERTIFICADOS_DB:
+        empresa = find_empresa_by_id(cert["empresa_id"])
+        cert_info = cert.copy()
+        cert_info["empresa_nome"] = empresa["razao_social"] if empresa else "Empresa não encontrada"
+        cert_info["empresa_cnpj"] = empresa["cnpj"] if empresa else "N/A"
+        certificados_com_empresa.append(cert_info)
+    
+    return certificados_com_empresa
+
+@app.post("/api/certificados")
+async def create_certificado(certificado: CertificadoCreate):
+    """Criar novo certificado com validação de senha e extração automática da validade"""
+    global NEXT_CERTIFICADO_ID
+    
+    # Verificar se empresa existe
+    empresa = find_empresa_by_id(certificado.empresa_id)
+    if not empresa:
+        raise HTTPException(404, f"Empresa {certificado.empresa_id} não encontrada")
+    
+    # Valida o certificado se foi fornecido arquivo em base64
+    if certificado.arquivo_base64:
+        validacao = validate_certificate(certificado.senha, certificado.arquivo_base64)
+        
+        if not validacao["valido"]:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Erro na validação do certificado: {validacao['erro']}"
+            )
+        
+        # Extrai data de validade automaticamente
+        certificado.valido_ate = validacao["valido_ate"]
+        
+        # Verifica se o certificado está expirado
+        if validacao["expirado"]:
+            raise HTTPException(
+                status_code=400, 
+                detail="O certificado está expirado"
+            )
+        
+        # Verifica se o certificado ainda não é válido
+        if validacao["ainda_nao_valido"]:
+            raise HTTPException(
+                status_code=400, 
+                detail="O certificado ainda não é válido"
+            )
+
+    # Verificar se já existe certificado ATIVO para esta empresa
+    cert_ativo = any(cert["empresa_id"] == certificado.empresa_id and cert["ativo"] 
+                     for cert in CERTIFICADOS_DB)
+    if cert_ativo and certificado.ativo:
+        raise HTTPException(409, "Já existe um certificado ATIVO para esta empresa. Desative o certificado atual antes de cadastrar um novo ativo.")
+    
+    # Criar novo certificado
+    novo_certificado = {
+        "id": NEXT_CERTIFICADO_ID,
+        "empresa_id": certificado.empresa_id,
+        "nome_arquivo": certificado.nome_arquivo,
+        "senha": "*****",  # Senha mascarada por segurança
+        "valido_ate": certificado.valido_ate,
+        "ativo": certificado.ativo,
+        "created_at": get_current_timestamp(),
+        "updated_at": get_current_timestamp()
+    }
+    
+    CERTIFICADOS_DB.append(novo_certificado)
+    NEXT_CERTIFICADO_ID += 1
+    
+    # Adicionar informações da empresa na resposta
+    novo_certificado["empresa_nome"] = empresa["razao_social"]
+    novo_certificado["empresa_cnpj"] = empresa["cnpj"]
+    
+    return novo_certificado
+
+@app.put("/api/certificados/{certificado_id}")
+async def update_certificado(certificado_id: int, certificado: CertificadoCreate):
+    """Atualizar certificado existente"""
+    # Encontrar certificado
+    cert_existente = find_certificado_by_id(certificado_id)
+    if not cert_existente:
+        raise HTTPException(404, f"Certificado {certificado_id} não encontrado")
+    
+    # Verificar se empresa existe
+    empresa = find_empresa_by_id(certificado.empresa_id)
+    if not empresa:
+        raise HTTPException(404, f"Empresa {certificado.empresa_id} não encontrada")
+    
+    # Verificar se outra empresa já tem certificado (exceto o atual)
+    cert_duplicado = any(
+        cert["empresa_id"] == certificado.empresa_id and cert["id"] != certificado_id 
+        for cert in CERTIFICADOS_DB
+    )
+    if cert_duplicado:
+        raise HTTPException(409, "Já existe um certificado cadastrado para esta empresa")
+    
+    # Atualizar dados
+    cert_existente.update({
+        "empresa_id": certificado.empresa_id,
+        "nome_arquivo": certificado.nome_arquivo,
+        "senha": "*****",  # Manter senha mascarada
+        "valido_ate": certificado.valido_ate,
+        "ativo": certificado.ativo,
+        "updated_at": get_current_timestamp()
+    })
+    
+    # Adicionar informações da empresa na resposta
+    cert_existente["empresa_nome"] = empresa["razao_social"]
+    cert_existente["empresa_cnpj"] = empresa["cnpj"]
+    
+    return cert_existente
+
+@app.delete("/api/certificados/{certificado_id}")
+async def delete_certificado(certificado_id: int):
+    """Excluir certificado"""
+    global CERTIFICADOS_DB
+    
+    # Encontrar certificado
+    cert_existente = find_certificado_by_id(certificado_id)
+    if not cert_existente:
+        raise HTTPException(404, f"Certificado {certificado_id} não encontrado")
+    
+    # Remover certificado
+    CERTIFICADOS_DB = [cert for cert in CERTIFICADOS_DB if cert["id"] != certificado_id]
+    
+    return {
+        "message": f"Certificado {cert_existente['nome_arquivo']} (ID: {certificado_id}) excluído com sucesso",
+        "certificado_excluido": cert_existente
+    }
+
+@app.get("/api/cfops")
+async def list_cfops():
+    """Lista CFOPs mockados para teste"""
+    return [
+        {"id": 1, "codigo": "5102", "descricao": "Venda de mercadoria adquirida ou recebida de terceiros", "ativo": True},
+        {"id": 2, "codigo": "6102", "descricao": "Venda de mercadoria adquirida ou recebida de terceiros", "ativo": True}
+    ]
+
+@app.get("/api/relatorio") 
+async def get_relatorio():
+    """Relatório com estrutura correta para Dashboard"""
+    return {
+        "total_xmls": 1843,
+        "empresas_cadastradas": 2,
+        "xmls_classificados": 1838,
+        "xmls_pendentes": 5,
+        "certificados_validos": 2,
+        "certificados_vencendo": 0,
+        "sistema": {"status": "operacional", "versao": "1.0.0"}
+    }
+
+@app.get("/api/xmls/nao-classificados")
+async def list_xmls_nao_classificados():
+    """XMLs não classificados mockados para teste"""
+    return {
+        "total": 5,
+        "xmls": [
+            {"arquivo": "35251042580092002977551600000125381568142699-nfe.xml", "status": "pendente", "tamanho": 1024},
+            {"arquivo": "documento-teste-2.xml", "status": "pendente", "tamanho": 2048},
+            {"arquivo": "documento-teste-3.xml", "status": "pendente", "tamanho": 512}
+        ]
+    }
+
+@app.get("/api/dashboard/stats")
+async def get_dashboard_stats():
+    """Estatísticas estruturadas para dashboard"""
+    return {
+        "total_xmls": 1843,
+        "empresas_cadastradas": 2,
+        "xmls_classificados": 1838,
+        "xmls_pendentes": 5,
+        "certificados_validos": 2,
+        "certificados_vencendo": 0,
+        "operacoes_pendentes": 0,
+        "ultima_atualizacao": "2024-11-16T15:30:00Z"
+    }
+
+@app.post("/api/certificados/validar")
+async def validar_certificado(data: dict):
+    """Endpoint para validar certificado antes de salvar"""
+    try:
+        arquivo_base64 = data.get("arquivo_base64", "")
+        senha = data.get("senha", "")
+        
+        if not arquivo_base64 or not senha:
+            raise HTTPException(400, "Arquivo e senha são obrigatórios")
+        
+        validacao = validate_certificate(senha, arquivo_base64)
+        
+        return {
+            "sucesso": validacao["valido"],
+            "dados": validacao
+        }
+        
+    except Exception as e:
+        return {
+            "sucesso": False,
+            "erro": str(e)
+        }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)

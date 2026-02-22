@@ -1,0 +1,603 @@
+nohup: ignoring input
+/mnt/c/openai-xml/dfe-sync/.venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:341: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2025-11-13 22:48:44,891 - src.api.main - INFO - 🚀 Aplicação iniciada!
+INFO:     Started server process [95237]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50684 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251142580092002977551600000131931421716563&prefer=resEvento HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50692 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251142580092002977551600000131931421716563&prefer=resEvento HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50694 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251142580092002977551600000131931421716563&prefer=resEvento HTTP/1.1" 404 Not Found
+2025-11-13 22:48:52,888 - src.api.routes.dfe - INFO - 📝 Manifestação: empresa_id=1, chNFe=35251051309435000153550010000041251728126118, tpEvento=210210, nSeq=2
+2025-11-13 22:48:52,888 - src.api.routes.dfe - INFO - 🔍 Carregando certificado para empresa_id=1
+2025-11-13 22:48:52,933 - src.api.routes.dfe - INFO - 📄 Certificado BYTEA encontrado: tamanho=4014 bytes
+2025-11-13 22:48:53,332 - src.api.routes.dfe - INFO - 🔐 Tentando extrair certificado e chave privada
+2025-11-13 22:48:53,333 - src.cert.pfx_utils - INFO - 🔐 Tentando carregar PFX (tamanho: 4014 bytes, senha fornecida: Sim)
+2025-11-13 22:48:53,682 - src.cert.pfx_utils - INFO - ✅ PFX carregado com sucesso! Certificado: <Name(C=BR,O=ICP-Brasil,ST=SP,L=Sao Bernardo do Campo,OU=VideoConferencia,OU=29277404000109,OU=AC Certisign Multipla,OU=Assinatura Tipo A1,CN=ABC CENTER DISTRIBUIDORA LTDA:51309435000153)>
+2025-11-13 22:48:53,690 - src.cert.pfx_utils - INFO - 📅 Válido de 2025-07-07 14:20:36+00:00 até 2026-07-07 14:20:36+00:00
+2025-11-13 22:48:53,737 - src.cert.pfx_utils - INFO - 💾 Certificado salvo em: /tmp/tmpdnx2gdrj.pem
+2025-11-13 22:48:53,746 - src.cert.pfx_utils - INFO - 🔑 Chave privada salva em: /tmp/tmp3gb6mg33.pem
+2025-11-13 22:48:53,748 - src.api.routes.dfe - INFO - ✅ Certificado extraído: cert=/tmp/tmpdnx2gdrj.pem, key=/tmp/tmp3gb6mg33.pem
+2025-11-13 22:48:53,750 - src.api.routes.dfe - INFO - 📡 Enviando manifestação para SEFAZ...
+2025-11-13 22:48:53,751 - src.ws.manifest_client - INFO - 🔧 DEBUG base_attempts: [('nfeRecepcaoEventoNF', '1.2'), ('nfeRecepcaoEventoNF', '1.1'), ('nfeRecepcaoEvento', '1.2'), ('nfeRecepcaoEvento', '1.1')]
+2025-11-13 22:48:53,751 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:48:53,886 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:53,889 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:53,889 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:54,063 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:54,088 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:48:54,104 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:48:54,334 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:48:54,334 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:48:54,334 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:54,334 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:54,335 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:54,364 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:54,367 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:48:54,372 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:48:54,566 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:48:54,566 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:48:54,566 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:54,566 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:54,566 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:54,597 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:54,600 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:48:54,604 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:48:54,829 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:48:54,830 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:48:54,830 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:54,830 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:54,830 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:54,869 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:54,871 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:48:54,876 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:48:55,029 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:48:55,029 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:48:55,029 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:55,029 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:55,029 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:55,061 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:55,064 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:48:55,075 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:48:55,386 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:48:55,387 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:48:55,387 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:55,387 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:48:55,387 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:55,387 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:55,387 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:55,419 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:55,421 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:48:55,425 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:48:55,638 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:48:55,639 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:48:55,639 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:55,639 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:48:55,640 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:55,640 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:55,640 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:55,671 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:55,673 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:48:55,678 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:48:55,894 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:48:55,895 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:48:55,895 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:55,895 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:48:55,895 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:55,895 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:55,895 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:55,929 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:55,931 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:48:55,937 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:48:56,172 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:48:56,174 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:48:56,174 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:56,174 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:48:56,174 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:56,174 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:56,174 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:56,210 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:56,211 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:48:56,217 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:48:56,445 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:48:56,446 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:48:56,447 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:56,447 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:48:56,447 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:56,447 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:56,447 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:56,480 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:56,483 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:48:56,489 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:48:56,736 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:48:56,737 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:48:56,737 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:56,737 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:48:56,737 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:56,737 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:56,737 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:56,775 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:56,777 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:48:56,786 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:48:57,008 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:48:57,010 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:48:57,010 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:57,010 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:48:57,010 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:48:57,010 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:48:57,010 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:48:57,043 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:48:57,044 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:48:57,049 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:48:57,302 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:48:57,304 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:48:57,305 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:48:57,309 - src.api.routes.dfe - INFO - 📨 Resposta SEFAZ: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:48:57,310 - src.api.routes.dfe - ERROR - ❌ Erro na manifestação: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:48:57,312 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmpdnx2gdrj.pem
+2025-11-13 22:48:57,312 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmp3gb6mg33.pem
+INFO:     127.0.0.1:59818 - "POST /api/dfe/manifestar?empresa_id=1&chNFe=35251051309435000153550010000041251728126118&tpEvento=210210&nSeq=2 HTTP/1.1" 500 Internal Server Error
+2025-11-13 22:49:50,753 - src.api.routes.dfe - INFO - 📝 Manifestação: empresa_id=1, chNFe=35251042580092002977551600000128621051321326, tpEvento=210210, nSeq=1
+2025-11-13 22:49:50,753 - src.api.routes.dfe - INFO - 🔍 Carregando certificado para empresa_id=1
+2025-11-13 22:49:50,757 - src.api.routes.dfe - INFO - 📄 Certificado BYTEA encontrado: tamanho=4014 bytes
+2025-11-13 22:49:50,757 - src.api.routes.dfe - INFO - 🔐 Tentando extrair certificado e chave privada
+2025-11-13 22:49:50,757 - src.cert.pfx_utils - INFO - 🔐 Tentando carregar PFX (tamanho: 4014 bytes, senha fornecida: Sim)
+2025-11-13 22:49:50,787 - src.cert.pfx_utils - INFO - ✅ PFX carregado com sucesso! Certificado: <Name(C=BR,O=ICP-Brasil,ST=SP,L=Sao Bernardo do Campo,OU=VideoConferencia,OU=29277404000109,OU=AC Certisign Multipla,OU=Assinatura Tipo A1,CN=ABC CENTER DISTRIBUIDORA LTDA:51309435000153)>
+2025-11-13 22:49:50,787 - src.cert.pfx_utils - INFO - 📅 Válido de 2025-07-07 14:20:36+00:00 até 2026-07-07 14:20:36+00:00
+2025-11-13 22:49:50,789 - src.cert.pfx_utils - INFO - 💾 Certificado salvo em: /tmp/tmpyqadhzlh.pem
+2025-11-13 22:49:50,789 - src.cert.pfx_utils - INFO - 🔑 Chave privada salva em: /tmp/tmphecxe2lv.pem
+2025-11-13 22:49:50,789 - src.api.routes.dfe - INFO - ✅ Certificado extraído: cert=/tmp/tmpyqadhzlh.pem, key=/tmp/tmphecxe2lv.pem
+2025-11-13 22:49:50,790 - src.api.routes.dfe - INFO - 📡 Enviando manifestação para SEFAZ...
+2025-11-13 22:49:50,790 - src.ws.manifest_client - INFO - 🔧 DEBUG base_attempts: [('nfeRecepcaoEventoNF', '1.2'), ('nfeRecepcaoEventoNF', '1.1'), ('nfeRecepcaoEvento', '1.2'), ('nfeRecepcaoEvento', '1.1')]
+2025-11-13 22:49:50,790 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:49:50,790 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:50,790 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:50,790 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:50,819 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:50,820 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:49:50,824 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:49:51,000 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:49:51,000 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:49:51,000 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:51,001 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:51,001 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:51,030 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:51,031 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:49:51,035 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:49:51,186 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:49:51,186 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:49:51,186 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:51,186 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:51,186 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:51,215 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:51,216 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:49:51,220 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:49:51,375 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:49:51,375 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:49:51,375 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:51,375 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:51,375 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:51,403 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:51,405 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:49:51,410 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:49:51,550 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:49:51,550 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:49:51,550 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:51,550 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:51,550 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:51,579 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:51,581 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:49:51,589 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:49:51,800 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:49:51,800 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:49:51,800 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:51,800 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:49:51,800 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:51,800 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:51,801 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:51,829 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:51,830 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:49:51,834 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:49:52,057 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:49:52,059 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:49:52,059 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:52,059 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:49:52,060 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:52,060 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:52,060 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:52,088 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:52,090 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:49:52,094 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:49:52,303 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:49:52,304 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:49:52,304 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:52,304 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:49:52,304 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:52,304 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:52,304 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:52,333 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:52,335 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:49:52,340 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:49:52,542 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:49:52,543 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:49:52,543 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:52,543 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:49:52,543 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:52,543 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:52,543 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:52,577 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:52,578 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:49:52,583 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:49:52,858 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:49:52,859 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:49:52,859 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:52,859 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:49:52,859 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:52,859 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:52,859 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:52,891 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:52,893 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:49:52,898 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:49:53,086 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:49:53,087 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:49:53,087 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:53,087 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:49:53,087 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:53,087 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:53,087 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:53,116 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:53,117 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:49:53,121 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:49:53,313 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:49:53,314 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:49:53,314 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:53,314 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:49:53,314 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:49:53,314 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:49:53,314 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:49:53,346 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:49:53,347 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:49:53,352 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:49:53,553 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:49:53,554 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:49:53,554 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:49:53,556 - src.api.routes.dfe - INFO - 📨 Resposta SEFAZ: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:49:53,556 - src.api.routes.dfe - ERROR - ❌ Erro na manifestação: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:49:53,556 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmpyqadhzlh.pem
+2025-11-13 22:49:53,556 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmphecxe2lv.pem
+INFO:     127.0.0.1:34476 - "POST /api/dfe/manifestar?empresa_id=1&chNFe=35251042580092002977551600000128621051321326&tpEvento=210210&nSeq=1 HTTP/1.1" 500 Internal Server Error
+2025-11-13 22:49:55,898 - src.api.routes.dfe - INFO - 🚀 Iniciando sincronização para empresa_id=1
+2025-11-13 22:49:55,898 - src.api.routes.dfe - INFO - 🔍 Carregando certificado para empresa_id=1
+2025-11-13 22:49:55,906 - src.api.routes.dfe - INFO - 📄 Certificado BYTEA encontrado: tamanho=4014 bytes
+2025-11-13 22:49:55,907 - src.api.routes.dfe - INFO - 🔐 Tentando extrair certificado e chave privada
+2025-11-13 22:49:55,907 - src.cert.pfx_utils - INFO - 🔐 Tentando carregar PFX (tamanho: 4014 bytes, senha fornecida: Sim)
+2025-11-13 22:49:55,942 - src.cert.pfx_utils - INFO - ✅ PFX carregado com sucesso! Certificado: <Name(C=BR,O=ICP-Brasil,ST=SP,L=Sao Bernardo do Campo,OU=VideoConferencia,OU=29277404000109,OU=AC Certisign Multipla,OU=Assinatura Tipo A1,CN=ABC CENTER DISTRIBUIDORA LTDA:51309435000153)>
+2025-11-13 22:49:55,942 - src.cert.pfx_utils - INFO - 📅 Válido de 2025-07-07 14:20:36+00:00 até 2026-07-07 14:20:36+00:00
+2025-11-13 22:49:55,943 - src.cert.pfx_utils - INFO - 💾 Certificado salvo em: /tmp/tmpvonu5lec.pem
+2025-11-13 22:49:55,944 - src.cert.pfx_utils - INFO - 🔑 Chave privada salva em: /tmp/tmp81ftbcxr.pem
+2025-11-13 22:49:55,944 - src.api.routes.dfe - INFO - ✅ Certificado extraído: cert=/tmp/tmpvonu5lec.pem, key=/tmp/tmp81ftbcxr.pem
+2025-11-13 22:49:55,944 - src.api.routes.dfe - INFO - 🔒 Usando bundle CA: /mnt/c/openai-xml/dfe-sync/.venv/lib/python3.12/site-packages/certifi/cacert.pem
+2025-11-13 22:49:55,944 - src.api.routes.dfe - INFO - 📡 Chamando serviço de distribuição DFe...
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 🔄 Iniciando pull - CNPJ: 51309435000153, NSU inicial: 000000000000000
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 📞 Chamando NFeDistribuicaoDFe - CNPJ: 51309435000153, ultNSU: 000000000000000
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 🔐 Certificado: /tmp/tmpvonu5lec.pem...
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 🔒 CA Bundle: /mnt/c/openai-xml/dfe-sync/.venv/lib/python3.12/site-packages/certifi/cacert.pem
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 🌐 WSDL: https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:49:55,963 - src.ws.dfe_client - INFO - 🏢 Ambiente: PRODUCAO
+2025-11-13 22:49:55,965 - src.ws.dfe_client - INFO - 🔄 Criando cliente SOAP...
+2025-11-13 22:49:55,967 - zeep.xsd.schema - DEBUG - Init schema document for None
+2025-11-13 22:49:55,969 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}string', <zeep.xsd.types.builtins.String object at 0x7b51a15862a0>)
+2025-11-13 22:49:55,969 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}boolean', <zeep.xsd.types.builtins.Boolean object at 0x7b51a1586240>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}decimal', <zeep.xsd.types.builtins.Decimal object at 0x7b51a1586840>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}float', <zeep.xsd.types.builtins.Float object at 0x7b51a15856a0>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}double', <zeep.xsd.types.builtins.Double object at 0x7b51a15855b0>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}duration', <zeep.xsd.types.builtins.Duration object at 0x7b51a1585370>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}dateTime', <zeep.xsd.types.builtins.DateTime object at 0x7b51a1584830>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}time', <zeep.xsd.types.builtins.Time object at 0x7b51a1585220>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}date', <zeep.xsd.types.builtins.Date object at 0x7b51a15852e0>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gYearMonth', <zeep.xsd.types.builtins.gYearMonth object at 0x7b51a15859d0>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gYear', <zeep.xsd.types.builtins.gYear object at 0x7b51a15868d0>)
+2025-11-13 22:49:55,970 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gMonthDay', <zeep.xsd.types.builtins.gMonthDay object at 0x7b51a1585e80>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gDay', <zeep.xsd.types.builtins.gDay object at 0x7b51a15853a0>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gMonth', <zeep.xsd.types.builtins.gMonth object at 0x7b51a15857c0>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}hexBinary', <zeep.xsd.types.builtins.HexBinary object at 0x7b51a1585c70>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}base64Binary', <zeep.xsd.types.builtins.Base64Binary object at 0x7b51a59413d0>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anyURI', <zeep.xsd.types.builtins.AnyURI object at 0x7b51a15cc050>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}QName', <zeep.xsd.types.builtins.QName object at 0x7b51a15cc0b0>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NOTATION', <zeep.xsd.types.builtins.Notation object at 0x7b51a15cc140>)
+2025-11-13 22:49:55,971 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}normalizedString', <zeep.xsd.types.builtins.NormalizedString object at 0x7b51a15cc1d0>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}token', <zeep.xsd.types.builtins.Token object at 0x7b51a15cc230>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}language', <zeep.xsd.types.builtins.Language object at 0x7b51a15cc290>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NMTOKEN', <zeep.xsd.types.builtins.NmToken object at 0x7b51a15cc320>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NMTOKENS', <zeep.xsd.types.builtins.NmTokens object at 0x7b51a15cc380>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}Name', <zeep.xsd.types.builtins.Name object at 0x7b51a15cc410>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NCName', <zeep.xsd.types.builtins.NCName object at 0x7b51a15cc470>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ID', <zeep.xsd.types.builtins.ID object at 0x7b51a15cc500>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}IDREF', <zeep.xsd.types.builtins.IDREF object at 0x7b51a15cc590>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}IDREFS', <zeep.xsd.types.builtins.IDREFS object at 0x7b51a15cc620>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ENTITY', <zeep.xsd.types.builtins.Entity object at 0x7b51a15cc6b0>)
+2025-11-13 22:49:55,972 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ENTITIES', <zeep.xsd.types.builtins.Entities object at 0x7b51a15cc740>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}integer', <zeep.xsd.types.builtins.Integer object at 0x7b51a15cc7d0>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}nonPositiveInteger', <zeep.xsd.types.builtins.NonPositiveInteger object at 0x7b51a15cc830>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}negativeInteger', <zeep.xsd.types.builtins.NegativeInteger object at 0x7b51a15cc8c0>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}long', <zeep.xsd.types.builtins.Long object at 0x7b51a15cc920>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}int', <zeep.xsd.types.builtins.Int object at 0x7b51a15cc950>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}short', <zeep.xsd.types.builtins.Short object at 0x7b51a15cc9e0>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}byte', <zeep.xsd.types.builtins.Byte object at 0x7b51a15cca70>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}nonNegativeInteger', <zeep.xsd.types.builtins.NonNegativeInteger object at 0x7b51a15ccb00>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedByte', <zeep.xsd.types.builtins.UnsignedByte object at 0x7b51a15ccb90>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedInt', <zeep.xsd.types.builtins.UnsignedInt object at 0x7b51a15ccbf0>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedLong', <zeep.xsd.types.builtins.UnsignedLong object at 0x7b51a15ccc50>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedShort', <zeep.xsd.types.builtins.UnsignedShort object at 0x7b51a15cccb0>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}positiveInteger', <zeep.xsd.types.builtins.PositiveInteger object at 0x7b51a15ccd10>)
+2025-11-13 22:49:55,973 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anyType', <zeep.xsd.types.any.AnyType object at 0x7b51a15ccd70>)
+2025-11-13 22:49:55,974 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anySimpleType', <zeep.xsd.types.simple.AnySimpleType object at 0x7b51a15ccda0>)
+2025-11-13 22:49:55,974 - zeep.xsd.schema - DEBUG - register_element('{http://www.w3.org/2001/XMLSchema}schema', <zeep.xsd.elements.builtins.Schema object at 0x7b51a15cce00>)
+2025-11-13 22:49:55,974 - zeep.xsd.schema - DEBUG - Add document with tns http://www.w3.org/2001/XMLSchema to schema 135590529486720
+2025-11-13 22:49:55,974 - zeep.transports - DEBUG - Loading remote data from: https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:49:55,982 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:49:56,188 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "GET /NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL HTTP/1.1" 200 3829
+2025-11-13 22:49:56,192 - zeep.wsdl.wsdl - DEBUG - Creating definition for https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:49:56,195 - zeep.xsd.schema - DEBUG - Init schema document for 'https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL'
+2025-11-13 22:49:56,195 - zeep.xsd.schema - DEBUG - Add document with tns http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe to schema 135590529486720
+2025-11-13 22:49:56,198 - zeep.xsd.schema - DEBUG - register_element('{http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresse', <Element(name='nfeDistDFeInteresse', type=<zeep.xsd.dynamic_types.nfeDistDFeInteresse object at 0x7b51a3e7d1c0>)>)
+2025-11-13 22:49:56,198 - zeep.xsd.schema - DEBUG - register_element('{http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseResponse', <Element(name='nfeDistDFeInteresseResponse', type=<zeep.xsd.dynamic_types.nfeDistDFeInteresseResponse object at 0x7b51a15cd880>)>)
+2025-11-13 22:49:56,198 - zeep.xsd.schema - DEBUG - Resolving in schema <SchemaDocument(location='https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL', tns='http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe', is_empty=False)>
+2025-11-13 22:49:56,201 - zeep.wsdl.wsdl - DEBUG - Adding message: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseSoapIn
+2025-11-13 22:49:56,201 - zeep.wsdl.wsdl - DEBUG - Adding message: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseSoapOut
+2025-11-13 22:49:56,202 - zeep.wsdl.wsdl - DEBUG - Adding port: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap
+2025-11-13 22:49:56,544 - zeep.wsdl.wsdl - DEBUG - Adding binding: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap
+2025-11-13 22:49:56,545 - zeep.wsdl.wsdl - DEBUG - Adding binding: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap12
+2025-11-13 22:49:56,545 - zeep.wsdl.wsdl - DEBUG - Adding service: NFeDistribuicaoDFe
+2025-11-13 22:49:56,546 - src.ws.dfe_client - INFO - 🎯 Cliente criado com sucesso
+2025-11-13 22:49:56,546 - src.ws.dfe_client - INFO - 📤 Enviando requisição SOAP...
+2025-11-13 22:49:56,548 - zeep.transports - DEBUG - HTTP Post to https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx:
+<?xml version='1.0' encoding='utf-8'?>
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"><soap-env:Body><ns0:nfeDistDFeInteresse xmlns:ns0="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"><ns0:nfeDadosMsg><ns0:distDFeInt xmlns:ns0="http://www.portalfiscal.inf.br/nfe" versao="1.01"><ns0:tpAmb>1</ns0:tpAmb><ns0:cUFAutor>91</ns0:cUFAutor><ns0:CNPJ>51309435000153</ns0:CNPJ><ns0:distNSU><ns0:ultNSU>000000000000000</ns0:ultNSU></ns0:distNSU></ns0:distDFeInt></ns0:nfeDadosMsg></ns0:nfeDistDFeInteresse></soap-env:Body></soap-env:Envelope>
+2025-11-13 22:49:56,572 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx HTTP/1.1" 200 829
+2025-11-13 22:49:56,573 - zeep.transports - DEBUG - HTTP Response from https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx (status: 200):
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeDistDFeInteresseResponse xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"><nfeDistDFeInteresseResult><retDistDFeInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versao="1.01" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>1</tpAmb><verAplic>1.7.6</verAplic><cStat>215</cStat><xMotivo>Rejeicao: Falha no esquema xml</xMotivo><dhResp>2025-11-13T22:49:57-03:00</dhResp><ultNSU>000000000000000</ultNSU><maxNSU>000000000000000</maxNSU></retDistDFeInt></nfeDistDFeInteresseResult></nfeDistDFeInteresseResponse></soap:Body></soap:Envelope>
+2025-11-13 22:49:56,574 - src.ws.dfe_client - INFO - 📥 Resposta recebida, processando...
+2025-11-13 22:49:56,575 - src.ws.dfe_client - INFO - 📊 Resposta: cStat=215, xMotivo=Rejeicao: Falha no esquema xml, ultNSU=000000000000000, maxNSU=000000000000000
+2025-11-13 22:49:56,575 - src.ws.dfe_client - INFO - 📦 Documentos encontrados: 0
+2025-11-13 22:49:56,955 - src.ws.dfe_client - INFO - ✅ Pull concluído - ultNSU == maxNSU (000000000000000)
+2025-11-13 22:49:56,955 - src.api.routes.dfe - INFO - ✅ Sincronização concluída: {'ok': True, 'processed': 0, 'ultNSU': '000000000000000', 'maxNSU': '000000000000000'}
+2025-11-13 22:49:56,955 - src.api.routes.dfe - DEBUG - 🗑️ Arquivo temporário removido: /tmp/tmpvonu5lec.pem
+2025-11-13 22:49:56,956 - src.api.routes.dfe - DEBUG - 🗑️ Arquivo temporário removido: /tmp/tmp81ftbcxr.pem
+INFO:     127.0.0.1:34482 - "POST /api/dfe/sync?empresa_id=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33146 - "GET /api/documentos/importacao?empresa_id=1&limit=50&offset=0&filtro=registradas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33692 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251042580092002977551600000128621051321326&prefer=procNFe HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33708 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251042580092002977551600000128621051321326&prefer=procNFe&save=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33710 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251042580092002977551600000128621051321326&prefer=procNFe&save=true HTTP/1.1" 404 Not Found
+2025-11-13 22:50:40,214 - src.api.routes.dfe - INFO - 📝 Manifestação: empresa_id=1, chNFe=35251051309435000153550010000041721730298958, tpEvento=210210, nSeq=1
+2025-11-13 22:50:40,219 - src.api.routes.dfe - INFO - 🔍 Carregando certificado para empresa_id=1
+2025-11-13 22:50:40,283 - src.api.routes.dfe - INFO - 📄 Certificado BYTEA encontrado: tamanho=4014 bytes
+2025-11-13 22:50:40,295 - src.api.routes.dfe - INFO - 🔐 Tentando extrair certificado e chave privada
+2025-11-13 22:50:40,295 - src.cert.pfx_utils - INFO - 🔐 Tentando carregar PFX (tamanho: 4014 bytes, senha fornecida: Sim)
+2025-11-13 22:50:40,342 - src.cert.pfx_utils - INFO - ✅ PFX carregado com sucesso! Certificado: <Name(C=BR,O=ICP-Brasil,ST=SP,L=Sao Bernardo do Campo,OU=VideoConferencia,OU=29277404000109,OU=AC Certisign Multipla,OU=Assinatura Tipo A1,CN=ABC CENTER DISTRIBUIDORA LTDA:51309435000153)>
+2025-11-13 22:50:40,343 - src.cert.pfx_utils - INFO - 📅 Válido de 2025-07-07 14:20:36+00:00 até 2026-07-07 14:20:36+00:00
+2025-11-13 22:50:40,349 - src.cert.pfx_utils - INFO - 💾 Certificado salvo em: /tmp/tmpdn0ipq1e.pem
+2025-11-13 22:50:40,351 - src.cert.pfx_utils - INFO - 🔑 Chave privada salva em: /tmp/tmpj5yznq71.pem
+2025-11-13 22:50:40,351 - src.api.routes.dfe - INFO - ✅ Certificado extraído: cert=/tmp/tmpdn0ipq1e.pem, key=/tmp/tmpj5yznq71.pem
+2025-11-13 22:50:40,354 - src.api.routes.dfe - INFO - 📡 Enviando manifestação para SEFAZ...
+2025-11-13 22:50:40,355 - src.ws.manifest_client - INFO - 🔧 DEBUG base_attempts: [('nfeRecepcaoEventoNF', '1.2'), ('nfeRecepcaoEventoNF', '1.1'), ('nfeRecepcaoEvento', '1.2'), ('nfeRecepcaoEvento', '1.1')]
+2025-11-13 22:50:40,356 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:50:40,360 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:40,360 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:40,360 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:40,397 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:40,415 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:50:40,438 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:50:40,667 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:50:40,667 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:50:40,667 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:40,667 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:40,667 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:40,700 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:40,703 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:50:40,706 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:50:40,877 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:50:40,877 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:50:40,877 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:40,877 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:40,877 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:40,906 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:40,910 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:50:40,915 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:50:41,070 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:50:41,070 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:50:41,070 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:41,070 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:41,070 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:41,102 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:41,104 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:50:41,111 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): nfe.fazenda.sp.gov.br:443
+2025-11-13 22:50:41,272 - src.ws.manifest_client - WARNING - ⚠️  Exceção: SSLError: HTTPSConnectionPool(host='nfe.fazenda.sp.gov.br', port=443): Max retries exceeded with url: /ws/nfer
+2025-11-13 22:50:41,272 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:50:41,272 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:41,273 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:41,273 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:41,306 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:41,308 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:50:41,317 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:50:41,598 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:50:41,599 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:50:41,599 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:41,599 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:50:41,599 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:41,599 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:41,599 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:41,630 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:41,633 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:50:41,638 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:50:41,861 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:50:41,863 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:50:41,863 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:41,863 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:50:41,864 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:41,864 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:41,864 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:41,894 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:41,897 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:50:41,902 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:50:42,139 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:50:42,141 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:50:42,141 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:42,141 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepca... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:50:42,141 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:42,141 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:42,141 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:42,173 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:42,174 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:50:42,180 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.nfe.fazenda.gov.br:443
+2025-11-13 22:50:42,406 - urllib3.connectionpool - DEBUG - https://www.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:50:42,408 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:50:42,408 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:42,408 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.2
+2025-11-13 22:50:42,409 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:42,409 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:42,409 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:42,445 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:42,447 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.2.xml
+2025-11-13 22:50:42,452 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:50:42,679 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 508
+2025-11-13 22:50:42,680 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:50:42,681 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Receiver</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:42,681 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEventoNF soap=1.1
+2025-11-13 22:50:42,681 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:42,681 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:42,681 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:42,714 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:42,717 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEventoNF_1.1.xml
+2025-11-13 22:50:42,722 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:50:42,964 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 441
+2025-11-13 22:50:42,965 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:50:42,966 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Server was unable to process request. ---&gt; Object reference not set to an instance of an object.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:42,966 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.2
+2025-11-13 22:50:42,966 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:42,966 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:42,966 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:42,999 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:43,002 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.2.xml
+2025-11-13 22:50:43,006 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:50:43,224 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 542
+2025-11-13 22:50:43,225 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=application/soap+xml; charset=utf-8
+2025-11-13 22:50:43,225 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><soap:Code><soap:Value>soap:Sender</soap:Value></soap:Code><soap:Reason><soap:Text xml:lang="en">Unable to handle request. The action 'http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento' was not recognized.</soap:Text></soap:Reason><soap:Detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:43,225 - src.ws.manifest_client - INFO - 🎯 Tentando URL=https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepc... op=nfeRecepcaoEvento soap=1.1
+2025-11-13 22:50:43,225 - src.ws.xml_signer - INFO - 🔧 sign_evento: env_evento.tag = envEvento
+2025-11-13 22:50:43,225 - src.ws.xml_signer - INFO - 🔧 sign_evento: filhos = ['idLote', 'evento']
+2025-11-13 22:50:43,225 - src.ws.xml_signer - INFO - 🔧 sign_evento: namespace do primeiro filho = 'idLote'
+2025-11-13 22:50:43,257 - src.ws.xml_signer - INFO - ✅ Evento encontrado: evento
+2025-11-13 22:50:43,258 - src.ws.manifest_client - DEBUG - 🔍 XML salvo em: /tmp/soap_manifestacao_nfeRecepcaoEvento_1.1.xml
+2025-11-13 22:50:43,264 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:50:43,499 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx HTTP/1.1" 500 481
+2025-11-13 22:50:43,502 - src.ws.manifest_client - INFO - 📊 Resposta: status=500 content_type=text/xml; charset=utf-8
+2025-11-13 22:50:43,505 - src.ws.manifest_client - WARNING - ❌ Status 500: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>
+2025-11-13 22:50:43,505 - src.api.routes.dfe - INFO - 📨 Resposta SEFAZ: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:50:43,505 - src.api.routes.dfe - ERROR - ❌ Erro na manifestação: {'status_code': 500, 'error': 'http', 'body': '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Server did not recognize the value of HTTP Header SOAPAction: http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4/nfeRecepcaoEvento.</faultstring><detail /></soap:Fault></soap:Body></soap:Envelope>', 'url': 'https://www1.nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx', 'op': 'nfeRecepcaoEvento', 'soap': '1.1'}
+2025-11-13 22:50:43,507 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmpdn0ipq1e.pem
+2025-11-13 22:50:43,507 - src.api.routes.dfe - DEBUG - 🗑️ Certificado temporário removido: /tmp/tmpj5yznq71.pem
+INFO:     127.0.0.1:44514 - "POST /api/dfe/manifestar?empresa_id=1&chNFe=35251051309435000153550010000041721730298958&tpEvento=210210&nSeq=1 HTTP/1.1" 500 Internal Server Error
+2025-11-13 22:50:43,534 - src.api.routes.dfe - INFO - 🚀 Iniciando sincronização para empresa_id=1
+2025-11-13 22:50:43,534 - src.api.routes.dfe - INFO - 🔍 Carregando certificado para empresa_id=1
+2025-11-13 22:50:43,541 - src.api.routes.dfe - INFO - 📄 Certificado BYTEA encontrado: tamanho=4014 bytes
+2025-11-13 22:50:43,542 - src.api.routes.dfe - INFO - 🔐 Tentando extrair certificado e chave privada
+2025-11-13 22:50:43,542 - src.cert.pfx_utils - INFO - 🔐 Tentando carregar PFX (tamanho: 4014 bytes, senha fornecida: Sim)
+2025-11-13 22:50:43,580 - src.cert.pfx_utils - INFO - ✅ PFX carregado com sucesso! Certificado: <Name(C=BR,O=ICP-Brasil,ST=SP,L=Sao Bernardo do Campo,OU=VideoConferencia,OU=29277404000109,OU=AC Certisign Multipla,OU=Assinatura Tipo A1,CN=ABC CENTER DISTRIBUIDORA LTDA:51309435000153)>
+2025-11-13 22:50:43,580 - src.cert.pfx_utils - INFO - 📅 Válido de 2025-07-07 14:20:36+00:00 até 2026-07-07 14:20:36+00:00
+2025-11-13 22:50:43,581 - src.cert.pfx_utils - INFO - 💾 Certificado salvo em: /tmp/tmp0hxs_zx3.pem
+2025-11-13 22:50:43,582 - src.cert.pfx_utils - INFO - 🔑 Chave privada salva em: /tmp/tmps1flb_w2.pem
+2025-11-13 22:50:43,582 - src.api.routes.dfe - INFO - ✅ Certificado extraído: cert=/tmp/tmp0hxs_zx3.pem, key=/tmp/tmps1flb_w2.pem
+2025-11-13 22:50:43,583 - src.api.routes.dfe - INFO - 🔒 Usando bundle CA: /mnt/c/openai-xml/dfe-sync/.venv/lib/python3.12/site-packages/certifi/cacert.pem
+2025-11-13 22:50:43,584 - src.api.routes.dfe - INFO - 📡 Chamando serviço de distribuição DFe...
+2025-11-13 22:50:43,595 - src.ws.dfe_client - INFO - 🔄 Iniciando pull - CNPJ: 51309435000153, NSU inicial: 000000000000000
+2025-11-13 22:50:43,597 - src.ws.dfe_client - INFO - 📞 Chamando NFeDistribuicaoDFe - CNPJ: 51309435000153, ultNSU: 000000000000000
+2025-11-13 22:50:43,597 - src.ws.dfe_client - INFO - 🔐 Certificado: /tmp/tmp0hxs_zx3.pem...
+2025-11-13 22:50:43,597 - src.ws.dfe_client - INFO - 🔒 CA Bundle: /mnt/c/openai-xml/dfe-sync/.venv/lib/python3.12/site-packages/certifi/cacert.pem
+2025-11-13 22:50:43,597 - src.ws.dfe_client - INFO - 🌐 WSDL: https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:50:43,597 - src.ws.dfe_client - INFO - 🏢 Ambiente: PRODUCAO
+2025-11-13 22:50:43,599 - src.ws.dfe_client - INFO - 🔄 Criando cliente SOAP...
+2025-11-13 22:50:43,601 - zeep.xsd.schema - DEBUG - Init schema document for None
+2025-11-13 22:50:43,602 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}string', <zeep.xsd.types.builtins.String object at 0x7b51a15848f0>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}boolean', <zeep.xsd.types.builtins.Boolean object at 0x7b51a15878c0>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}decimal', <zeep.xsd.types.builtins.Decimal object at 0x7b51a1586b70>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}float', <zeep.xsd.types.builtins.Float object at 0x7b51a1587c50>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}double', <zeep.xsd.types.builtins.Double object at 0x7b51a3f90830>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}duration', <zeep.xsd.types.builtins.Duration object at 0x7b51a14dc4d0>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}dateTime', <zeep.xsd.types.builtins.DateTime object at 0x7b51a14dd8b0>)
+2025-11-13 22:50:43,603 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}time', <zeep.xsd.types.builtins.Time object at 0x7b51a14dd910>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}date', <zeep.xsd.types.builtins.Date object at 0x7b51a14ddaf0>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gYearMonth', <zeep.xsd.types.builtins.gYearMonth object at 0x7b51a15ce2a0>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gYear', <zeep.xsd.types.builtins.gYear object at 0x7b51a14dc650>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gMonthDay', <zeep.xsd.types.builtins.gMonthDay object at 0x7b51a14dd610>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gDay', <zeep.xsd.types.builtins.gDay object at 0x7b51a14dd850>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}gMonth', <zeep.xsd.types.builtins.gMonth object at 0x7b51a14dd250>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}hexBinary', <zeep.xsd.types.builtins.HexBinary object at 0x7b51a14dd670>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}base64Binary', <zeep.xsd.types.builtins.Base64Binary object at 0x7b51a14dd130>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anyURI', <zeep.xsd.types.builtins.AnyURI object at 0x7b51a14dd490>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}QName', <zeep.xsd.types.builtins.QName object at 0x7b51a14dec90>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NOTATION', <zeep.xsd.types.builtins.Notation object at 0x7b51a14dcb90>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}normalizedString', <zeep.xsd.types.builtins.NormalizedString object at 0x7b51a14dca70>)
+2025-11-13 22:50:43,604 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}token', <zeep.xsd.types.builtins.Token object at 0x7b51a14dcb30>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}language', <zeep.xsd.types.builtins.Language object at 0x7b51a14dcc50>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NMTOKEN', <zeep.xsd.types.builtins.NmToken object at 0x7b51a14dcef0>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NMTOKENS', <zeep.xsd.types.builtins.NmTokens object at 0x7b51a14dcd70>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}Name', <zeep.xsd.types.builtins.Name object at 0x7b51a14dd370>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}NCName', <zeep.xsd.types.builtins.NCName object at 0x7b51a14dc770>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ID', <zeep.xsd.types.builtins.ID object at 0x7b51a14dc9b0>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}IDREF', <zeep.xsd.types.builtins.IDREF object at 0x7b51a14dc590>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}IDREFS', <zeep.xsd.types.builtins.IDREFS object at 0x7b51a14dc2f0>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ENTITY', <zeep.xsd.types.builtins.Entity object at 0x7b51a15f6ba0>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}ENTITIES', <zeep.xsd.types.builtins.Entities object at 0x7b51a14def90>)
+2025-11-13 22:50:43,605 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}integer', <zeep.xsd.types.builtins.Integer object at 0x7b51a15063f0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}nonPositiveInteger', <zeep.xsd.types.builtins.NonPositiveInteger object at 0x7b51a14dcad0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}negativeInteger', <zeep.xsd.types.builtins.NegativeInteger object at 0x7b51a14dcfb0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}long', <zeep.xsd.types.builtins.Long object at 0x7b51a14dfbf0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}int', <zeep.xsd.types.builtins.Int object at 0x7b51a14de6f0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}short', <zeep.xsd.types.builtins.Short object at 0x7b51a14ddf70>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}byte', <zeep.xsd.types.builtins.Byte object at 0x7b51a14de390>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}nonNegativeInteger', <zeep.xsd.types.builtins.NonNegativeInteger object at 0x7b51a14de030>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedByte', <zeep.xsd.types.builtins.UnsignedByte object at 0x7b51a14df0b0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedInt', <zeep.xsd.types.builtins.UnsignedInt object at 0x7b51a14de510>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedLong', <zeep.xsd.types.builtins.UnsignedLong object at 0x7b51a14de750>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}unsignedShort', <zeep.xsd.types.builtins.UnsignedShort object at 0x7b51a14de810>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}positiveInteger', <zeep.xsd.types.builtins.PositiveInteger object at 0x7b51a14de9f0>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anyType', <zeep.xsd.types.any.AnyType object at 0x7b51a14de990>)
+2025-11-13 22:50:43,606 - zeep.xsd.schema - DEBUG - register_type('{http://www.w3.org/2001/XMLSchema}anySimpleType', <zeep.xsd.types.simple.AnySimpleType object at 0x7b51a14de5d0>)
+2025-11-13 22:50:43,607 - zeep.xsd.schema - DEBUG - register_element('{http://www.w3.org/2001/XMLSchema}schema', <zeep.xsd.elements.builtins.Schema object at 0x7b51a14dd9d0>)
+2025-11-13 22:50:43,607 - zeep.xsd.schema - DEBUG - Add document with tns http://www.w3.org/2001/XMLSchema to schema 135590529495120
+2025-11-13 22:50:43,607 - zeep.transports - DEBUG - Loading remote data from: https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:50:43,610 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www1.nfe.fazenda.gov.br:443
+2025-11-13 22:50:43,815 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "GET /NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL HTTP/1.1" 200 3829
+2025-11-13 22:50:43,817 - zeep.wsdl.wsdl - DEBUG - Creating definition for https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL
+2025-11-13 22:50:43,819 - zeep.xsd.schema - DEBUG - Init schema document for 'https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL'
+2025-11-13 22:50:43,819 - zeep.xsd.schema - DEBUG - Add document with tns http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe to schema 135590529495120
+2025-11-13 22:50:43,822 - zeep.xsd.schema - DEBUG - register_element('{http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresse', <Element(name='nfeDistDFeInteresse', type=<zeep.xsd.dynamic_types.nfeDistDFeInteresse object at 0x7b51a1528470>)>)
+2025-11-13 22:50:43,823 - zeep.xsd.schema - DEBUG - register_element('{http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseResponse', <Element(name='nfeDistDFeInteresseResponse', type=<zeep.xsd.dynamic_types.nfeDistDFeInteresseResponse object at 0x7b51a1528110>)>)
+2025-11-13 22:50:43,823 - zeep.xsd.schema - DEBUG - Resolving in schema <SchemaDocument(location='https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx?WSDL', tns='http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe', is_empty=False)>
+2025-11-13 22:50:43,824 - zeep.wsdl.wsdl - DEBUG - Adding message: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseSoapIn
+2025-11-13 22:50:43,824 - zeep.wsdl.wsdl - DEBUG - Adding message: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}nfeDistDFeInteresseSoapOut
+2025-11-13 22:50:43,825 - zeep.wsdl.wsdl - DEBUG - Adding port: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap
+2025-11-13 22:50:43,827 - zeep.wsdl.wsdl - DEBUG - Adding binding: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap
+2025-11-13 22:50:43,827 - zeep.wsdl.wsdl - DEBUG - Adding binding: {http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe}NFeDistribuicaoDFeSoap12
+2025-11-13 22:50:43,827 - zeep.wsdl.wsdl - DEBUG - Adding service: NFeDistribuicaoDFe
+2025-11-13 22:50:43,828 - src.ws.dfe_client - INFO - 🎯 Cliente criado com sucesso
+2025-11-13 22:50:43,828 - src.ws.dfe_client - INFO - 📤 Enviando requisição SOAP...
+2025-11-13 22:50:43,831 - zeep.transports - DEBUG - HTTP Post to https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx:
+<?xml version='1.0' encoding='utf-8'?>
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"><soap-env:Body><ns0:nfeDistDFeInteresse xmlns:ns0="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"><ns0:nfeDadosMsg><ns0:distDFeInt xmlns:ns0="http://www.portalfiscal.inf.br/nfe" versao="1.01"><ns0:tpAmb>1</ns0:tpAmb><ns0:cUFAutor>91</ns0:cUFAutor><ns0:CNPJ>51309435000153</ns0:CNPJ><ns0:distNSU><ns0:ultNSU>000000000000000</ns0:ultNSU></ns0:distNSU></ns0:distDFeInt></ns0:nfeDadosMsg></ns0:nfeDistDFeInteresse></soap-env:Body></soap-env:Envelope>
+2025-11-13 22:50:43,850 - urllib3.connectionpool - DEBUG - https://www1.nfe.fazenda.gov.br:443 "POST /NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx HTTP/1.1" 200 829
+2025-11-13 22:50:43,851 - zeep.transports - DEBUG - HTTP Response from https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx (status: 200):
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><nfeDistDFeInteresseResponse xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"><nfeDistDFeInteresseResult><retDistDFeInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versao="1.01" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>1</tpAmb><verAplic>1.7.6</verAplic><cStat>215</cStat><xMotivo>Rejeicao: Falha no esquema xml</xMotivo><dhResp>2025-11-13T22:50:44-03:00</dhResp><ultNSU>000000000000000</ultNSU><maxNSU>000000000000000</maxNSU></retDistDFeInt></nfeDistDFeInteresseResult></nfeDistDFeInteresseResponse></soap:Body></soap:Envelope>
+2025-11-13 22:50:43,852 - src.ws.dfe_client - INFO - 📥 Resposta recebida, processando...
+2025-11-13 22:50:43,853 - src.ws.dfe_client - INFO - 📊 Resposta: cStat=215, xMotivo=Rejeicao: Falha no esquema xml, ultNSU=000000000000000, maxNSU=000000000000000
+2025-11-13 22:50:43,853 - src.ws.dfe_client - INFO - 📦 Documentos encontrados: 0
+2025-11-13 22:50:44,223 - src.ws.dfe_client - INFO - ✅ Pull concluído - ultNSU == maxNSU (000000000000000)
+2025-11-13 22:50:44,224 - src.api.routes.dfe - INFO - ✅ Sincronização concluída: {'ok': True, 'processed': 0, 'ultNSU': '000000000000000', 'maxNSU': '000000000000000'}
+2025-11-13 22:50:44,224 - src.api.routes.dfe - DEBUG - 🗑️ Arquivo temporário removido: /tmp/tmp0hxs_zx3.pem
+2025-11-13 22:50:44,225 - src.api.routes.dfe - DEBUG - 🗑️ Arquivo temporário removido: /tmp/tmps1flb_w2.pem
+INFO:     127.0.0.1:44528 - "POST /api/dfe/sync?empresa_id=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44536 - "GET /api/documentos/importacao?empresa_id=1&limit=50&offset=0&filtro=registradas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35840 - "GET /api/dfe/conschave/download?empresa_id=1&chNFe=35251042580092002977551600000128621051321326&prefer=procNFe HTTP/1.1" 200 OK

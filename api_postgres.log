@@ -1,0 +1,15 @@
+nohup: ignoring input
+INFO:     Started server process [32394]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+✅ Tabelas criadas/verificadas no PostgreSQL
+🚀 Iniciando API com PostgreSQL...
+🔗 Banco de dados: postgresql+psycopg2://dfe:***@localhost:5432/dfe
+INFO:     127.0.0.1:49402 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49404 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57802 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [32394]
