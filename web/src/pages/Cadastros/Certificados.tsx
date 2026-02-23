@@ -33,6 +33,109 @@ interface CertificadoFormData {
 }
 
 export default function Certificados() {
+  // Estilos CSS-in-JS para melhorar a aparência
+  const styles = {
+    card: {
+      marginBottom: "32px",
+      borderRadius: "12px",
+      boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
+      background: "#fff",
+      padding: "24px",
+    },
+    cardHeader: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: "18px",
+    },
+    cardTitle: {
+      fontSize: "1.3rem",
+      fontWeight: 600,
+      margin: 0,
+    },
+    tableContainer: {
+      overflowX: "auto",
+      marginTop: "8px",
+    },
+    dataTable: {
+      width: "100%",
+      borderCollapse: "separate",
+      borderSpacing: 0,
+      background: "#f9f9fb",
+      borderRadius: "8px",
+      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+    },
+    th: {
+      padding: "12px 16px",
+      background: "#f1f3f7",
+      fontWeight: 600,
+      textAlign: "left",
+      borderBottom: "2px solid #e5e7eb",
+    },
+    td: {
+      padding: "10px 16px",
+      borderBottom: "1px solid #ececec",
+      background: "#fff",
+      verticalAlign: "middle",
+    },
+    actions: {
+      display: "flex",
+      gap: "8px",
+      justifyContent: "center",
+    },
+    badge: {
+      padding: "4px 10px",
+      borderRadius: "8px",
+      fontWeight: 500,
+      fontSize: "0.95em",
+      display: "inline-block",
+      minWidth: "60px",
+      textAlign: "center",
+    },
+    formRow: {
+      display: "flex",
+      gap: "32px",
+      marginBottom: "18px",
+      flexWrap: "wrap",
+    },
+    formCol: {
+      flex: 1,
+      minWidth: "260px",
+    },
+    formGroup: {
+      marginBottom: "16px",
+    },
+    formActions: {
+      marginTop: "18px",
+      display: "flex",
+      gap: "12px",
+    },
+    input: {
+      width: "100%",
+      padding: "8px 12px",
+      borderRadius: "6px",
+      border: "1px solid #d1d5db",
+      fontSize: "1em",
+      background: "#fff",
+    },
+    select: {
+      width: "100%",
+      padding: "8px 12px",
+      borderRadius: "6px",
+      border: "1px solid #d1d5db",
+      fontSize: "1em",
+      background: "#fff",
+    },
+    label: {
+      fontWeight: 500,
+      marginBottom: "4px",
+      display: "block",
+    },
+    small: {
+      color: "#888",
+      fontSize: "0.92em",
+    },
+  };
   // Função para parsear datas no formato 'YYYY-MM-DD HH:mm:ss'
   function parseDateString(dateStr: string) {
     if (!dateStr) return null;
@@ -324,9 +427,9 @@ export default function Certificados() {
       </div>
 
       <div className="content-body">
-        <div className="card">
-          <div className="card-header">
-            <h2 className="card-title">Certificados Digitais</h2>
+        <div style={styles.card}>
+          <div style={styles.cardHeader}>
+            <h2 style={styles.cardTitle}>Certificados Digitais</h2>
             <button
               className="btn btn-primary"
               onClick={() => setShowForm(true)}
@@ -336,24 +439,28 @@ export default function Certificados() {
             </button>
           </div>
 
-          <div className="card-body">
+          <div>
             {loading && <p>Carregando...</p>}
 
             {certificados.length === 0 && !loading ? (
-              <p className="text-center">Nenhum certificado cadastrado.</p>
+              <p
+                style={{ textAlign: "center", margin: "32px 0", color: "#888" }}
+              >
+                Nenhum certificado cadastrado.
+              </p>
             ) : (
-              <div className="table-container">
-                <table className="data-table">
+              <div style={styles.tableContainer}>
+                <table style={styles.dataTable}>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Empresa</th>
-                      <th>CNPJ</th>
-                      <th>Arquivo</th>
-                      <th>Válido até</th>
-                      <th>Validade</th>
-                      <th>Status</th>
-                      <th>Ações</th>
+                      <th style={styles.th}>ID</th>
+                      <th style={styles.th}>Empresa</th>
+                      <th style={styles.th}>CNPJ</th>
+                      <th style={styles.th}>Arquivo</th>
+                      <th style={styles.th}>Válido até</th>
+                      <th style={styles.th}>Validade</th>
+                      <th style={styles.th}>Status</th>
+                      <th style={styles.th}>Ações</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -361,11 +468,11 @@ export default function Certificados() {
                       const status = getStatusCertificado(cert.valido_ate);
                       return (
                         <tr key={cert.id}>
-                          <td>{cert.id}</td>
-                          <td>{cert.empresa_nome}</td>
-                          <td>{cert.empresa_cnpj}</td>
-                          <td>{cert.nome_arquivo}</td>
-                          <td>
+                          <td style={styles.td}>{cert.id}</td>
+                          <td style={styles.td}>{cert.empresa_nome}</td>
+                          <td style={styles.td}>{cert.empresa_cnpj}</td>
+                          <td style={styles.td}>{cert.nome_arquivo}</td>
+                          <td style={styles.td}>
                             {(() => {
                               const date = parseDateString(cert.valido_ate);
                               return date
@@ -373,19 +480,34 @@ export default function Certificados() {
                                 : "—";
                             })()}
                           </td>
-                          <td>
-                            <span className={`badge ${status.class}`}>
+                          <td style={styles.td}>
+                            <span
+                              style={{
+                                ...styles.badge,
+                                background:
+                                  status.class === "badge-success"
+                                    ? "#34d399"
+                                    : status.class === "badge-warning"
+                                      ? "#fbbf24"
+                                      : "#f87171",
+                                color: "#fff",
+                              }}
+                            >
                               {status.label}
                             </span>
                           </td>
-                          <td>
+                          <td style={styles.td}>
                             <span
-                              className={`badge ${cert.ativo ? "badge-success" : "badge-danger"}`}
+                              style={{
+                                ...styles.badge,
+                                background: cert.ativo ? "#34d399" : "#f87171",
+                                color: "#fff",
+                              }}
                             >
                               {cert.ativo ? "Ativo" : "Inativo"}
                             </span>
                           </td>
-                          <td>
+                          <td style={{ ...styles.td, ...styles.actions }}>
                             <button
                               className="btn btn-sm btn-warning"
                               onClick={() => handleEdit(cert)}
@@ -396,7 +518,6 @@ export default function Certificados() {
                             <button
                               className="btn btn-sm btn-danger"
                               onClick={() => handleDelete(cert)}
-                              style={{ marginLeft: "8px" }}
                               title="Excluir certificado"
                             >
                               🗑️
@@ -413,18 +534,18 @@ export default function Certificados() {
         </div>
 
         {showForm && (
-          <div className="card">
-            <div className="card-header">
-              <h2 className="card-title">
+          <div style={styles.card}>
+            <div style={styles.cardHeader}>
+              <h2 style={styles.cardTitle}>
                 {editingCertificado ? "Editar Certificado" : "Novo Certificado"}
               </h2>
             </div>
-            <div className="card-body">
+            <div>
               <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                  <div className="form-col">
-                    <div className="form-group">
-                      <label className="form-label">Empresa *</label>
+                <div style={styles.formRow}>
+                  <div style={styles.formCol}>
+                    <div style={styles.formGroup}>
+                      <label style={styles.label}>Empresa *</label>
                       <select
                         value={formData.empresa_id}
                         onChange={(e) =>
@@ -433,7 +554,7 @@ export default function Certificados() {
                             empresa_id: e.target.value,
                           })
                         }
-                        className="form-control"
+                        style={styles.select}
                         required
                       >
                         <option value="">Selecione uma empresa...</option>
@@ -445,38 +566,36 @@ export default function Certificados() {
                       </select>
                     </div>
 
-                    <div className="form-group">
-                      <label className="form-label">
+                    <div style={styles.formGroup}>
+                      <label style={styles.label}>
                         Arquivo do Certificado *
                       </label>
                       <input
                         type="file"
                         accept=".pfx,.p12"
                         onChange={handleFileUpload}
-                        className="form-control"
+                        style={styles.input}
                         required={!editingCertificado}
                       />
                       {formData.nome_arquivo && (
-                        <small className="form-text">
+                        <small style={styles.small}>
                           Arquivo selecionado: {formData.nome_arquivo}
                         </small>
                       )}
                     </div>
                   </div>
 
-                  <div className="form-col">
-                    <div className="form-group">
-                      <label className="form-label">
-                        Senha do Certificado *
-                      </label>
-                      <div className="input-group">
+                  <div style={styles.formCol}>
+                    <div style={styles.formGroup}>
+                      <label style={styles.label}>Senha do Certificado *</label>
+                      <div style={{ display: "flex", gap: "8px" }}>
                         <input
                           type="password"
                           value={formData.senha}
                           onChange={(e) =>
                             setFormData({ ...formData, senha: e.target.value })
                           }
-                          className="form-control"
+                          style={styles.input}
                           placeholder="Digite a senha do certificado"
                           required
                         />
@@ -489,7 +608,6 @@ export default function Certificados() {
                             !formData.senha ||
                             !formData.arquivo_base64
                           }
-                          style={{ marginLeft: "8px" }}
                         >
                           {loading ? "Validando..." : "🔍 Validar"}
                         </button>
@@ -537,8 +655,8 @@ export default function Certificados() {
                       )}
                     </div>
 
-                    <div className="form-group">
-                      <label className="form-label">Válido até</label>
+                    <div style={styles.formGroup}>
+                      <label style={styles.label}>Válido até</label>
                       <input
                         type="text"
                         value={
@@ -548,12 +666,11 @@ export default function Certificados() {
                               )
                             : ""
                         }
-                        className="form-control"
+                        style={{ ...styles.input, backgroundColor: "#f8f9fa" }}
                         placeholder="Será preenchido automaticamente após validação"
                         readOnly
-                        style={{ backgroundColor: "#f8f9fa" }}
                       />
-                      <small className="form-text">
+                      <small style={styles.small}>
                         A data de validade será extraída automaticamente do
                         certificado após a validação.
                       </small>
@@ -561,7 +678,7 @@ export default function Certificados() {
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div style={styles.formGroup}>
                   <div className="form-check">
                     <input
                       type="checkbox"
@@ -578,7 +695,7 @@ export default function Certificados() {
                   </div>
                 </div>
 
-                <div className="form-actions">
+                <div style={styles.formActions}>
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -594,7 +711,6 @@ export default function Certificados() {
                     type="button"
                     className="btn btn-secondary"
                     onClick={resetForm}
-                    style={{ marginLeft: "8px" }}
                   >
                     Cancelar
                   </button>

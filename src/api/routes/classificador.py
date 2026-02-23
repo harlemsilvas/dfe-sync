@@ -108,7 +108,7 @@ async def classificar_documentos(
         request.manter_originais
     )
     
-    logger.info(f"Processamento iniciado: {task_id}", pasta=request.pasta_origem)
+    logger.info(f"Processamento iniciado: {task_id} | pasta={request.pasta_origem}")
     return status
 
 async def _processar_pasta_background(task_id: str, pasta_origem: str, manter_originais: bool):
@@ -130,7 +130,7 @@ async def _processar_pasta_background(task_id: str, pasta_origem: str, manter_or
         task_storage[task_id].finished_at = datetime.now()
         task_storage[task_id].stats = stats
         
-        logger.info(f"Processamento concluído: {task_id}", stats=stats)
+        logger.info(f"Processamento concluído: {task_id} | stats={stats}")
         
     except Exception as e:
         task_storage[task_id].status = "ERROR"
@@ -262,7 +262,7 @@ async def get_relatorio():
         
         with SessionLocal() as db:
             empresas = db.execute(text(
-                "SELECT COUNT(*) as total, COUNT(CASE WHEN monitorada THEN 1 END) as monitoradas FROM empresas WHERE ativo = true"
+                "SELECT COUNT(*) as total, COUNT(CASE WHEN monitorada THEN 1 END) as monitoradas FROM empresas WHERE ativo = 1"
             )).fetchone()
             logs_recentes = db.execute(text(
                 "SELECT COUNT(*) FROM logs_processamento WHERE created_at > now() - interval '24 hours'"
@@ -291,7 +291,7 @@ async def get_configuracao():
     try:
         with SessionLocal() as db:
             empresas = db.execute(text(
-                "SELECT cnpj, razao_social FROM empresas WHERE monitorada = true AND ativo = true"
+                "SELECT cnpj, razao_social FROM empresas WHERE monitorada = true AND ativo = 1"
             )).fetchall()
             tipos = db.execute(text(
                 "SELECT codigo, descricao FROM tipo_documento WHERE ativo = true"

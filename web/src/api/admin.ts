@@ -263,7 +263,9 @@ export const adminApi = {
     const formData = new FormData();
     formData.append("files", file, file.name); // ← "files" plural!
 
-    const response = await api.post("/upload", formData);
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   },
 
@@ -274,7 +276,9 @@ export const adminApi = {
       formData.append("files", file, file.name); // ← Mesmo nome, múltiplos valores
     });
 
-    const response = await api.post("/upload", formData);
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   },
 

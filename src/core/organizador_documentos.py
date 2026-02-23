@@ -41,7 +41,7 @@ class OrganizadorDocumentos:
         """Carrega empresas do banco para cache"""
         with SessionLocal() as db:
             result = db.execute(text(
-                "SELECT cnpj, razao_social FROM empresas WHERE ativo = true"
+                "SELECT cnpj, razao_social FROM empresas WHERE ativo = 1"
             ))
             self.cache_empresas = {
                 row.cnpj: row.razao_social for row in result

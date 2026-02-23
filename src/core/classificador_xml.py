@@ -60,7 +60,7 @@ class ClassificadorXML:
         """Carrega lista de CNPJs monitorados do banco"""
         with SessionLocal() as db:
             result = db.execute(text(
-                "SELECT cnpj FROM empresas WHERE monitorada = true AND ativo = true"
+                "SELECT cnpj FROM empresas WHERE monitorada = true AND ativo = 1"
             ))
             self.empresas_monitoradas = {row.cnpj for row in result}
             

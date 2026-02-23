@@ -294,7 +294,7 @@ class ProcessadorCompleto:
             with SessionLocal() as db:
                 # Configuração do sistema
                 empresas = db.execute(text(
-                    "SELECT COUNT(*) as total, COUNT(CASE WHEN monitorada THEN 1 END) as monitoradas FROM empresas WHERE ativo = true"
+                    "SELECT COUNT(*) as total, COUNT(CASE WHEN monitorada THEN 1 END) as monitoradas FROM empresas WHERE ativo = 1"
                 )).fetchone()
                 
                 tipos_doc = db.execute(text("SELECT COUNT(*) FROM tipo_documento WHERE ativo = true")).fetchone()

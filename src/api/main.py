@@ -56,3 +56,17 @@ app.include_router(cfop.router, prefix="/api", tags=["CFOP"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
 # ✅ Registrar classificador (sem prefixo extra, pois já tem no router)
 app.include_router(classificador.router, prefix="/api", tags=["Classificador"]) # ← Registrar!
+
+# Atalho: /api/classificar → /api/classificador/classificar
+from fastapi import Request, BackgroundTasks
+from src.api.routes.classificador import classificar_documentos, ClassificacaoRequest
+@app.post("/api/classificar", tags=["Classificador"])
+async def classificar_atalho(request: Request, background_tasks: BackgroundTasks):
+    body = await request.json()
+    print("[DEBUG] Payload recebido em /api/classificar:", body)
+    try:
+        req = ClassificacaoRequest(**body)
+    except Exception as e:
+        print("[ERRO] Falha ao criar ClassificacaoRequest:", e)
+        raise
+    return await classificar_documentos(req, background_tasks)
