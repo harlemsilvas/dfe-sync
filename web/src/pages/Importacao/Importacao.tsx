@@ -3,13 +3,17 @@ import { adminApi } from "../../api/admin";
 
 export const Importacao: React.FC = () => {
   const [selectedPath, setSelectedPath] = useState("");
+  // Busca de pasta removida
   const [uploading, setUploading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [error, setError] = useState("");
+  const [progressCount, setProgressCount] = useState(0);
+  const progressInterval = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handlePathSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!selectedPath.trim()) {
       setError("Selecione uma pasta válida");
       return;
@@ -18,6 +22,12 @@ export const Importacao: React.FC = () => {
     setProcessing(true);
     setError("");
     setResults(null);
+    setProgressCount(0);
+
+    // Inicia contador incremental
+    progressInterval.current = setInterval(() => {
+      setProgressCount((prev) => prev + 1);
+    }, 500);
 
     try {
       const result = await adminApi.classificarPasta(selectedPath);
@@ -26,8 +36,15 @@ export const Importacao: React.FC = () => {
       setError(err.response?.data?.detail || "Erro ao processar pasta");
     } finally {
       setProcessing(false);
+      if (progressInterval.current) {
+        clearInterval(progressInterval.current);
+        progressInterval.current = null;
+      }
+      setProgressCount(0);
     }
   };
+
+  // Busca de pasta removida
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -45,7 +62,7 @@ export const Importacao: React.FC = () => {
       if (Array.isArray(result)) {
         uploadsArr = result;
       } else if (Array.isArray(result.uploaded_files)) {
-        uploadsArr = result.uploaded_files.map((filename) => ({
+        uploadsArr = result.uploaded_files.map((filename: string) => ({
           filename,
           success: true,
         }));
@@ -99,7 +116,9 @@ export const Importacao: React.FC = () => {
             <form onSubmit={handlePathSubmit}>
               <div className="form-group">
                 <label className="form-label">Caminho da Pasta</label>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div
+                  style={{ display: "flex", gap: "10px", alignItems: "center" }}
+                >
                   <input
                     type="text"
                     className="form-control"
@@ -111,11 +130,51 @@ export const Importacao: React.FC = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    disabled={processing}
+                    disabled={processing || !selectedPath}
                   >
                     {processing ? "⏳ Processando..." : "🚀 Processar"}
                   </button>
                 </div>
+                {/* Barra de progresso contínua */}
+                {processing && (
+                  <div
+                    style={{
+                      marginTop: 12,
+                      marginBottom: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                    }}
+                  >
+                    <div
+                      className="spinner"
+                      style={{
+                        width: 18,
+                        height: 18,
+                        border: "3px solid #ccc",
+                        borderTop: "3px solid #007bff",
+                        borderRadius: "50%",
+                        animation: "spin 1s linear infinite",
+                      }}
+                    />
+                    <span style={{ fontWeight: 500 }}>
+                      Processando arquivos:{" "}
+                      <span style={{ minWidth: 24, display: "inline-block" }}>
+                        {progressCount}
+                      </span>
+                    </span>
+                  </div>
+                )}
+                {/* ...comentário de CSS removido para evitar erro de sintaxe... */}
+                {/* Mensagem de erro logo abaixo do campo */}
+                {error && (
+                  <div
+                    className="alert alert-danger"
+                    style={{ marginTop: 8, marginBottom: 0 }}
+                  >
+                    <strong>❌ Erro:</strong> {error}
+                  </div>
+                )}
               </div>
               <small style={{ color: "#666" }}>
                 Informe o caminho completo da pasta contendo arquivos XML ou
@@ -187,15 +246,8 @@ export const Importacao: React.FC = () => {
         </div>
 
         {/* Resultados */}
-        {error && (
-          <div className="card">
-            <div className="card-body">
-              <div className="alert alert-danger">
-                <strong>❌ Erro:</strong> {error}
-              </div>
-            </div>
-          </div>
-        )}
+
+        {/* Erro já exibido abaixo do campo de pasta */}
 
         {results && (
           <div className="card">

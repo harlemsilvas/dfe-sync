@@ -1,5 +1,6 @@
 """
 API REST para gerenciamento do classificador de documentos
+Inclui função imprimir_dashboard para exibir estatísticas de processamento.
 """
 from fastapi import APIRouter, HTTPException, UploadFile, File, BackgroundTasks, Depends, Query, Body
 from fastapi.responses import JSONResponse
@@ -13,6 +14,16 @@ import asyncio
 import zipfile
 import shutil
 from datetime import datetime
+import uuid  # ✅ MOVER PARA O TOPO (melhor prática)
+
+
+# IMPORTS PARA DASHBOARD
+try:
+    from rich.console import Console
+    from rich.table import Table
+except ImportError:
+    Console = None
+    Table = None
 
 # Adicionar o diretório raiz ao path para imports relativos
 current_dir = Path(__file__).resolve().parent
@@ -28,11 +39,14 @@ from sqlalchemy import text
 
 # ✅ CRIAR APIRouter, NÃO FastAPI
 router = APIRouter(
-    prefix="/classificador",  # Opcional: prefixo para todas as rotas deste router
+    prefix="/classificador",
     tags=["Classificador"]
 )
 
-# Models (mesmos do seu código original)
+# =============================================================================
+# MODELS
+# =============================================================================
+
 class ProcessamentoStatus(BaseModel):
     task_id: str
     status: str
@@ -62,12 +76,109 @@ class ResolverPendenciaRequest(BaseModel):
     tipo_final: str
     resolvido_por: str
 
-# Storage para tasks em background (global ao router)
+# =============================================================================
+# VARIÁVEIS GLOBAIS
+# =============================================================================
+
 task_storage: Dict[str, ProcessamentoStatus] = {}
 logger = ProcessamentoLogger("API")
 
 # =============================================================================
-# ENDPOINTS (usar @router. em vez de @app.)
+# FUNÇÕES AUXILIARES (antes dos endpoints)
+# =============================================================================
+
+def adaptar_stats_para_dashboard(stats_originais: Dict) -> Dict:
+    """
+    Converte stats do ProcessadorCompleto para formato compatível com imprimir_dashboard
+    """
+    if not stats_originais:
+        return {}
+    
+    return {
+        'xmls_processados': stats_originais.get('total_xmls', stats_originais.get('xmls_processados', 0)),
+        'xmls_classificados': stats_originais.get('classificados', stats_originais.get('xmls_classificados', 0)),
+        'xmls_organizados': stats_originais.get('organizados', stats_originais.get('xmls_organizados', 0)),
+        'xmls_com_erro': stats_originais.get('erros', stats_originais.get('xmls_com_erro', 0)),
+        'tipos_encontrados': stats_originais.get('por_tipo', stats_originais.get('tipos_encontrados', {})),
+        'empresas_envolvidas': list(stats_originais.get('cnpjs', stats_originais.get('empresas_envolvidas', set()))),
+        'valores_totais': float(stats_originais.get('valor_total', stats_originais.get('valores_totais', 0))),
+        'tempo_execucao': stats_originais.get('tempo_segundos', stats_originais.get('tempo_execucao', 0)),
+        'erros': stats_originais.get('lista_erros', stats_originais.get('erros', []))
+    }
+
+# Função para exibir dashboard de processamento
+def imprimir_dashboard(stats: Dict):
+    """
+    Exibe um dashboard resumido das estatísticas de processamento.
+    Usa rich se disponível, senão fallback para print.
+    """
+    if Console and Table:
+        console = Console()
+        console.print("\n[bold green]📊 DASHBOARD DE PROCESSAMENTO[/bold green]\n")
+        table = Table(show_header=False, box=None)
+        table.add_column("Métrica", style="cyan")
+        table.add_column("Valor", style="white")
+        table.add_row("📁 XMLs Processados", str(stats.get('xmls_processados', 0)))
+        table.add_row("✅ Classificados", str(stats.get('xmls_classificados', 0)))
+        table.add_row("🗂️  Organizados", str(stats.get('xmls_organizados', 0)))
+        table.add_row("❌ Com Erro", str(stats.get('xmls_com_erro', 0)))
+        table.add_row("⏱️  Tempo", f"{stats.get('tempo_execucao', 0)}s")
+        table.add_row("💰 Valor Total", f"R$ {stats.get('valores_totais', 0):,.2f}")
+        console.print(table)
+    else:
+        print("\n" + "="*60)
+        print("📊 RESUMO DO PROCESSAMENTO")
+        print("="*60)
+        print(f"📁 XMLs Processados: {stats.get('xmls_processados', 0)}")
+        print(f"✅ Classificados: {stats.get('xmls_classificados', 0)}")
+        print(f"🗂️  Organizados: {stats.get('xmls_organizados', 0)}")
+        print(f"❌ Com Erro: {stats.get('xmls_com_erro', 0)}")
+        print(f"⏱️  Tempo: {stats.get('tempo_execucao', 0)}s")
+        print(f"💰 Valor Total: R$ {stats.get('valores_totais', 0):,.2f}")
+        print("="*60)
+
+
+async def _processar_pasta_background(task_id: str, pasta_origem: str, manter_originais: bool):
+    """Processa pasta em background"""
+    try:
+        task_storage[task_id].message = "Inicializando processador..."
+        task_storage[task_id].progress = 10
+        
+        processador = ProcessadorCompleto(pasta_origem, manter_originais)
+        
+        task_storage[task_id].message = "Processando arquivos..."
+        task_storage[task_id].progress = 30
+        
+        stats = processador.processar_pasta_completa()
+        
+        # ✅✅✅ DASHBOARD: Exibe estatísticas formatadas nos logs ✅✅✅
+        try:
+            # Tenta usar stats direto, se não funcionar, adapta o formato
+            if isinstance(stats, dict) and 'xmls_processados' in stats:
+                imprimir_dashboard(stats)
+            else:
+                stats_adaptados = adaptar_stats_para_dashboard(stats)
+                if stats_adaptados:
+                    imprimir_dashboard(stats_adaptados)
+        except Exception as e:
+            logger.warning(f"Não foi possível exibir dashboard: {e}")
+        
+        task_storage[task_id].status = "COMPLETED"
+        task_storage[task_id].progress = 100
+        task_storage[task_id].message = "Processamento concluído com sucesso"
+        task_storage[task_id].finished_at = datetime.now()
+        task_storage[task_id].stats = stats
+        
+        logger.info(f"Processamento concluído: {task_id} | stats={stats}")
+        
+    except Exception as e:
+        task_storage[task_id].status = "ERROR"
+        task_storage[task_id].message = f"Erro: {str(e)}"
+        task_storage[task_id].finished_at = datetime.now()
+        logger.error(f"Erro no processamento {task_id}: {e}")
+
+# =============================================================================
+# ENDPOINTS
 # =============================================================================
 
 @router.get("/", response_model=Dict)
@@ -85,7 +196,6 @@ async def classificar_documentos(
     background_tasks: BackgroundTasks
 ):
     """Inicia processo de classificação de documentos em uma pasta"""
-    import uuid
     task_id = str(uuid.uuid4())
     
     pasta = Path(request.pasta_origem)
@@ -110,33 +220,6 @@ async def classificar_documentos(
     
     logger.info(f"Processamento iniciado: {task_id} | pasta={request.pasta_origem}")
     return status
-
-async def _processar_pasta_background(task_id: str, pasta_origem: str, manter_originais: bool):
-    """Processa pasta em background"""
-    try:
-        task_storage[task_id].message = "Inicializando processador..."
-        task_storage[task_id].progress = 10
-        
-        processador = ProcessadorCompleto(pasta_origem, manter_originais)
-        
-        task_storage[task_id].message = "Processando arquivos..."
-        task_storage[task_id].progress = 30
-        
-        stats = processador.processar_pasta_completa()
-        
-        task_storage[task_id].status = "COMPLETED"
-        task_storage[task_id].progress = 100
-        task_storage[task_id].message = "Processamento concluído com sucesso"
-        task_storage[task_id].finished_at = datetime.now()
-        task_storage[task_id].stats = stats
-        
-        logger.info(f"Processamento concluído: {task_id} | stats={stats}")
-        
-    except Exception as e:
-        task_storage[task_id].status = "ERROR"
-        task_storage[task_id].message = f"Erro: {str(e)}"
-        task_storage[task_id].finished_at = datetime.now()
-        logger.error(f"Erro no processamento {task_id}: {e}")
 
 @router.get("/status/{task_id}", response_model=ProcessamentoStatus)
 async def get_status(task_id: str):
@@ -170,7 +253,6 @@ async def upload_arquivo(
                 arquivos_salvos.append(arquivo_path)
 
             if processar is None:
-                # Não processa, apenas retorna opção ao frontend
                 return {
                     "success": True,
                     "uploaded_files": [str(p.name) for p in arquivos_salvos],
@@ -179,9 +261,20 @@ async def upload_arquivo(
                     "can_process": True
                 }
             elif processar:
-                # Processa todos os arquivos enviados
                 processador = ProcessadorCompleto(str(temp_path), manter_originais=True)
                 resultado = processador.processar_pasta_completa()
+                
+                # ✅ Dashboard para upload com processamento
+                try:
+                    if isinstance(resultado, dict) and 'xmls_processados' in resultado:
+                        imprimir_dashboard(resultado)
+                    else:
+                        stats_adaptados = adaptar_stats_para_dashboard(resultado)
+                        if stats_adaptados:
+                            imprimir_dashboard(stats_adaptados)
+                except:
+                    pass  # Ignora falha no dashboard, não quebra o processo
+                
                 return {
                     "success": True,
                     "processed": True,
@@ -189,7 +282,6 @@ async def upload_arquivo(
                     "count": len(arquivos_salvos)
                 }
             else:
-                # Apenas salva, não processa
                 return {
                     "success": True,
                     "uploaded_files": [str(p.name) for p in arquivos_salvos],
@@ -332,8 +424,10 @@ async def classificar_xml_manual(xml_id: str, classificacao: str = Body(...)):
     xml_path = Path("/mnt/c/Projetos/dfe-sync/storage/upload") / xml_id
     if not xml_path.exists():
         raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_id}")
+    
     classificador = ClassificadorXML()
     metadata = classificador.processar_xml(xml_path)
+    
     # Sobrescreve classificação manual
     metadata.tipo_documento = classificacao
 
@@ -342,13 +436,14 @@ async def classificar_xml_manual(xml_id: str, classificacao: str = Body(...)):
         destino = Path("/mnt/c/Projetos/dfe-sync/storage/fail")
     else:
         destino = Path("/mnt/c/Projetos/dfe-sync/storage/processed")
+    
     destino.mkdir(parents=True, exist_ok=True)
     novo_path = destino / xml_id
+    
     try:
         shutil.move(str(xml_path), str(novo_path))
     except Exception as e:
-        # Se não mover, loga erro mas segue
-        print(f"Erro ao mover arquivo classificado: {e}")
+        logger.warning(f"Erro ao mover arquivo classificado: {e}")
 
     return {
         "arquivo": xml_id,
@@ -356,3 +451,4 @@ async def classificar_xml_manual(xml_id: str, classificacao: str = Body(...)):
         "metadados": metadata.__dict__,
         "movido_para": str(novo_path)
     }
+    

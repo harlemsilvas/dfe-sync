@@ -53,12 +53,12 @@ class Certificado(Base):
     __tablename__ = "certificados"
     
     id: Mapped[int] = mapped_column(primary_key=True)
-    empresa_id: Mapped[int] = mapped_column(ForeignKey("empresas.id"), index=True)
-    nome_arquivo: Mapped[str] = mapped_column(String(255))
-    senha: Mapped[str] = mapped_column(String(255))
-    valido_ate: Mapped[str] = mapped_column(String(50))
-    ativo: Mapped[bool] = mapped_column(Boolean, default=True)
+        from sqlalchemy import select
+        from src.store.db import SessionLocal, Base
+        from src.settings import settings
 
+        # Usa settings.DB_URL do .env para garantir unicidade
+        print("🔗 Banco de dados:", settings.DB_URL)
 # Criar tabelas se não existirem
 try:
     Base.metadata.create_all(bind=engine)
