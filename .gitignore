@@ -9,3 +9,14 @@ __pycache__/
 !.vscode/launch.json
 storage/xml/*
 storage/certs/*
+storage/upload/*
+storage/empresas/*
+storage/relatorios/*
+storage/backup/*
+logs/*
+*.xml
+xmls/*
+certs/*
+uploads/*
+relatorios/*
+backups/*
