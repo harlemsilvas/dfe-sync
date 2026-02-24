@@ -113,3 +113,20 @@ async def upload_documents(files: list[UploadFile] = File(...)):
         "uploaded_files": uploaded_files,
         "count": len(uploaded_files)
     }
+
+@router.get("/xmls/nao-classificados")
+def xmls_nao_classificados():
+    """Lista todos os arquivos XML presentes na pasta de upload para classificação manual."""
+    upload_dir = Path("/mnt/c/Projetos/dfe-sync/storage/upload")
+    xml_files = list(upload_dir.glob("*.xml"))
+    xmls = []
+    for xml_path in xml_files:
+        xmls.append({
+            "arquivo": xml_path.name,
+            "status": "pendente",
+            "tamanho": xml_path.stat().st_size
+        })
+    return {
+        "total": len(xmls),
+        "xmls": xmls
+    }

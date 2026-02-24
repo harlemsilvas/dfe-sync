@@ -296,9 +296,13 @@ export const adminApi = {
   },
 
   async classificarXML(xmlId: string, classificacao: string) {
-    const response = await api.post(`/xmls/${xmlId}/classificar`, {
-      classificacao,
-    });
+    const response = await api.post(
+      `/classificador/xmls/${xmlId}/classificar`,
+      JSON.stringify(classificacao),
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    );
     return response.data;
   },
 

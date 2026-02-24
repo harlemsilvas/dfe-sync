@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora DIFAL + FCP</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+    }
+
+    h1 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2em;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 0.95em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .results {
+      margin-top: 30px;
+      padding: 25px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-weight: 500;
+      color: #555;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: #333;
+    }
+
+    .result-value.highlight {
+      color: #667eea;
+      font-size: 1.2em;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffc107;
+    }
+
+    .alert-info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+
+    .info-box h3 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🧮 Calculadora DIFAL + FCP</h1>
+    <p class="subtitle">Calcule o DIFAL e FCP para operações interestaduais</p>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="difalForm">
+      <div class="row">
+        <div class="form-group">
+          <label for="estadoOrigem">Estado de Origem:</label>
+          <select id="estadoOrigem" required>
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="estadoDestino">Estado de Destino:</label>
+          <select id="estadoDestino" required>
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="valorMercadoria">Valor da Mercadoria (R$):</label>
+        <input type="number" id="valorMercadoria" step="0.01" min="0.01" required placeholder="Ex: 100.00">
+      </div>
+
+      <div class="form-group">
+        <label for="aliquotaFCP">Alíquota FCP (%):</label>
+        <input type="number" id="aliquotaFCP" step="0.1" min="0" max="4" value="2" placeholder="Ex: 2.0">
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="calculoPorDentro">
+        <label for="calculoPorDentro" style="margin: 0; cursor: pointer;">
+          Cálculo "por dentro" (base majorada - MG, PE, BA, etc.)
+        </label>
+      </div>
+
+      <button type="submit">Calcular DIFAL + FCP</button>
+    </form>
+
+    <div id="results" class="results">
+      <h2 style="color: #667eea; margin-bottom: 20px;">📊 Resultado do Cálculo</h2>
+
+      <div class="result-item">
+        <span class="result-label">Valor da Mercadoria:</span>
+        <span class="result-value" id="resValorMercadoria"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">Alíquota Interestadual:</span>
+        <span class="result-value" id="resAliqInterestadual"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">Alíquota Interna Destino:</span>
+        <span class="result-value" id="resAliqInterna"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">ICMS Interestadual:</span>
+        <span class="result-value" id="resICMSInterestadual"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">Base de Cálculo 1 (BC1):</span>
+        <span class="result-value" id="resBC1"></span>
+      </div>
+
+      <div class="result-item" id="rowBC2" style="display: none;">
+        <span class="result-label">Base de Cálculo 2 (BC2):</span>
+        <span class="result-value" id="resBC2"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">ICMS Total (Destino):</span>
+        <span class="result-value" id="resICMSTotal"></span>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">DIFAL (sem FCP):</span>
+        <span class="result-value" id="resDIFAL"></span>
+      </div>
+
+      <div class="result-item" id="rowFCP" style="display: none;">
+        <span class="result-label">FCP:</span>
+        <span class="result-value" id="resFCP"></span>
+      </div>
+
+      <div class="result-item"
+        style="background: #667eea; color: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+        <span class="result-label" style="color: white; font-weight: 700;">TOTAL DIFAL + FCP:</span>
+        <span class="result-value highlight" id="resTotal" style="color: white;"></span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h3>ℹ️ Informações Importantes:</h3>
+      <ul style="margin-left: 20px; line-height: 1.8;">
+        <li><strong>Estados sem FCP:</strong> AC, AP, PA e SC</li>
+        <li><strong>Alíquota FCP padrão:</strong> 2% (maioria dos estados)</li>
+        <li><strong>Rio de Janeiro:</strong> pode chegar a 4% dependendo do produto</li>
+        <li><strong>Cálculo "por dentro":</strong> usado em MG, PE, BA e outros estados específicos</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Dados das tabelas
+    const tabelaICMS = {
+      "AC": { "AC": 19, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "AL": { "AC": 12, "AL": 19, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "AM": { "AC": 12, "AL": 12, "AM": 20, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "AP": { "AC": 12, "AL": 12, "AM": 12, "AP": 18, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "BA": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 20.5, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "CE": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 20, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "DF": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 20, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "ES": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 17, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "GO": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 19, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "MA": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 22, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "MG": { "AC": 7, "AL": 7, "AM": 7, "AP": 7, "BA": 7, "CE": 7, "DF": 7, "ES": 7, "GO": 7, "MA": 7, "MG": 18, "MS": 7, "MT": 7, "PA": 7, "PB": 7, "PE": 7, "PI": 7, "PR": 12, "RJ": 7, "RN": 7, "RO": 12, "RR": 7, "RS": 12, "SC": 12, "SE": 7, "SP": 12, "TO": 7 },
+      "MS": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 18, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "MT": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 17, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "PA": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 19, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "PB": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 20, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "PE": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 20.5, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "PI": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 21, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "PR": { "AC": 7, "AL": 7, "AM": 7, "AP": 7, "BA": 7, "CE": 7, "DF": 7, "ES": 7, "GO": 7, "MA": 7, "MG": 12, "MS": 7, "MT": 7, "PA": 7, "PB": 7, "PE": 7, "PI": 7, "PR": 19.5, "RJ": 7, "RN": 7, "RO": 7, "RR": 7, "RS": 12, "SC": 12, "SE": 7, "SP": 12, "TO": 7 },
+      "RJ": { "AC": 7, "AL": 7, "AM": 7, "AP": 7, "BA": 7, "CE": 7, "DF": 7, "ES": 7, "GO": 7, "MA": 7, "MG": 12, "MS": 7, "MT": 7, "PA": 7, "PB": 7, "PE": 7, "PI": 7, "PR": 12, "RJ": 20, "RN": 7, "RO": 7, "RR": 7, "RS": 12, "SC": 12, "SE": 7, "SP": 12, "TO": 7 },
+      "RN": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 18, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "RO": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 19.5, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "RR": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 20, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 12 },
+      "RS": { "AC": 7, "AL": 7, "AM": 7, "AP": 7, "BA": 7, "CE": 7, "DF": 7, "ES": 7, "GO": 7, "MA": 7, "MG": 12, "MS": 7, "MT": 7, "PA": 7, "PB": 7, "PE": 7, "PI": 7, "PR": 12, "RJ": 12, "RN": 7, "RO": 7, "RR": 7, "RS": 17, "SC": 12, "SE": 7, "SP": 12, "TO": 7 },
+      "SC": { "AC": 7, "AL": 7, "AM": 7, "AP": 7, "BA": 7, "CE": 7, "DF": 7, "ES": 7, "GO": 7, "MA": 7, "MG": 12, "MS": 7, "MT": 7, "PA": 7, "PB": 7, "PE": 7, "PI": 7, "PR": 12, "RJ": 12, "RN": 7, "RO": 7, "RR": 7, "RS": 12, "SC": 17, "SE": 7, "SP": 12, "TO": 7 },
+      "SE": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 19, "SP": 12, "TO": 12 },
+      "SP": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 18, "TO": 12 },
+      "TO": { "AC": 12, "AL": 12, "AM": 12, "AP": 12, "BA": 12, "CE": 12, "DF": 12, "ES": 12, "GO": 12, "MA": 12, "MG": 12, "MS": 12, "MT": 12, "PA": 12, "PB": 12, "PE": 12, "PI": 12, "PR": 12, "RJ": 12, "RN": 12, "RO": 12, "RR": 12, "RS": 12, "SC": 12, "SE": 12, "SP": 12, "TO": 20 }
+    };
+
+    const tabelaFCP = {
+      "AC": { tem_fcp: false, aliquota_padrao: 0 },
+      "AL": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "AP": { tem_fcp: false, aliquota_padrao: 0 },
+      "AM": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "BA": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "CE": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "DF": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "ES": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "GO": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "MA": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "MG": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "MS": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "MT": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "PA": { tem_fcp: false, aliquota_padrao: 0 },
+      "PB": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "PE": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "PI": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "PR": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "RJ": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "RN": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "RO": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "RR": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "RS": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "SC": { tem_fcp: false, aliquota_padrao: 0 },
+      "SE": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "SP": { tem_fcp: true, aliquota_padrao: 2.0 },
+      "TO": { tem_fcp: true, aliquota_padrao: 2.0 }
+    };
+
+    const estados = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"];
+    const estadosSemFCP = ["AC", "AP", "PA", "SC"];
+
+    // Popular selects
+    function popularSelects() {
+      const selectOrigem = document.getElementById('estadoOrigem');
+      const selectDestino = document.getElementById('estadoDestino');
+
+      estados.forEach(uf => {
+        const option1 = document.createElement('option');
+        option1.value = uf;
+        option1.textContent = uf;
+        selectOrigem.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = uf;
+        option2.textContent = uf;
+        selectDestino.appendChild(option2);
+      });
+    }
+
+    // Mostrar alerta
+    function showAlert(message, type = 'warning') {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = message;
+      alertBox.className = `alert alert-${type} show`;
+      setTimeout(() => {
+        alertBox.classList.remove('show');
+      }, 5000);
+    }
+
+    // Calcular DIFAL
+    function calcularDIFAL(e) {
+      e.preventDefault();
+
+      const origem = document.getElementById('estadoOrigem').value;
+      const destino = document.getElementById('estadoDestino').value;
+      const valorMercadoria = parseFloat(document.getElementById('valorMercadoria').value);
+      const aliquotaFCPInput = parseFloat(document.getElementById('aliquotaFCP').value) || 0;
+      const calculoPorDentro = document.getElementById('calculoPorDentro').checked;
+
+      if (origem === destino) {
+        showAlert('Estado de origem e destino não podem ser iguais!', 'warning');
+        return;
+      }
+
+      // Verificar FCP
+      const infoFCP = tabelaFCP[destino];
+      if (!infoFCP.tem_fcp && aliquotaFCPInput > 0) {
+        showAlert(`⚠️ ${destino} não possui FCP! A alíquota será considerada como 0%.`, 'info');
+        document.getElementById('aliquotaFCP').value = 0;
+      }
+
+      // Obter alíquotas
+      const aliquotaInterestadual = tabelaICMS[origem][destino] / 100;
+      const aliquotaInterna = tabelaICMS[destino][destino] / 100;
+      const aliquotaFCP = aliquotaFCPInput / 100;
+
+      // Cálculos
+      let icmsInterestadual, bc1, bc2, icmsTotal, difal, fcp, total;
+
+      if (calculoPorDentro) {
+        // Cálculo por dentro (base majorada)
+        icmsInterestadual = valorMercadoria * aliquotaInterestadual;
+        bc1 = valorMercadoria - icmsInterestadual;
+        bc2 = bc1 / (1 - aliquotaInterna);
+        icmsTotal = bc2 * aliquotaInterna;
+        difal = icmsTotal - icmsInterestadual;
+        fcp = bc2 * aliquotaFCP;
+        total = difal + fcp;
+      } else {
+        // Cálculo por fora (base simples)
+        icmsInterestadual = valorMercadoria * aliquotaInterestadual;
+        bc1 = valorMercadoria;
+        icmsTotal = valorMercadoria * aliquotaInterna;
+        difal = icmsTotal - icmsInterestadual;
+        fcp = valorMercadoria * aliquotaFCP;
+        total = difal + fcp;
+      }
+
+      // Exibir resultados
+      document.getElementById('resValorMercadoria').textContent = `R$ ${valorMercadoria.toFixed(2)}`;
+      document.getElementById('resAliqInterestadual').textContent = `${(aliquotaInterestadual * 100).toFixed(2)}%`;
+      document.getElementById('resAliqInterna').textContent = `${(aliquotaInterna * 100).toFixed(2)}%`;
+      document.getElementById('resICMSInterestadual').textContent = `R$ ${icmsInterestadual.toFixed(2)}`;
+      document.getElementById('resBC1').textContent = `R$ ${bc1.toFixed(2)}`;
+
+      if (calculoPorDentro) {
+        document.getElementById('rowBC2').style.display = 'flex';
+        document.getElementById('resBC2').textContent = `R$ ${bc2.toFixed(2)}`;
+      } else {
+        document.getElementById('rowBC2').style.display = 'none';
+      }
+
+      document.getElementById('resICMSTotal').textContent = `R$ ${icmsTotal.toFixed(2)}`;
+      document.getElementById('resDIFAL').textContent = `R$ ${difal.toFixed(2)}`;
+
+      if (aliquotaFCP > 0) {
+        document.getElementById('rowFCP').style.display = 'flex';
+        document.getElementById('resFCP').textContent = `R$ ${fcp.toFixed(2)} (${(aliquotaFCP * 100).toFixed(2)}%)`;
+      } else {
+        document.getElementById('rowFCP').style.display = 'none';
+      }
+
+      document.getElementById('resTotal').textContent = `R$ ${total.toFixed(2)}`;
+
+      document.getElementById('results').classList.add('show');
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function () {
+      popularSelects();
+      document.getElementById('difalForm').addEventListener('submit', calcularDIFAL);
+    });
+  </script>
+</body>
+
+</html>

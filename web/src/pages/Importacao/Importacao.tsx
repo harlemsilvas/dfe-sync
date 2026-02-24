@@ -40,7 +40,19 @@ export const Importacao: React.FC = () => {
     try {
       // Envia todos os arquivos em uma única requisição
       const result = await adminApi.uploadFiles(Array.from(files));
-      setResults({ uploads: result });
+      // Garante que uploads seja sempre um array
+      let uploadsArr = [];
+      if (Array.isArray(result)) {
+        uploadsArr = result;
+      } else if (Array.isArray(result.uploaded_files)) {
+        uploadsArr = result.uploaded_files.map((filename) => ({
+          filename,
+          success: true,
+        }));
+      } else if (result && typeof result === "object") {
+        uploadsArr = [result];
+      }
+      setResults({ uploads: uploadsArr });
     } catch (err: any) {
       setError(err.response?.data?.detail || "Erro ao fazer upload");
     } finally {

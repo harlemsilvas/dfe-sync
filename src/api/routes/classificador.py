@@ -1,7 +1,7 @@
 """
 API REST para gerenciamento do classificador de documentos
 """
-from fastapi import APIRouter, HTTPException, UploadFile, File, BackgroundTasks, Depends, Query
+from fastapi import APIRouter, HTTPException, UploadFile, File, BackgroundTasks, Depends, Query, Body
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import List, Dict, Optional
@@ -154,41 +154,48 @@ async def list_tasks():
     }
 
 @router.post("/upload")
-async def upload_arquivo(files: List[UploadFile] = File(...)):
-    """Upload e processamento de arquivos (compatível com documentos.py)"""
+async def upload_arquivo(
+    files: List[UploadFile] = File(...),
+    processar: Optional[bool] = Query(None, description="Processar imediatamente após upload?")
+):
+    """Upload de arquivos. Pode processar imediatamente, apenas salvar, ou perguntar ao usuário."""
     try:
-        resultados = []
-        
-        for file in files:
-            with tempfile.TemporaryDirectory() as temp_dir:
-                temp_path = Path(temp_dir)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            arquivos_salvos = []
+            for file in files:
                 arquivo_path = temp_path / file.filename
-                
                 with open(arquivo_path, "wb") as f:
                     shutil.copyfileobj(file.file, f)
-                
+                arquivos_salvos.append(arquivo_path)
+
+            if processar is None:
+                # Não processa, apenas retorna opção ao frontend
+                return {
+                    "success": True,
+                    "uploaded_files": [str(p.name) for p in arquivos_salvos],
+                    "count": len(arquivos_salvos),
+                    "message": "Arquivos salvos. Deseja processar agora?",
+                    "can_process": True
+                }
+            elif processar:
+                # Processa todos os arquivos enviados
                 processador = ProcessadorCompleto(str(temp_path), manter_originais=True)
-                
-                if arquivo_path.suffix.lower() in ['.zip', '.rar', '.7z', '.xml']:
-                    resultado = processador.processar_arquivo_especifico(str(arquivo_path))
-                    resultados.append({
-                        "filename": file.filename,
-                        "status": "ok",
-                        "resultado": resultado
-                    })
-                else:
-                    resultados.append({
-                        "filename": file.filename,
-                        "status": "error",
-                        "erro": f"Tipo não suportado: {arquivo_path.suffix}"
-                    })
-        
-        return {
-            "success": True,
-            "uploaded_files": resultados,
-            "count": len(resultados)
-        }
-    
+                resultado = processador.processar_pasta_completa()
+                return {
+                    "success": True,
+                    "processed": True,
+                    "resultado": resultado,
+                    "count": len(arquivos_salvos)
+                }
+            else:
+                # Apenas salva, não processa
+                return {
+                    "success": True,
+                    "uploaded_files": [str(p.name) for p in arquivos_salvos],
+                    "count": len(arquivos_salvos),
+                    "processed": False
+                }
     except Exception as e:
         logger.error(f"Erro no upload: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -318,3 +325,34 @@ async def delete_task(task_id: str):
         return {"success": True, "message": "Task removida"}
     else:
         raise HTTPException(status_code=404, detail="Task não encontrada")
+
+@router.post("/xmls/{xml_id}/classificar")
+async def classificar_xml_manual(xml_id: str, classificacao: str = Body(...)):
+    """Classifica manualmente um arquivo XML pelo nome, usando o classificador."""
+    xml_path = Path("/mnt/c/Projetos/dfe-sync/storage/upload") / xml_id
+    if not xml_path.exists():
+        raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_id}")
+    classificador = ClassificadorXML()
+    metadata = classificador.processar_xml(xml_path)
+    # Sobrescreve classificação manual
+    metadata.tipo_documento = classificacao
+
+    # Decide destino
+    if metadata.erro_parsing:
+        destino = Path("/mnt/c/Projetos/dfe-sync/storage/fail")
+    else:
+        destino = Path("/mnt/c/Projetos/dfe-sync/storage/processed")
+    destino.mkdir(parents=True, exist_ok=True)
+    novo_path = destino / xml_id
+    try:
+        shutil.move(str(xml_path), str(novo_path))
+    except Exception as e:
+        # Se não mover, loga erro mas segue
+        print(f"Erro ao mover arquivo classificado: {e}")
+
+    return {
+        "arquivo": xml_id,
+        "classificacao": classificacao,
+        "metadados": metadata.__dict__,
+        "movido_para": str(novo_path)
+    }
