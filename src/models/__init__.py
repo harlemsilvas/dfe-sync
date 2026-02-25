@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, Integer, DateTime, Text, ForeignKey, Index, Numeric, LargeBinary, Date, Boolean
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, timezone
 from src.store.db import Base
 from .certificado import Certificado
 from .tipo_documento import TipoDocumento
@@ -38,7 +38,7 @@ class DFEDocumento(Base):
     schema: Mapped[str] = mapped_column(String(30))      # resNFe|procNFe|resEvento|procEvento
     chave: Mapped[str] = mapped_column(String(44), index=True, nullable=True)
     caminho_xml: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Novos campos para classificação e organização
     tipo_documento_id: Mapped[int] = mapped_column(ForeignKey("tipo_documento.id"), nullable=True, index=True)

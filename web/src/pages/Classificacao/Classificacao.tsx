@@ -88,7 +88,7 @@ export const Classificacao: React.FC = () => {
       try {
         let result;
         if (classificacaoSelecionada === "AUTO") {
-          result = await adminApi.classificarXML(xmlId);
+          result = await adminApi.classificarXML(xmlId, "AUTO");
         } else {
           result = await adminApi.classificarXML(
             xmlId,
@@ -441,7 +441,7 @@ export const Classificacao: React.FC = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .modal-overlay {
           position: fixed;
           top: 0;

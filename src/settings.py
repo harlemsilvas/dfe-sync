@@ -1,4 +1,6 @@
 from pydantic_settings import BaseSettings
+from typing import Optional
+from pathlib import Path
 
 class Settings(BaseSettings):
     APP_ENV: str = "dev"
@@ -34,5 +36,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        extra = "ignore"  
 
 settings = Settings()

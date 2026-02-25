@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pathlib import Path
 from .routes import health, empresas, dfe, documentos, certificados, admin, classificador, cfop
+from src.api.routes import xmls
 import logging
 
 # Configurar logging
@@ -19,6 +20,8 @@ app = FastAPI(
     version="2.0.0",
     # redirect_slashes=True  # ✅ Evita redirect de /api/certificados → /api/certificados/
 )
+
+app.include_router(xmls.router, prefix="/api")
 
 # Configurar CORS
 app.add_middleware(
